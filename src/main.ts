@@ -1,0 +1,15 @@
+import { createApp } from 'vue'
+import Router from './router/index.js'
+import Store from './store/index.js'
+// const Router = require('./router/index.js')
+// const Store = require('./store/index.js')
+import App from './App.vue'
+import fetch from './service/index.js'
+
+
+// import VueDragResize from 'vue-drag-resize'
+ const app = createApp(App)
+ app.use(Router).use(Store).mount('#app')
+// console.log(VueDragResize);
+
+app.config.globalProperties.$http = fetch
