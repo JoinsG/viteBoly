@@ -14,5 +14,5 @@
     "types": ["element-plus/global", "babylonjs",
       "anotherAwesomeDependency"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/views/VueDraggable/DomLists/wrap..js"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/views/VueDraggable/DomLists/wrap.js"]
 }

@@ -1,12 +1,8 @@
-import {
-    line
-} from './line.js';
-import {
-    area
-} from './area.js';
+import * as line from './line.js';
+import * as area from './area.js';
 
 
-export {
+export default {
     line,
     area
 }

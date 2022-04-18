@@ -10,7 +10,7 @@ let opLists = [{
         tasks: [],
     },
     {
-        name: '容器',
+        name: 'wrap',
         type: 'wrap',
         class: ['flex-wrap'],
         style: {

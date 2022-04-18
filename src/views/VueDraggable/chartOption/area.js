@@ -1,4 +1,4 @@
-export let area = {
+export let config = {
     xAxis: {
         type: 'category',
         boundaryGap: false,

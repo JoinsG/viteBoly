@@ -1,4 +1,4 @@
-export let line = {
+export let config = {
     grid: {
         container: true
     },

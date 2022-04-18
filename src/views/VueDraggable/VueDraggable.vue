@@ -1,13 +1,8 @@
 <template>
   <div class="flex-wrap">
     <div class="left">
-      <DraggableA
-        :list="opLists"
-        :group="{ name: 'g1', pull: 'clone', put: false }"
-        fallbackClass="test"
-        item-key="name"
-        :clone="cloneDog"
-      >
+      <DraggableA :list="opLists" :group="{ name: 'g1', pull: 'clone', put: false }" fallbackClass="test"
+        item-key="name" :clone="cloneDog">
         <!-- @start="dragStart"
         @end="dragEnd"
         :move="dragMove" -->
@@ -19,30 +14,19 @@
       </DraggableA>
     </div>
     <div class="content">
-      <nested-draggable
-        class="main-page"
-        :class="
-        {
-          'hide-class':hide
-        }"
-        :tasks="list"
-        :enabled="enabled"
-        :chooseAcItem="chooseAcItem"
-        drageIndex="0"
-        @changeEnabled="changeEnabled"
-        @getChooseItemOption="getChooseItemOption"
-        @setWeakChart="setWeakChart"
-        @setDraggeDom="setDraggeDom"
-        @getDraggeDom="getDraggeDom"
-        @filterList="filterList"
-      />
+      <nested-draggable class="main-page" :class="
+      {
+        'hide-class': hide
+      }" :tasks="list" :enabled="enabled" :chooseAcItem="chooseAcItem" drageIndex="0" @changeEnabled="changeEnabled"
+        @getChooseItemOption="getChooseItemOption" @setWeakChart="setWeakChart" @setDraggeDom="setDraggeDom"
+        @getDraggeDom="getDraggeDom" @filterList="filterList" />
     </div>
     <div class="right">
       <opItem type="style" :copyItem="copyItem.style"></opItem>
       <opItem type="chart" :copyItem="copyItem.chart"></opItem>
     </div>
   </div>
-  <el-button @click="hide=!hide">隐藏</el-button>
+  <el-button @click="hide = !hide">隐藏</el-button>
 </template>
 
 <script lang='ts'>
@@ -52,6 +36,10 @@ import DomeEchartWrap from './DomeEchartWrap.vue'
 import * as DragMenthod from './utils/dragMenthod'
 import { checkValType, checkValNum } from './utils/utils'
 import { opLists, zhanwei } from './utils/domComLists'
+import {
+  getDomOptions,
+  getChartOptions
+} from './js/getDefalutConfig.js'
 import {
   defineComponent,
   nextTick,
@@ -63,12 +51,10 @@ import {
   watchEffect,
 } from 'vue'
 import DraggableA from 'vuedraggable'
-import * as chartList from './chartOption/index.js'
 import _ from 'lodash'
 export default defineComponent({
   name: 'Draggable',
   setup: () => {
-    console.log(chartList)
     let enabled = ref(true)
     let changeEnabled = function (value) {
       enabled.value = value
@@ -82,32 +68,20 @@ export default defineComponent({
     let opItem = ref({})
     let chartItem = ref({})
     let cloneDog = function (element) {
-      if (element.type === 'chart') {
-        return {
-          id: nameIndex.value++,
-          name: 'chart' + nameIndex.value++,
-          type: 'chart',
-          style: {
-            width: '500px',
-            height: '500px',
-          },
-          chart: {
-            ..._.cloneDeep(chartList[element.name]),
-          },
-        }
+      let getConfigMethodHandler: { chart: Function, wrap: Function } = {
+        chart: getChartOptions,
+        wrap: getDomOptions
       }
       return {
         id: nameIndex.value++,
         name: 'chart' + nameIndex.value++,
-        tasks: [{ ...zhanwei }],
-        style: {},
-        ...JSON.parse(JSON.stringify(element)),
+        ...getConfigMethodHandler[element.type](element)
       }
     }
     let getChooseItemOption = function (value) {
       console.log(chooseAcItem.value === value);
-      
-      if ( chooseAcItem.value === value) {
+
+      if (chooseAcItem.value === value) {
         return
       }
       clickSetItem = value
@@ -324,15 +298,19 @@ export default defineComponent({
   flex-wrap: wrap;
   align-content: flex-start;
 }
+
 .flex-wrap {
   display: flex;
 }
+
 .content {
   flex-grow: 1;
 }
+
 :deep(.content *) {
   box-sizing: border-box;
 }
+
 .chart-dom {
   width: 500px;
   height: 500px;
@@ -346,10 +324,11 @@ export default defineComponent({
 }
 
 
-:deep(.hide-class .progress){
+:deep(.hide-class .progress) {
   visibility: hidden;
 }
-:deep(.ac-item){
+
+:deep(.ac-item) {
   outline: 1px solid rgb(40, 86, 213);
 }
 </style>

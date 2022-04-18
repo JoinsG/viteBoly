@@ -1,22 +1,14 @@
 <template>
   <div>
-    <div class="item" v-for="(val, key) in copyItem" >
+    <div class="item" v-for="(val, key) in copyItem">
       <div>
         <template v-if="checkeValType({ val, key })">
           <div>
-            <span>{{ key }}</span
-            ><span>{{ val }}</span>
+            <span>{{ key }}</span><span>{{ val }}</span>
             <!-- <span>{{ parentKey }}</span> -->
-            <el-color-picker
-              v-model="copyItem[key]"
-              v-if="key === 'color'"
-              @change="(v) => onKeyBlur({v, key,type})"
-            ></el-color-picker>
-            <el-input
-              v-else
-              v-model="copyItem[key]"
-              @blur="(v) => onKeyBlur({v, key,type})"
-            ></el-input>
+            <el-color-picker v-model="copyItem[key]" v-if="key === 'color'" size="small"
+              @change="(v) => onKeyBlur({ v, key, type })"></el-color-picker>
+            <el-input size="small" v-else v-model="copyItem[key]" @blur="(v) => onKeyBlur({ v, key, type })"></el-input>
             <!-- <el-input
               :modelValue="copyItem[key]"
               @blur="(v) => onKeyBlur(v, key)"
@@ -24,7 +16,7 @@
           </div>
         </template>
         <template v-else>
-          <opItem :copyItem="val" :type="type" :pkey="getValueKey(pkey,key)"></opItem>
+          <opItem :copyItem="val" :type="type" :pkey="getValueKey(pkey, key)"></opItem>
         </template>
       </div>
     </div>
@@ -57,14 +49,14 @@ export default defineComponent({
       let f = typeLists.includes(Object.prototype.toString.call(val))
       return !f
     }
-    let onKeyBlur = function ({v, key,type}) {
+    let onKeyBlur = function ({ v, key, type }) {
       console.log(props.pkey)
       console.log(key)
-      setValHandler({v:props.pkey, key,type})
+      setValHandler({ v: props.pkey, key, type })
     }
-    let getValueKey = function(pkey,key){
-        if(pkey){return `${pkey}[${key}]`}
-        return key
+    let getValueKey = function (pkey, key) {
+      if (pkey) { return `${pkey}[${key}]` }
+      return key
     }
     return {
       checkeValType,
