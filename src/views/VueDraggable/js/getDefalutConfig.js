@@ -5,6 +5,7 @@ import _ from 'lodash'
 let zhanwei = {
     name: '占位',
     type: 'zw',
+    class:['no-drag'],
     style: {
         width: '100px',
         border: '1px solid red',
@@ -20,7 +21,8 @@ function getDomOptions(element) {
             tasks: [{
                 ...zhanwei
             }],
-            style: AllDom[element.name].style
+            style: AllDom[element.name].style,
+            defineConfig:AllDom[element.name].defineConfig
         })
     }
 }
@@ -34,7 +36,8 @@ function getChartOptions(element) {
                 width: '500px',
                 height: '500px',
             },
-            chart: ChartList[element.name].config
+            chart: ChartList[element.name].chart,
+            defineConfig: ChartList[element.name].defineConfig
         })
     }
 }

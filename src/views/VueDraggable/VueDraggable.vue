@@ -1,45 +1,51 @@
 <template>
   <div class="flex-wrap">
     <div class="left">
-      <DraggableA :list="opLists" :group="{ name: 'g1', pull: 'clone', put: false }" fallbackClass="test"
-        item-key="name" :clone="cloneDog">
-        <!-- @start="dragStart"
-        @end="dragEnd"
-        :move="dragMove" -->
-        <template #item="{ element }">
-          <div>
-            <p>{{ element.name }}</p>
-          </div>
-        </template>
-      </DraggableA>
+      <ComListsDrag></ComListsDrag>
     </div>
     <div class="content">
-      <nested-draggable class="main-page" :class="
-      {
-        'hide-class': hide
-      }" :tasks="list" :enabled="enabled" :chooseAcItem="chooseAcItem" drageIndex="0" @changeEnabled="changeEnabled"
-        @getChooseItemOption="getChooseItemOption" @setWeakChart="setWeakChart" @setDraggeDom="setDraggeDom"
-        @getDraggeDom="getDraggeDom" @filterList="filterList" />
+      <nested-draggable
+        class="main-page"
+        :class="{
+          'hide-class': hide,
+        }"
+        :tasks="list"
+        :enabled="enabled"
+        :chooseAcItem="chooseAcItem"
+        drageIndex="0"
+        @changeEnabled="changeEnabled"
+        @getChooseItemOption="getChooseItemOption"
+        @setWeakChart="setWeakChart"
+        @setDraggeDom="setDraggeDom"
+        @getDraggeDom="getDraggeDom"
+        @filterList="filterList"
+      />
     </div>
     <div class="right">
-      <opItem type="style" :copyItem="copyItem.style"></opItem>
-      <opItem type="chart" :copyItem="copyItem.chart"></opItem>
+      <opItem
+        type="style"
+        :copyItem="copyItem.style"
+        :current="copyItem.style"
+      ></opItem>
+      <opItem
+        type="chart"
+        :copyItem="copyItem.chart"
+        :current="copyItem.chart"
+      ></opItem>
     </div>
   </div>
-  <el-button @click="hide = !hide">隐藏</el-button>
+  <!-- <el-button @click="hide = !hide">隐藏</el-button> -->
+  <!-- <SquareVue v-model:dataLists="dataLists"></SquareVue> -->
 </template>
 
 <script lang='ts'>
+import SquareVue from '../../components/VueDraggable/Square.vue'
 import nestedDraggable from './nested.vue'
 import opItem from './opitem.vue'
 import DomeEchartWrap from './DomeEchartWrap.vue'
 import * as DragMenthod from './utils/dragMenthod'
-import { checkValType, checkValNum } from './utils/utils'
-import { opLists, zhanwei } from './utils/domComLists'
-import {
-  getDomOptions,
-  getChartOptions
-} from './js/getDefalutConfig.js'
+import { checkValType, checkValNum, checkPrototypeVal } from './utils/utils'
+import ComListsDrag from './comListsDrag.vue'
 import {
   defineComponent,
   nextTick,
@@ -65,38 +71,36 @@ export default defineComponent({
     let domeEchartWrap = ref(null)
     let chooseAcItem = ref({})
     let nameIndex = ref(5)
-    let opItem = ref({})
     let chartItem = ref({})
-    let cloneDog = function (element) {
-      let getConfigMethodHandler: { chart: Function, wrap: Function } = {
-        chart: getChartOptions,
-        wrap: getDomOptions
-      }
-      return {
-        id: nameIndex.value++,
-        name: 'chart' + nameIndex.value++,
-        ...getConfigMethodHandler[element.type](element)
-      }
-    }
+    //配置
+    let copyItem = reactive({
+      style: {},
+      chart: {},
+    })
     let getChooseItemOption = function (value) {
-      console.log(chooseAcItem.value === value);
+      console.log(chooseAcItem.value === value)
+      console.log(value)
 
       if (chooseAcItem.value === value) {
         return
       }
-      clickSetItem = value
+      let { style, chart } = value.defineConfig
+      // console.log(draggeDomWeak.get(value))
+      // clickSetItem = value
       chooseAcItem.value = value
-      copyItem.style = {}
-      copyItem.chart = {}
-      opItem.value = value.style ?? {}
-      chartItem.value = value.chart ?? {}
-      console.log(opItem.value)
-      console.log(chartItem.value)
+      copyItem.style = style ?? {}
+      copyItem.chart = chart ?? {}
+      // opItem.value = value.style ?? {}
+      // chartItem.value = value.chart ?? {}
+      // console.log(opItem.value)
+      // console.log(chartItem.value)
     }
     let setWeakChart = function (value, el) {
       console.log(value)
-      chartWeak.set(value.style, el)
-      chartWeak.set(value.chart, el)
+      // chartWeak.set(value.style, el)
+      // chartWeak.set(value.chart, el)
+      chartWeak.set(value.defineConfig.chart, el)
+      chartWeak.set(value.defineConfig.style, el)
     }
     let setDraggeDom = function (value, el) {
       console.log(value)
@@ -107,145 +111,76 @@ export default defineComponent({
       let v = draggeDomWeak.get(el)
       console.log(v)
     }
-    let list = reactive([
-      // {
-      //   name: 'task 1',
-      //   tasks: [
-      //     // {
-      //     //   name: 'task 2',
-      //     //   tasks: [],
-      //     //   style: {
-      //     //     width: '100px',
-      //     //     border: '1px solid red',
-      //     //     padding: '10px 10px 10px 10px',
-      //     //   },
-      //     // },
-      //     // {
-      //     //   name: 'task 3',
-      //     //   tasks: [
-      //     //     {
-      //     //       name: 'task 4',
-      //     //       tasks: [],
-      //     //       style: {
-      //     //         width: '20px',
-      //     //         border: '1px solid red',
-      //     //         padding: '10px 10px 10px 10px',
-      //     //       },
-      //     //     },
-      //     //   ],
-      //     //   style: {
-      //     //     width: '10px',
-      //     //     border: '1px solid red',
-      //     //     padding: '10px 10px 10px 10px',
-      //     //   },
-      //     // },
-      //     // {
-      //     //   name: 'task 5',
-      //     //   tasks: [],
-      //     //   style: {
-      //     //     width: '40px',
-      //     //     border: '1px solid red',
-      //     //     padding: '10px 10px 10px 10px',
-      //     //   },
-      //     // },
-      //   ],
-      //   style: {
-      //     width: '100%',
-      //     height: '400px',
-      //     border: '1px solid red',
-      //     padding: '10px 10px 10px 10px',
-      //   },
-      // },
-    ])
-    //配置
-    let copyItem = reactive({
-      style: {},
-      chart: {},
-    })
-    watch(
-      opItem,
-      (nVal, old) => {
-        if (!nVal) return
-        let enter = Object.entries(nVal)
-        enter.forEach((item) => {
-          let [key, value] = item
-          switch (key) {
-            case 'height':
-            case 'width':
-              copyItem.style[key] = checkValNum({ value, key })
-              break
-            case 'border':
-              let borderList = value.split(' ')
-              copyItem.style['border'] = {
-                width: parseFloat(borderList[0]),
-                style: borderList[1],
-                color: borderList[2],
-              }
-              break
-            case 'borderRadius':
-              let borderRadiusList = value
-                .split(' ')
-                .map((val) => parseFloat(val))
-              copyItem.style[key] = {
-                topLeft: borderRadiusList[0],
-                topRight: borderRadiusList[0],
-                botLeft: borderRadiusList[0],
-                botRight: borderRadiusList[0],
-              }
-              break
-            case 'padding':
-              let paddingList = value.split(' ').map((val) => parseFloat(val))
-              copyItem.style[key] = {
-                top: paddingList[0],
-                right: paddingList[1],
-                bottom: paddingList[2],
-                left: paddingList[3],
-              }
-              break
-          }
-        })
-      },
-      {
-        immediate: true,
-      }
-    )
-    watch(chartItem, (nVal, old) => {
-      if (!nVal) return
-      let enter = Object.entries(nVal)
-      enter.forEach((item) => {
-        let [key, value] = item
-        copyItem.chart[key] = value
-      })
-    })
+    let list = reactive([])
 
-    let setOpKeyVal = function ({ v: prekey, key: nextKey, type }) {
-      let newKeyVal = prekey ? `${prekey}.${nextKey}` : nextKey
-      console.log(newKeyVal)
-      let value = _.get(copyItem[type], `${newKeyVal}`)
-      let keys = newKeyVal.split('.').shift()
-      if (['padding', 'margin', 'border'].includes(keys)) {
-        let arr = Object.entries(copyItem[type][keys])
-        opItem.value[keys] = arr
-          .map((val) => {
-            let [key, value] = val
-            return checkValType({ value, key })
-          })
-          .join(' ')
+    let setOpKeyVal = function ({ v: value, key: nextKey, type, item }) {
+      console.log(value, nextKey, type)
+      console.log(item)
+
+      console.log(chartWeak.get(item))
+      if (type === 'style') {
+        if (
+          [
+            'padding',
+            'margin',
+            'border.radius',
+            'border.width',
+            'border.color',
+            'border.style',
+          ].includes(nextKey)
+        ) {
+          // _.set(chooseAcItem.value[type], `${nextKey}`, checkValType({ value, key: nextKey }))
+          setMarginPaddingRadius(value, nextKey, type)
+        } else {
+          _.set(
+            chooseAcItem.value[type],
+            `${nextKey}`,
+            checkValType({ value, key: nextKey })
+          )
+        }
+        if (chartWeak.get(item)) {
+          setTimeout(() => {
+            chartWeak.get(item).resizeChart()
+          }, 1000)
+        }
       } else {
-        if (type === 'style') {
-          opItem.value[newKeyVal] = checkValType({ value, key: newKeyVal })
+        _.set(
+          chooseAcItem.value[type],
+          `${nextKey}`,
+          checkValType({ value, key: nextKey })
+        )
+        let obj = {}
+        _.set(obj, `${nextKey}`, value)
+        let checkObjVal = function (valO) {
+          let [key, val] = Object.entries(valO)[0]
+          if (checkPrototypeVal({ val, type: 'Array' })) {
+            for (let index = 0; index < val.length; index++) {
+              console.log(val[index])
+              if (!val[index]) {
+                val[index] = {}
+              }
+            }
+          }
         }
-        if (type === 'chart') {
-          _.set(chartItem.value, newKeyVal, value)
-        }
+        checkObjVal(obj)
+        chartWeak.get(item).setEchartOption(obj)
       }
-      let style = chartWeak.get(opItem.value)
-      let chart = chartWeak.get(chartItem.value)
-      if (chart && style) {
-        chart.resizeChart()
-      }
-      if (chart) {
-        chart.setEchartOption(chartItem.value)
+    }
+    let setMarginPaddingRadius = (value, key, type) => {
+      let firstKey = key.replace(/\./, '-')
+      let typeLists = ['[object Array]']
+      if (typeLists.includes(Object.prototype.toString.call(value))) {
+        _.set(
+          chooseAcItem.value[type],
+          `${firstKey}`,
+          value.map((val) => val + 'px').join(' ')
+        )
+      } else {
+        _.set(
+          chooseAcItem.value[type],
+          `${firstKey}`,
+          checkValType({ value, key: firstKey.split('-').pop() })
+        )
       }
     }
 
@@ -263,11 +198,9 @@ export default defineComponent({
       // val.tasks = val.tasks.filter((item) => item.name !== '占位')
     }
     let hide = ref(false)
+    let dataLists = ref([0, 0, 0, 0])
     return {
-      cloneDog,
-      opLists,
       list,
-      opItem,
       copyItem,
       getChooseItemOption,
       domeEchartWrap,
@@ -278,7 +211,9 @@ export default defineComponent({
       setDraggeDom,
       getDraggeDom,
       hide,
+      dataLists,
       chooseAcItem,
+      draggeDomWeak,
       ...DragMenthod,
     }
   },
@@ -287,6 +222,8 @@ export default defineComponent({
     DraggableA,
     opItem,
     DomeEchartWrap,
+    SquareVue,
+    ComListsDrag,
   },
 })
 </script>
@@ -302,18 +239,14 @@ export default defineComponent({
 .flex-wrap {
   display: flex;
 }
-
 .content {
   flex-grow: 1;
+  background-color: #080826;
+  padding: 10px;
 }
 
 :deep(.content *) {
   box-sizing: border-box;
-}
-
-.chart-dom {
-  width: 500px;
-  height: 500px;
 }
 
 :deep(.flex-wrap .dragArea) {
@@ -323,12 +256,19 @@ export default defineComponent({
   height: 100%;
 }
 
-
 :deep(.hide-class .progress) {
   visibility: hidden;
 }
-
+:deep(.el-collapse-item__content) {
+  padding-bottom: 0;
+}
 :deep(.ac-item) {
   outline: 1px solid rgb(40, 86, 213);
+}
+
+.right,
+.left {
+  width: 200px;
+  flex-shrink: 0;
 }
 </style>

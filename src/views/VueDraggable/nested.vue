@@ -1,7 +1,4 @@
 <template>
-  <!-- tag="div" -->
-  <!-- :disabled="!$attrs.enabled" -->
-
   <DraggableA
     class="dragArea"
     tag="div"
@@ -10,6 +7,7 @@
     fallbackClass="test"
     item-key="name"
     ghostClass="small-dom"
+    filter=".no-drag"
     scroll
     @start="dragStart"
     @end="dragEnd"
@@ -20,7 +18,10 @@
     <template #item="{ element, index }">
       <div
         class="chart-dom"
-        :class="[$attrs.chooseAcItem === element ? 'ac-item' : '',]"
+        :class="[
+          $attrs.chooseAcItem === element ? 'ac-item' : '',
+          ...(element?.class??[]),
+        ]"
         :style="{ ...element.style }"
         v-if="element.type === 'chart'"
         @click.stop="getClickItem(element)"
@@ -37,12 +38,12 @@
         v-else
         :style="{ ...element.style }"
         :class="[
-          ...(element?.class ?? []),
           $attrs.chooseAcItem === element ? 'ac-item' : '',
+          ...(element?.class??[]),
         ]"
         @click.stop="getClickItem(element)"
       >
-        <p v-if="element.type === 'zw'">{{ element.name }}</p>
+        <p v-if="element.type === 'zw'">{{ element.name }}{{element.class}}</p>
         <nested-draggable
           :drageIndex="drageIndex + index"
           v-if="element.type === 'wrap'"
@@ -141,12 +142,12 @@ export default defineComponent({
         tasks.push({
           name: '占位',
           type: 'zw',
+          class: ['no-drag'],
           style: {
             width: '100px',
             border: '1px solid red',
             padding: '10px 10px 10px 10px',
           },
-          enabled: false,
         })
       }
     }
@@ -190,9 +191,6 @@ export default defineComponent({
 .dragArea > div {
   position: relative;
 }
-.flip-list-move {
-  transition: transform 0.5s;
-}
 
 .add-wrap {
   /* position: relative;
@@ -218,5 +216,8 @@ export default defineComponent({
   height: 10px !important;
   border: 1px dashed blue;
   overflow: hidden;
+}
+:deep(*) {
+  transition: all .3s;
 }
 </style>

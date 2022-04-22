@@ -31,3 +31,9 @@ export function checkValNum({
     if((value + '').includes('%')&&!isNaN(v)){return value}
     return v
 }
+
+
+export function checkPrototypeVal({val,type}){
+    let styType = `[object ${type}]`;
+    return Object.prototype.toString.call(val) === styType
+}

@@ -7,6 +7,8 @@ declare module 'vue' {
     Car: typeof import('./src/components/kanban/car.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCollapse: typeof import('element-plus/es')['ElCollapse']
+    ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
@@ -19,8 +21,15 @@ declare module 'vue' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
+    ElOption: typeof import('element-plus/es')['ElOption']
+    ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Input: typeof import('./src/components/VueDraggable/opitem/input.vue')['default']
+    SeriesData: typeof import('./src/components/VueDraggable/seriesData.vue')['default']
+    Square: typeof import('./src/components/VueDraggable/Square.vue')['default']
+    YXsuare: typeof import('./src/components/VueDraggable/YXsuare.vue')['default']
   }
 }
 
