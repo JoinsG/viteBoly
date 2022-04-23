@@ -21,6 +21,10 @@ const Router = createRouter({
                 path: 'option2',
                 name: 'option2',
                 component: () => import('@/views/input/option2.vue')
+            },{
+                path: 'canvas-rule',
+                name: 'canvas-rule',
+                component: () => import('@/views/canvas/canvas-rule.vue')
             }
         ]
     },

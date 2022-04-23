@@ -65,13 +65,10 @@ export default defineComponent({
     let changeEnabled = function (value) {
       enabled.value = value
     }
-    let clickSetItem = null
     let chartWeak = new WeakMap() //图表实例
     let draggeDomWeak = new WeakMap() //添加拖拽元素的Dom和对应的tasks数据
     let domeEchartWrap = ref(null)
     let chooseAcItem = ref({})
-    let nameIndex = ref(5)
-    let chartItem = ref({})
     //配置
     let copyItem = reactive({
       style: {},
@@ -86,14 +83,10 @@ export default defineComponent({
       }
       let { style, chart } = value.defineConfig
       // console.log(draggeDomWeak.get(value))
-      // clickSetItem = value
       chooseAcItem.value = value
       copyItem.style = style ?? {}
       copyItem.chart = chart ?? {}
       // opItem.value = value.style ?? {}
-      // chartItem.value = value.chart ?? {}
-      // console.log(opItem.value)
-      // console.log(chartItem.value)
     }
     let setWeakChart = function (value, el) {
       console.log(value)
