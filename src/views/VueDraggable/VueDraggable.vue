@@ -32,9 +32,22 @@
         :copyItem="copyItem.chart"
         :current="copyItem.chart"
       ></opItem>
+      <opItem
+        type="data"
+        :copyItem="copyItem.data"
+        :current="copyItem.data"
+      ></opItem>
     </div>
   </div>
   <!-- <el-button @click="hide = !hide">隐藏</el-button> -->
+  <el-button @click="changeDisable">隐藏</el-button>
+  <el-button @click="getOptoins">获取配置</el-button>
+  <el-drawer
+    v-model="drawer"
+    :with-header="false"
+  >
+    <seriesData></seriesData>
+  </el-drawer>
   <!-- <SquareVue v-model:dataLists="dataLists"></SquareVue> -->
 </template>
 
@@ -46,6 +59,7 @@ import DomeEchartWrap from './DomeEchartWrap.vue'
 import * as DragMenthod from './utils/dragMenthod'
 import { checkValType, checkValNum, checkPrototypeVal } from './utils/utils'
 import ComListsDrag from './comListsDrag.vue'
+import seriesData from '@/components/VueDraggable/seriesData.vue'
 import {
   defineComponent,
   nextTick,
@@ -73,6 +87,7 @@ export default defineComponent({
     let copyItem = reactive({
       style: {},
       chart: {},
+      data: {},
     })
     let getChooseItemOption = function (value) {
       console.log(chooseAcItem.value === value)
@@ -81,11 +96,12 @@ export default defineComponent({
       if (chooseAcItem.value === value) {
         return
       }
-      let { style, chart } = value.defineConfig
+      let { style, chart, data } = value.defineConfig
       // console.log(draggeDomWeak.get(value))
       chooseAcItem.value = value
       copyItem.style = style ?? {}
       copyItem.chart = chart ?? {}
+      copyItem.data = data ?? {}
       // opItem.value = value.style ?? {}
     }
     let setWeakChart = function (value, el) {
@@ -94,6 +110,7 @@ export default defineComponent({
       // chartWeak.set(value.chart, el)
       chartWeak.set(value.defineConfig.chart, el)
       chartWeak.set(value.defineConfig.style, el)
+      value.defineConfig.data && chartWeak.set(value.defineConfig.data, el)
     }
     let setDraggeDom = function (value, el) {
       console.log(value)
@@ -192,7 +209,15 @@ export default defineComponent({
     }
     let hide = ref(false)
     let dataLists = ref([0, 0, 0, 0])
+    let changeDisable = function (indexStr) {
+      list[0].defineConfig.draggableOptions.disabled = true
+    }
+    let getOptoins = function (indexStr) {
+      console.log(list)
+    }
+    let drawer = ref(true)
     return {
+      drawer,
       list,
       copyItem,
       getChooseItemOption,
@@ -207,6 +232,8 @@ export default defineComponent({
       dataLists,
       chooseAcItem,
       draggeDomWeak,
+      changeDisable,
+      getOptoins,
       ...DragMenthod,
     }
   },
@@ -217,18 +244,25 @@ export default defineComponent({
     DomeEchartWrap,
     SquareVue,
     ComListsDrag,
+    seriesData
   },
 })
 </script>
 <style scoped>
 .main-page {
-  height: 90vh;
-  width: 90vw;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
 }
-
+:deep(.main-page) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
 .flex-wrap {
   display: flex;
 }

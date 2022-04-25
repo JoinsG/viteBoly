@@ -72,13 +72,16 @@ let defineConfig = {
             ],
             type: 'next'
         }
-    ]
+    ],
+    draggableOptions:{
+        disabled:false
+    }
 }
 
 let style = {
     width: '200px',
     height: '200px',
-    border: '1px solid pink',
+    border: '1px solid #fff',
     padding: '10px 10px 10px 10px',
     margin: '0 0 0 0'
 }

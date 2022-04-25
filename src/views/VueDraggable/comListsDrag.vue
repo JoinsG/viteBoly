@@ -29,7 +29,11 @@
 <script lang='ts'>
 import { defineComponent, ref } from 'vue'
 import DraggableA from 'vuedraggable'
-import { getDomOptions, getChartOptions } from './js/getDefalutConfig.js'
+import {
+  getDomOptions,
+  getChartOptions,
+  getTextOptions,
+} from './js/getDefalutConfig.js'
 import { opLists, zhanwei } from './utils/domComLists.js'
 export default defineComponent({
   name: '',
@@ -39,6 +43,7 @@ export default defineComponent({
       let getConfigMethodHandler: { chart: Function; wrap: Function } = {
         chart: getChartOptions,
         wrap: getDomOptions,
+        text: getTextOptions,
       }
       return {
         id: nameIndex.value++,

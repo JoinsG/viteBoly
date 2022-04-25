@@ -9,6 +9,7 @@
     ghostClass="small-dom"
     filter=".no-drag"
     scroll
+    :disabled="element?.defineConfig?.draggableOptions?.disabled ?? false"
     @start="dragStart"
     @end="dragEnd"
     @add="dragAdd"
@@ -20,7 +21,7 @@
         class="chart-dom"
         :class="[
           $attrs.chooseAcItem === element ? 'ac-item' : '',
-          ...(element?.class??[]),
+          ...(element?.class ?? []),
         ]"
         :style="{ ...element.style }"
         v-if="element.type === 'chart'"
@@ -39,11 +40,12 @@
         :style="{ ...element.style }"
         :class="[
           $attrs.chooseAcItem === element ? 'ac-item' : '',
-          ...(element?.class??[]),
+          ...(element?.class ?? []),
         ]"
         @click.stop="getClickItem(element)"
       >
-        <p v-if="element.type === 'zw'">{{ element.name }}{{element.class}}</p>
+        <p v-if="element.type === 'zw'">{{ element.name }}</p>
+        <div v-if="element.type === 'text'">{{ element.data.text }}</div>
         <nested-draggable
           :drageIndex="drageIndex + index"
           v-if="element.type === 'wrap'"
@@ -72,8 +74,17 @@ import DraggableA from 'vuedraggable'
 import DomeEchartWrap from './DomeEchartWrap.vue'
 import { dragStart, dragMove, dragEnd, dragClone } from './utils/dragMenthod'
 export default defineComponent({
+  // inheritAttrs:false,
   name: 'nested-draggable',
   props: {
+    draggableOptions: {
+      default: () => {
+        return {
+          disabled: false,
+        }
+      },
+      type: Object,
+    },
     drageIndex: {
       type: String,
       default: '0',
@@ -218,6 +229,6 @@ export default defineComponent({
   overflow: hidden;
 }
 :deep(*) {
-  transition: all .3s;
+  transition: all 0.3s;
 }
 </style>

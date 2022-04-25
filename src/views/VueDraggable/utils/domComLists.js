@@ -23,7 +23,7 @@ let opLists = [
                 padding: '10px 10px 10px 10px',
             },
         }, {
-            name: '文字',
+            name: 'text',
             type: 'text',
             class: ['flex-wrap'],
             style: {

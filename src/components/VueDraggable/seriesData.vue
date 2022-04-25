@@ -1,44 +1,105 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column type="expand">
-      <template slot-scope="props">
-        <el-form label-position="left" inline class="demo-table-expand">
-          <el-form-item label="商品名称">
-            <span>{{ props.row.name }}</span>
-          </el-form-item>
-          <el-form-item label="所属店铺">
-            <span>{{ props.row.shop }}</span>
-          </el-form-item>
-          <el-form-item label="商品 ID">
-            <span>{{ props.row.id }}</span>
-          </el-form-item>
-          <el-form-item label="店铺 ID">
-            <span>{{ props.row.shopId }}</span>
-          </el-form-item>
-          <el-form-item label="商品分类">
-            <span>{{ props.row.category }}</span>
-          </el-form-item>
-          <el-form-item label="店铺地址">
-            <span>{{ props.row.address }}</span>
-          </el-form-item>
-          <el-form-item label="商品描述">
-            <span>{{ props.row.desc }}</span>
-          </el-form-item>
-        </el-form>
-      </template>
-    </el-table-column>
-    <el-table-column label="商品 ID" prop="id"> </el-table-column>
-    <el-table-column label="商品名称" prop="name"> </el-table-column>
-    <el-table-column label="描述" prop="desc"> </el-table-column>
-  </el-table>
+  <div class="demo-collapse">
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="Consistency" name="1">
+        <template #title>
+          <el-select
+            size="small"
+            v-model="value"
+            class="m-2"
+            placeholder="Select"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </template>
+        <div>
+          Consistent with real life: in line with the process and logic of real
+          life, and comply with languages and habits that the users are used to;
+        </div>
+        <div>
+          Consistent within interface: all elements should be consistent, such
+          as: design style, icons and texts, position of elements, etc.
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="Feedback" name="2">
+        <div>
+          Operation feedback: enable the users to clearly perceive their
+          operations by style updates and interactive effects;
+        </div>
+        <div>
+          Visual feedback: reflect current state by updating or rearranging
+          elements of the page.
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="Efficiency" name="3">
+        <div>
+          Simplify the process: keep operating process simple and intuitive;
+        </div>
+        <div>
+          Definite and clear: enunciate your intentions clearly so that the
+          users can quickly understand and make decisions;
+        </div>
+        <div>
+          Easy to identify: the interface should be straightforward, which helps
+          the users to identify and frees them from memorizing and recalling.
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="Controllability" name="4">
+        <div>
+          Decision making: giving advices about operations is acceptable, but do
+          not make decisions for the users;
+        </div>
+        <div>
+          Controlled consequences: users should be granted the freedom to
+          operate, including canceling, aborting or terminating current
+          operation.
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: '',
   setup: () => {
-    return {}
+    const activeNames = ref(['1'])
+    const handleChange = (val: string[]) => {
+      console.log(val)
+    }
+    const options = [
+      {
+        value: 'Option1',
+        label: 'Option1',
+      },
+      {
+        value: 'Option2',
+        label: 'Option2',
+      },
+      {
+        value: 'Option3',
+        label: 'Option3',
+      },
+      {
+        value: 'Option4',
+        label: 'Option4',
+      },
+      {
+        value: 'Option5',
+        label: 'Option5',
+      },
+    ]
+    return {
+      activeNames,
+      handleChange,
+      options,
+    }
   },
   components: {},
 })

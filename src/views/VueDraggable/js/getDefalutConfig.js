@@ -26,6 +26,17 @@ function getDomOptions(element) {
         })
     }
 }
+function getTextOptions(element) {
+    console.log(AllDom[element.name].style);
+    return {
+        ..._.cloneDeep({
+            type:'text',
+            style: AllDom[element.name].style,
+            defineConfig:AllDom[element.name].defineConfig,
+            data:AllDom[element.name].data,
+        })
+    }
+}
 
 
 function getChartOptions(element) {
@@ -44,5 +55,6 @@ function getChartOptions(element) {
 
 export {
     getDomOptions,
-    getChartOptions
+    getChartOptions,
+    getTextOptions
 }
