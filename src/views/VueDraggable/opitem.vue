@@ -1,97 +1,38 @@
 <template>
   <el-collapse v-model="activeNames" @change="handleChange" class="wrap-option">
+    <template v-for="(parent, parentIndex) in copyItem">
+      
+    </template>
     <el-collapse-item
       class="item"
-      v-for="(val, index) in copyItem"
-      :title="val.name"
-      :name="val.name"
+      v-for="(parent, parentIndex) in copyItem"
+      :title="parent.name"
+      :name="parent.name"
     >
-      <YXsuare
-        v-if="val.type === 'yAxis'"
-        :copyItem="val.value"
-        :pkey="val.key"
-        :type="type"
-        v-bind="{ ...$attrs }"
-      ></YXsuare>
-      <div class="col-item" v-for="(valItem, keyItem) in val.value" v-else>
-          <label>{{ valItem.name }}</label>
-          <div class="col-item-right">
-            <el-input
-              v-model="valItem.value"
-              :disabled="true"
-              size="small"
-              v-if="valItem.type === 'color'"
-            >
-              <template v-slot:append="append">
-                <el-color-picker
-                  v-model="valItem.value"
-                  size="small"
-                  show-alpha
-                  @change="
-                    (v) =>
-                      onKeyBlur({
-                        v,
-                        key: valItem.key,
-                        type,
-                        parentKey: val.key,
-                      })
-                  "
-                ></el-color-picker>
-              </template>
-            </el-input>
-            <SquareVue
-              v-else-if="['padding', 'margin', 'radius'].includes(valItem.key)"
-              :dataLists="valItem.value"
-              :styleType="valItem.key"
-              :pkey="getValueKey([pkey, val.key, valItem.key])"
+      <div class="col-item" v-for="(child, childIndex) in parent.children" >
+        <label>{{ child.name }}</label>
+        <testOp
+          :item="child"
+          @changHandlerOption="
+            (v) => {
+              changHandlerOption({
+                v,
+                childKey: child.key,
+                type,
+                child: child,
+                parentIndex: checkTypeKey(parent, childIndex),
+              })
+            }"
+        >
+         <template #default v-if="['padding', 'margin', 'radius'].includes(child.key)">
+           <SquareVue
+              :dataLists="child.value"
+              :styleType="child.key"
+              :pkey="getValueKey([pkey, parent.key, child.key])"
               :type="type"
             ></SquareVue>
-            <el-select
-              v-model="valItem.value"
-              placeholder="请选择"
-              size="small"
-              v-else-if="valItem.type === 'select'"
-              @change="
-                (v) =>
-                  onKeyBlur({ v, key: valItem.key, type, parentKey: val.key })
-              "
-            >
-              <el-option
-                v-for="item in valItem.select"
-                :key="item.value"
-                :label="item.name"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-            <el-switch
-              v-model="valItem.value"
-              v-else-if="valItem.type === 'switch'"
-              @change="
-                (v) =>
-                  onKeyBlur({ v, key: valItem.key, type, parentKey: val.key })
-              "
-            ></el-switch>
-            <el-input
-              size="small"
-              v-else
-              v-model="valItem.value"
-              @change="
-                (v) =>
-                  onKeyBlur({
-                    v,
-                    key: valItem.key,
-                    type,
-                    item: valItem,
-                    parentKey: val.key,
-                  })
-              "
-            ></el-input>
-            <!-- <el-input
-              :modelValue="copyItem[key]"
-              @blur="(v) => onKeyBlur(v, key)"
-            ></el-input> -->
-          </div>
+         </template>
+        </testOp>
       </div>
     </el-collapse-item>
   </el-collapse>
@@ -101,6 +42,8 @@
 import { defineComponent, reactive, ref, inject, watch } from 'vue'
 import SquareVue from '../../components/VueDraggable/Square.vue'
 import YXsuare from '../../components/VueDraggable/YXsuare.vue'
+import testOp from '@/components/VueDraggable/testOp.vue'
+
 export default defineComponent({
   name: 'opItem',
   props: {
@@ -109,7 +52,7 @@ export default defineComponent({
       default: 'style',
     },
     copyItem: {
-      type: Object
+      type: Object,
     },
     pkey: {
       type: String,
@@ -118,8 +61,8 @@ export default defineComponent({
   },
   setup: (props, ctx) => {
     let setValHandler = inject('setOpKeyVal')
-    let onKeyBlur = function ({ v, key, type, item, parentKey }) {
-      let resultKey = getValueKey([props.pkey, parentKey, key])
+    let onKeyBlur = function ({ v, childKey, type, child, parentIndex }) {
+      let resultKey = getValueKey([props.pkey, parentIndex, childKey])
       setValHandler({ v, key: resultKey, type, item: ctx.attrs.current })
     }
     let getValueKey = function (arr = []) {
@@ -136,8 +79,21 @@ export default defineComponent({
       })
       return path
     }
-    let checkOptionKey= function({parent,parentKey,child,childKey}) {
-      
+    let checkTypeKey = function (item, parentIndex) {
+      if (item.type === 'yAxis') {
+        return `${item.key}[${parentIndex}]`
+      }
+      return item.key
+    }
+    let changHandlerOption = function ({
+      v,
+      childKey,
+      type,
+      child,
+      parentIndex,
+    }) {
+      console.log(111)
+      onKeyBlur({ v, childKey, type, child, parentIndex })
     }
     let activeNames = ref()
     let handleChange = function (val, key) {}
@@ -146,11 +102,14 @@ export default defineComponent({
       getValueKey,
       activeNames,
       handleChange,
+      checkTypeKey,
+      changHandlerOption,
     }
   },
   components: {
     SquareVue,
     YXsuare,
+    testOp,
   },
 })
 </script>

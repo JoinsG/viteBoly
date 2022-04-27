@@ -37,6 +37,7 @@ declare module 'vue' {
     SeriesData: typeof import('./src/components/VueDraggable/seriesData.vue')['default']
     Square: typeof import('./src/components/VueDraggable/Square.vue')['default']
     TestExplam: typeof import('./src/components/testExplam/index.vue')['default']
+    TestOp: typeof import('./src/components/VueDraggable/testOp.vue')['default']
     YXsuare: typeof import('./src/components/VueDraggable/YXsuare.vue')['default']
   }
 }

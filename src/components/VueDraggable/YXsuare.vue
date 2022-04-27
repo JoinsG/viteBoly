@@ -2,14 +2,14 @@
   <el-collapse v-model="activeNames" @change="handleChange" class="wrap-option">
     <el-collapse-item
       class="item"
-      v-for="(val, index) in copyItem"
-      :title="val.name"
-      :name="val.name"
+      v-for="(parent, parentIndex) in copyItem"
+      :title="parent.name"
+      :name="parent.name"
     >
-      <div class="col-item" v-for="(valItem, keyItem) in val.value">
-        <label>{{ valItem.name }}</label>
+      <div class="col-item" v-for="(child, childIndex) in parent.value">
+        <label>{{ child.name }}</label>
         <div class="col-item-right">
-          <el-input
+          <!-- <el-input
             v-model="valItem.value"
             :disabled="true"
             size="small"
@@ -27,8 +27,7 @@
                       key: valItem.key,
                       type,
                       parentKey: `[${index}]`,
-                    })
-                "
+                    })"
               ></el-color-picker>
             </template>
           </el-input>
@@ -51,8 +50,7 @@
                   key: valItem.key,
                   type,
                   parentKey: `[${index}]`,
-                })
-            "
+                })"
           >
             <el-option
               v-for="item in valItem.select"
@@ -72,8 +70,7 @@
                   key: valItem.key,
                   type,
                   parentKey: `[${index}]`,
-                })
-            "
+                })"
           ></el-switch>
           <el-input
             size="small"
@@ -87,9 +84,20 @@
                   type,
                   item: valItem,
                   parentKey: `[${index}]`,
-                })
-            "
-          ></el-input>
+                })"
+          ></el-input> -->
+          <testOp
+            :item="child"
+            @changHandlerOption="
+              (v) => {
+                changHandlerOption({
+                  v,
+                  childKey: child.key,
+                  type,
+                  child: child,
+                  parentIndex: `[${parentIndex}]`})
+              }"
+          ></testOp>
         </div>
       </div>
     </el-collapse-item>
@@ -98,6 +106,7 @@
 
 <script lang='ts'>
 import { defineComponent, ref, inject, watch } from 'vue'
+import testOp from '@/components/VueDraggable/testOp.vue'
 export default defineComponent({
   name: '',
   props: {
@@ -117,8 +126,8 @@ export default defineComponent({
     let setValHandler = inject('setOpKeyVal')
     let activeNames = ref()
     let handleChange = function (val, key) {}
-    let onKeyBlur = function ({ v, key, type, item, parentKey }) {
-      let resultKey = getValueKey([props.pkey, parentKey, key])
+    let onKeyBlur = function ({ v, childKey, type, child, parentIndex }) {
+      let resultKey = getValueKey([props.pkey, parentIndex, childKey])
       setValHandler({ v, key: resultKey, type, item: ctx.attrs.current })
     }
     let getValueKey = function (arr = []) {
@@ -136,14 +145,21 @@ export default defineComponent({
       })
       return path
     }
+    let changHandlerOption = function ({ v, childKey, type, child, parentIndex }) {
+      console.log(111);
+      onKeyBlur({ v, childKey, type, child, parentIndex })
+    }
     return {
       onKeyBlur,
       getValueKey,
       activeNames,
       handleChange,
+      changHandlerOption
     }
   },
-  components: {},
+  components: {
+    testOp,
+  },
 })
 </script>
 

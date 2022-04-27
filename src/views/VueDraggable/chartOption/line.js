@@ -40,8 +40,14 @@ export let chart = {
 
 export let defineConfig = {
     style: [{
+        name: '宽',
+        key: 'width',
+        value: 0,
+        type: 'input'
+    },
+     {
         name: '宽高',
-        value: [{
+        children: [{
                 name: '宽',
                 key: 'width',
                 value: 0,
@@ -59,7 +65,7 @@ export let defineConfig = {
     chart: [{
             name: '图标网格',
             key: 'grid',
-            value: [{
+            children: [{
                     name: '上间',
                     key: 'top',
                     value: '60',
@@ -88,26 +94,17 @@ export let defineConfig = {
         {
             name: 'Y轴',
             key: 'yAxis',
-            value: [{
+            children: [{
                     name: 'y1',
-                    key: '',
-                    value: [{
-                        name: '是否显示',
-                        value: true,
-                        type: 'switch',
-                        key: 'show'
-                    }],
-
+                    value: true,
+                    type: 'switch',
+                    key: 'show'
                 },
                 {
                     name: 'y2',
-                    key: '',
-                    value: [{
-                        name: '是否显示',
-                        value: true,
-                        type: 'switch',
-                        key: 'show'
-                    }]
+                    value: true,
+                    type: 'switch',
+                    key: 'show'
                 }
             ],
             type: 'yAxis'
@@ -115,26 +112,17 @@ export let defineConfig = {
         {
             name: 'X轴',
             key: 'xAxis',
-            value: [{
+            children: [{
                     name: 'x1',
-                    key: '',
-                    value: [{
-                        name: '是否显示',
-                        value: true,
-                        type: 'switch',
-                        key: 'show'
-                    }],
-
+                    value: true,
+                    type: 'switch',
+                    key: 'show'
                 },
                 {
                     name: 'x2',
-                    key: '',
-                    value: [{
-                        name: '是否显示',
-                        value: true,
-                        type: 'switch',
-                        key: 'show'
-                    }]
+                    value: true,
+                    type: 'switch',
+                    key: 'show'
                 }
             ],
             type: 'yAxis'

@@ -174,6 +174,9 @@ export default defineComponent({
         }
         checkObjVal(obj)
         chartWeak.get(item).setEchartOption(obj)
+        console.log(obj);
+        console.log(chartWeak.get(item).setEchartOption);
+        
       }
     }
     let setMarginPaddingRadius = (value, key, type) => {
