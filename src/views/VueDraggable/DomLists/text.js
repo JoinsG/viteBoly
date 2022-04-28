@@ -1,7 +1,7 @@
 let defineConfig = {
     style: [{
             name: '宽高',
-            value: [{
+            children: [{
                     name: '宽',
                     key: 'width',
                     value: 'auto',
@@ -19,7 +19,7 @@ let defineConfig = {
             name: '边框',
             show: false,
             key: 'border',
-            value: [{
+            children: [{
                     name: '宽度',
                     key: 'width',
                     value: 0,
@@ -57,7 +57,7 @@ let defineConfig = {
         },
         {
             name: '间距',
-            value: [{
+            children: [{
                     name: '外间',
                     key: 'margin',
                     value: [0, 0, 0, 0],
@@ -75,7 +75,7 @@ let defineConfig = {
         {
             name: '样式',
             type: 'next',
-            value: [{
+            children: [{
                 name: '颜色',
                 key: 'color',
                 value: '#fff',
@@ -90,7 +90,7 @@ let defineConfig = {
     ],
     data: [{
         name: '内容',
-        value: [{
+        children: [{
             name: '文字',
             key: 'text',
             value: '文字',

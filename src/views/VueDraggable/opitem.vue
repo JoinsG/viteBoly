@@ -79,9 +79,9 @@ export default defineComponent({
       })
       return path
     }
-    let checkTypeKey = function (item, parentIndex) {
+    let checkTypeKey = function (item, childIndex) {
       if (item.type === 'yAxis') {
-        return `${item.key}[${parentIndex}]`
+        return `${item.key}[${childIndex}]`
       }
       return item.key
     }

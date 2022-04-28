@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Car: typeof import('./src/components/kanban/car.vue')['default']
+    ColItem: typeof import('./src/components/VueDraggable/colItem.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
