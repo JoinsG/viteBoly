@@ -1,9 +1,9 @@
 <template>
   <el-collapse v-model="activeNames" @change="handleChange" class="wrap-option">
-    <template v-for="(parent, parentIndex) in copyItem">
+    <!-- <template v-for="(parent, parentIndex) in copyItem">
       
-    </template>
-    <el-collapse-item
+    </template> -->
+    <!-- <el-collapse-item
       class="item"
       v-for="(parent, parentIndex) in copyItem"
       :title="parent.name"
@@ -34,7 +34,8 @@
          </template>
         </testOp>
       </div>
-    </el-collapse-item>
+    </el-collapse-item> -->
+    <ColItem :data="copyItem" :type="$attrs.type" v-bind="{...$attrs}"></ColItem>
   </el-collapse>
 </template>
 
@@ -43,6 +44,7 @@ import { defineComponent, reactive, ref, inject, watch } from 'vue'
 import SquareVue from '../../components/VueDraggable/Square.vue'
 import YXsuare from '../../components/VueDraggable/YXsuare.vue'
 import testOp from '@/components/VueDraggable/testOp.vue'
+import ColItem from '@/components/VueDraggable/colItem.vue'
 
 export default defineComponent({
   name: 'opItem',
@@ -110,6 +112,7 @@ export default defineComponent({
     SquareVue,
     YXsuare,
     testOp,
+    ColItem
   },
 })
 </script>

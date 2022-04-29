@@ -1,7 +1,12 @@
 <template>
   <div v-for="(child, childIndex) in data">
-    <el-collapse-item title="Consistency" name="2" v-if="child.children">
-      <ColItem :data="child.children"></ColItem>
+    <el-collapse-item :title="child.name" name="2" v-if="child.children">
+      <ColItem
+        :data="child.children"
+        :pkey="getValueKey(child, childIndex)"
+        :type="type"
+        v-bind="{ ...$attrs }"
+      ></ColItem>
     </el-collapse-item>
     <template v-else>
       <div class="col-item">
@@ -15,7 +20,7 @@
                 childKey: child.key,
                 type,
                 child: child,
-                parentIndex: checkTypeKey(parent, childIndex),
+                childIndex,
               })
             }"
         >
@@ -26,7 +31,7 @@
             <SquareVue
               :dataLists="child.value"
               :styleType="child.key"
-              :pkey="getValueKey([pkey, parent.key, child.key])"
+              :pkey="getValueKey([child.key])"
               :type="type"
             ></SquareVue>
           </template>
@@ -37,7 +42,9 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
+import SquareVue from '../../components/VueDraggable/Square.vue'
+
 export default defineComponent({
   name: 'ColItem',
   props: {
@@ -46,17 +53,76 @@ export default defineComponent({
       type: Array,
     },
     type: {
-      default: 'chart',
+      default: 'style',
     },
     pkey: {
       default: '',
       type: String,
     },
   },
-  setup: () => {
-    return {}
+  setup: (props, ctx) => {
+    let setValHandler = inject('setOpKeyVal')
+
+    let onKeyBlur = function ({ v, childKey, type, child, childIndex }) {
+      let resultKey = getValueKey(child, childIndex)
+      console.log(resultKey)
+      setValHandler({ v, key: resultKey, type, item: ctx.attrs.current })
+    }
+    let changHandlerOption = function ({
+      v,
+      childKey,
+      type,
+      child,
+      childIndex,
+    }) {
+      console.log({
+        v,
+        childKey,
+        type,
+        child,
+        childIndex,
+      })
+      onKeyBlur({ v, childKey, type, child, childIndex })
+    }
+    let checkTypeKey = function (item, childIndex) {
+      if (item.s === 'yAxis') {
+        return `[${childIndex}]`
+      }
+      return ''
+    }
+    let getValueKey = function (child, childIndex) {
+      let arr = [props.pkey]
+      if (child.s === 'yAxis') {
+        arr[0] = `${props.pkey}[${childIndex}]`
+        arr.push(`${child.key}`)
+      } else {
+        arr.push(`${child.key ?? ''}`)
+      }
+      let path = ''
+      //        arr.unshift(props.pkey)
+      let filterArr = arr.filter(Boolean)
+      path = filterArr.join('.')
+      //   let path = ''
+      //   filterArr.forEach((val) => {
+      //     console.log(val, !!val)
+      //     if (/^[\d+]$/.test(val)) {
+      //       path += val
+      //     } else {
+      //       path += path ? `.${val}` : `${val}`
+      //     }
+      //     console.log(path)
+      //   })
+      return path
+    }
+    return {
+      changHandlerOption,
+      checkTypeKey,
+      getValueKey,
+    }
   },
-  components: {},
+  components: {
+    SquareVue,
+  },
 })
 </script>
 
@@ -65,5 +131,18 @@ export default defineComponent({
   display: flex;
   align-items: center;
   padding: 5px 0;
+}
+.col-item label {
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 0 6px;
+}
+.wrap-option {
+  background-color: #999;
+}
+.col-item-right {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
 }
 </style>

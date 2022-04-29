@@ -1,5 +1,6 @@
 let defineConfig = {
-    style: [{
+    style: [
+        {
             name: '宽高',
             children: [{
                     name: '宽',

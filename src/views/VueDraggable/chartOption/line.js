@@ -39,12 +39,7 @@ export let chart = {
 }
 
 export let defineConfig = {
-    style: [{
-        name: '宽',
-        key: 'width',
-        value: 0,
-        type: 'input'
-    },
+    style: [
      {
         name: '宽高',
         children: [{
@@ -98,13 +93,17 @@ export let defineConfig = {
                     name: 'y1',
                     value: true,
                     type: 'switch',
-                    key: 'show'
+                    key: 'show',
+                    type: 'switch',
+                    s:'yAxis'
                 },
                 {
                     name: 'y2',
                     value: true,
                     type: 'switch',
-                    key: 'show'
+                    key: 'show',
+                    type: 'switch',
+                    s:'yAxis'
                 }
             ],
             type: 'yAxis'
@@ -116,13 +115,15 @@ export let defineConfig = {
                     name: 'x1',
                     value: true,
                     type: 'switch',
-                    key: 'show'
+                    key: 'show',
+                    s:'axis'
                 },
                 {
                     name: 'x2',
                     value: true,
                     type: 'switch',
-                    key: 'show'
+                    key: 'show',
+                    s:'axis'
                 }
             ],
             type: 'yAxis'

@@ -44,7 +44,7 @@ export default defineComponent({
         label: '柱状',
       },
     ]
-    let defaultLine = [
+    let defaultLine = ref([
       {
         name: '对应X轴',
         key: 'xAxisIndex',
@@ -113,7 +113,7 @@ export default defineComponent({
         ],
         type: 'next',
       },
-    ]
+    ])
     return {
       activeNames,
       handleChange,
