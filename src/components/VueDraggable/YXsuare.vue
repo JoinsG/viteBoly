@@ -115,7 +115,7 @@ export default defineComponent({
       default: 'style',
     },
     copyItem: {
-      type: Object,
+      type: Array,
     },
     pkey: {
       type: String,

@@ -1,5 +1,5 @@
 <template>
-  <el-collapse v-model="activeNames" @change="handleChange" class="wrap-option">
+  <el-collapse v-model="activeNames" class="wrap-option">
     <el-collapse-item
       class="item"
       v-for="(val, key) in opLists"
@@ -39,8 +39,13 @@ export default defineComponent({
   name: '',
   setup: () => {
     let nameIndex = ref(5)
+    let activeNames = ref([])
     let cloneDog = function (element) {
-      let getConfigMethodHandler: { chart: Function; wrap: Function } = {
+      let getConfigMethodHandler: {
+        chart: Function
+        wrap: Function
+        text: Function
+      } = {
         chart: getChartOptions,
         wrap: getDomOptions,
         text: getTextOptions,
@@ -54,6 +59,7 @@ export default defineComponent({
     return {
       cloneDog,
       opLists,
+      activeNames,
     }
   },
   components: {

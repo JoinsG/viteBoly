@@ -13,6 +13,7 @@
         <label>{{ child.name }}</label>
         <testOp
           :item="child"
+          :type="type"
           @changHandlerOption="
             (v) => {
               changHandlerOption({
@@ -31,7 +32,7 @@
             <SquareVue
               :dataLists="child.value"
               :styleType="child.key"
-              :pkey="getValueKey([child.key])"
+              :pkey="getValueKey(child)"
               :type="type"
             ></SquareVue>
           </template>

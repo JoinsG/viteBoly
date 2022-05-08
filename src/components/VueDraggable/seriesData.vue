@@ -1,6 +1,7 @@
 <template>
   <div class="demo-collapse">
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-button type="primary" size="small">增加</el-button>
+    <el-collapse v-model="activeNames" @change="handleChange" v-for="(item,index) in seriesLists">
       <el-collapse-item title="Consistency" name="1">
         <template #title>
           <el-select
@@ -8,6 +9,7 @@
             v-model="value"
             class="m-2"
             placeholder="Select"
+            @change="changHandler"
           >
             <el-option
               v-for="item in options"
@@ -17,19 +19,22 @@
             />
           </el-select>
         </template>
-        <p>22</p>
-        <ColItem :data="defaultLine"></ColItem>
+        <ColItem :data="getDefaultLine()" type="chart" :pkey="`series[${index}]`"></ColItem>
       </el-collapse-item>
     </el-collapse>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, ref } from 'vue'
+import { useUserStore } from '../../store-pinia/draggable'
+
+import { defineComponent, ref, inject, computed } from 'vue'
 import ColItem from '@/components/VueDraggable/colItem.vue'
 export default defineComponent({
   name: '',
-  setup: () => {
+  setup: (props, ctx) => {
+    const useUserStoreConst = useUserStore()
+    let setValHandler = inject('setOpKeyVal')
     const activeNames = ref(['1'])
     const handleChange = (val: string[]) => {
       console.log(val)
@@ -53,7 +58,7 @@ export default defineComponent({
       },
       {
         name: '对应Y轴',
-        key: 'xAxisIndex',
+        key: 'yAxisIndex',
         value: 0,
         type: 'input',
       },
@@ -67,7 +72,25 @@ export default defineComponent({
         name: '是否梯线',
         key: 'step',
         value: false,
-        type: 'switch',
+        type: 'select',
+        select: [
+          {
+            name: '不显示',
+            value: false,
+          },
+          {
+            name: '前部',
+            value: 'start',
+          },
+          {
+            name: '中部',
+            value: 'middle',
+          },
+          {
+            name: '尾部',
+            value: 'end',
+          },
+        ],
       },
       {
         name: '标签',
@@ -76,7 +99,7 @@ export default defineComponent({
           {
             key: 'show',
             name: '是否显示',
-            value: true,
+            value: false,
             type: 'switch',
           },
           {
@@ -114,14 +137,28 @@ export default defineComponent({
         type: 'next',
       },
     ])
+    let getDefaultLine = function () {
+      return ref(JSON.parse(JSON.stringify(defaultLine.value))).value
+    }
+    let changHandler = function (v) {
+      setValHandler({
+        v,
+        key: 'series[0].type',
+        type: 'chart',
+      })
+    }
+    let seriesLists = useUserStoreConst.getChartSeries
     return {
+      getDefaultLine,
+      seriesLists,
       activeNames,
       handleChange,
       options,
       defaultLine,
+      changHandler,
     }
   },
-  components: {ColItem},
+  components: { ColItem },
 })
 </script>
 

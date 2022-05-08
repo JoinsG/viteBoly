@@ -20,7 +20,7 @@
       <div
         class="chart-dom"
         :class="[
-          $attrs.chooseAcItem === element ? 'ac-item' : '',
+          acChooseItem === element ? 'ac-item' : '',
           ...(element?.class ?? []),
         ]"
         :style="{ ...element.style }"
@@ -39,7 +39,7 @@
         v-else
         :style="{ ...element.style }"
         :class="[
-          $attrs.chooseAcItem === element ? 'ac-item' : '',
+          acChooseItem === element ? 'ac-item' : '',
           ...(element?.class ?? []),
         ]"
         @click.stop="getClickItem(element)"
@@ -69,10 +69,13 @@ import {
   onMounted,
   nextTick,
   inject,
+  computed,
 } from 'vue'
 import DraggableA from 'vuedraggable'
 import DomeEchartWrap from './DomeEchartWrap.vue'
 import { dragStart, dragMove, dragEnd, dragClone } from './utils/dragMenthod'
+import { useUserStore } from '../../store-pinia/draggable'
+
 export default defineComponent({
   // inheritAttrs:false,
   name: 'nested-draggable',
@@ -102,7 +105,7 @@ export default defineComponent({
     },
   },
   setup: (props, ctx) => {
-    let draggeDomWeak = inject('draggeDomWeak')
+    const useUserStoreConst = useUserStore()
     let draggDom = ref(null)
     console.log(draggDom.value)
     const CTX = getCurrentInstance()
@@ -114,7 +117,8 @@ export default defineComponent({
         return
       }
       let { onGetItem } = ctx.attrs
-      ctx.emit('getChooseItemOption', element)
+      // ctx.emit('getChooseItemOption', element)
+      useUserStoreConst.setChooseChart(element)
     }
     let addHandler = function (element) {
       console.log(element)
@@ -125,7 +129,7 @@ export default defineComponent({
         console.log(CTX)
         setTimeout(() => {
           CTX.refs[element.name].setEchartOption(element.chart)
-          ctx.emit('setWeakChart', element, CTX.refs[element.name])
+          useUserStoreConst.setWeakChart(element, CTX.refs[element.name])
         }, 50)
       })
       return element.name
@@ -140,15 +144,17 @@ export default defineComponent({
           props.tasks.splice(index, 1)
         }
       }
-      //存放dom元素
-      ctx.emit('setDraggeDom', props.tasks, element.to)
+      // //存放dom元素
+      // ctx.emit('setDraggeDom', props.tasks, element.to)
+      useUserStoreConst.setDraggeDom(props.tasks, element.to)
     }
     let dragEnd = function (element) {
       if (element.from === element.to) {
         return
       }
-      console.log(draggeDomWeak.get(element.from))
-      let tasks = draggeDomWeak.get(element.from) ?? [1]
+      // console.log(draggeDomWeak.get(element.from))
+      let tasks = useUserStoreConst.draggeDomWeak.get(element.from) ?? [1]
+      // let tasks = draggeDomWeak.get(element.from) ?? [1]
       if (tasks.length === 0) {
         tasks.push({
           name: '占位',
@@ -162,8 +168,12 @@ export default defineComponent({
         })
       }
     }
+    let acChooseItem = computed(()=>{
+      return useUserStoreConst.chooseAcItem
+    })
 
     return {
+      acChooseItem,
       tasks,
       getClickItem,
       addHandler,

@@ -1,41 +1,6 @@
 <template>
   <el-collapse v-model="activeNames" @change="handleChange" class="wrap-option">
-    <!-- <template v-for="(parent, parentIndex) in copyItem">
-      
-    </template> -->
-    <!-- <el-collapse-item
-      class="item"
-      v-for="(parent, parentIndex) in copyItem"
-      :title="parent.name"
-      :name="parent.name"
-    >
-      <div class="col-item" v-for="(child, childIndex) in parent.children" >
-        <label>{{ child.name }}</label>
-        <testOp
-          :item="child"
-          @changHandlerOption="
-            (v) => {
-              changHandlerOption({
-                v,
-                childKey: child.key,
-                type,
-                child: child,
-                parentIndex: checkTypeKey(parent, childIndex),
-              })
-            }"
-        >
-         <template #default v-if="['padding', 'margin', 'radius'].includes(child.key)">
-           <SquareVue
-              :dataLists="child.value"
-              :styleType="child.key"
-              :pkey="getValueKey([pkey, parent.key, child.key])"
-              :type="type"
-            ></SquareVue>
-         </template>
-        </testOp>
-      </div>
-    </el-collapse-item> -->
-    <ColItem :data="copyItem" :type="$attrs.type" v-bind="{...$attrs}"></ColItem>
+    <ColItem :data="copyItem" :type="type" v-bind="{ ...$attrs }"></ColItem>
   </el-collapse>
 </template>
 
@@ -54,7 +19,8 @@ export default defineComponent({
       default: 'style',
     },
     copyItem: {
-      type: Object,
+      type: Array,
+      default:() => []
     },
     pkey: {
       type: String,
@@ -62,31 +28,31 @@ export default defineComponent({
     },
   },
   setup: (props, ctx) => {
-    let setValHandler = inject('setOpKeyVal')
-    let onKeyBlur = function ({ v, childKey, type, child, parentIndex }) {
-      let resultKey = getValueKey([props.pkey, parentIndex, childKey])
-      setValHandler({ v, key: resultKey, type, item: ctx.attrs.current })
-    }
-    let getValueKey = function (arr = []) {
-      let filterArr = arr.filter(Boolean)
-      let path = ''
-      filterArr.forEach((val) => {
-        console.log(val, !!val)
-        if (/^[\d+]$/.test(val)) {
-          path += val
-        } else {
-          path += path ? `.${val}` : `${val}`
-        }
-        console.log(path)
-      })
-      return path
-    }
-    let checkTypeKey = function (item, childIndex) {
-      if (item.type === 'yAxis') {
-        return `${item.key}[${childIndex}]`
-      }
-      return item.key
-    }
+    // let setValHandler = inject('setOpKeyVal')
+    // let onKeyBlur = function ({ v, childKey, type, child, parentIndex }) {
+    //   let resultKey = getValueKey([props.pkey, parentIndex, childKey])
+    //   setValHandler({ v, key: resultKey, type, item: ctx.attrs.current })
+    // }
+    // let getValueKey = function (arr = []) {
+    //   let filterArr = arr.filter(Boolean)
+    //   let path = ''
+    //   filterArr.forEach((val) => {
+    //     console.log(val, !!val)
+    //     if (/^[\d+]$/.test(val)) {
+    //       path += val
+    //     } else {
+    //       path += path ? `.${val}` : `${val}`
+    //     }
+    //     console.log(path)
+    //   })
+    //   return path
+    // }
+    // let checkTypeKey = function (item, childIndex) {
+    //   if (item.type === 'yAxis') {
+    //     return `${item.key}[${childIndex}]`
+    //   }
+    //   return item.key
+    // }
     let changHandlerOption = function ({
       v,
       childKey,
@@ -97,14 +63,14 @@ export default defineComponent({
       console.log(111)
       onKeyBlur({ v, childKey, type, child, parentIndex })
     }
-    let activeNames = ref()
+    let activeNames = ref([])
     let handleChange = function (val, key) {}
     return {
-      onKeyBlur,
-      getValueKey,
+      // onKeyBlur,
+      // getValueKey,
       activeNames,
       handleChange,
-      checkTypeKey,
+      // checkTypeKey,
       changHandlerOption,
     }
   },
@@ -112,7 +78,7 @@ export default defineComponent({
     SquareVue,
     YXsuare,
     testOp,
-    ColItem
+    ColItem,
   },
 })
 </script>

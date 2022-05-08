@@ -6,18 +6,11 @@
     <div class="content">
       <nested-draggable
         class="main-page"
-        :class="{
-          'hide-class': hide,
-        }"
+        :class="{ 'hide-class': hide }"
         :tasks="list"
         :enabled="enabled"
-        :chooseAcItem="chooseAcItem"
         drageIndex="0"
         @changeEnabled="changeEnabled"
-        @getChooseItemOption="getChooseItemOption"
-        @setWeakChart="setWeakChart"
-        @setDraggeDom="setDraggeDom"
-        @getDraggeDom="getDraggeDom"
         @filterList="filterList"
       />
     </div>
@@ -42,13 +35,9 @@
   <!-- <el-button @click="hide = !hide">隐藏</el-button> -->
   <el-button @click="changeDisable">隐藏</el-button>
   <el-button @click="getOptoins">获取配置</el-button>
-  <el-drawer
-    v-model="drawer"
-    :with-header="false"
-  >
+  <el-drawer v-model="drawer" :with-header="false">
     <seriesData></seriesData>
   </el-drawer>
-  <!-- <SquareVue v-model:dataLists="dataLists"></SquareVue> -->
 </template>
 
 <script lang='ts'>
@@ -61,6 +50,7 @@ import { checkValType, checkValNum, checkPrototypeVal } from './utils/utils'
 import ComListsDrag from './comListsDrag.vue'
 import seriesData from '@/components/VueDraggable/seriesData.vue'
 import {
+  computed,
   defineComponent,
   nextTick,
   onMounted,
@@ -72,62 +62,34 @@ import {
 } from 'vue'
 import DraggableA from 'vuedraggable'
 import _ from 'lodash'
+import { useUserStore } from '../../store-pinia/draggable'
 export default defineComponent({
   name: 'Draggable',
   setup: () => {
+    const useUserStoreConst = useUserStore()
+    console.log(useUserStoreConst.name);
     let enabled = ref(true)
     let changeEnabled = function (value) {
       enabled.value = value
     }
-    let chartWeak = new WeakMap() //图表实例
-    let draggeDomWeak = new WeakMap() //添加拖拽元素的Dom和对应的tasks数据
     let domeEchartWrap = ref(null)
-    let chooseAcItem = ref({})
-    //配置
-    let copyItem = reactive({
-      style: {},
-      chart: {},
-      data: {},
-    })
-    let getChooseItemOption = function (value) {
-      console.log(chooseAcItem.value === value)
-      console.log(value)
-
-      if (chooseAcItem.value === value) {
-        return
-      }
-      let { style, chart, data } = value.defineConfig
-      // console.log(draggeDomWeak.get(value))
-      chooseAcItem.value = value
-      copyItem.style = style ?? {}
-      copyItem.chart = chart ?? {}
-      copyItem.data = data ?? {}
-      // opItem.value = value.style ?? {}
-    }
-    let setWeakChart = function (value, el) {
-      console.log(value)
-      // chartWeak.set(value.style, el)
-      // chartWeak.set(value.chart, el)
-      chartWeak.set(value.defineConfig.chart, el)
-      chartWeak.set(value.defineConfig.style, el)
-      value.defineConfig.data && chartWeak.set(value.defineConfig.data, el)
-    }
-    let setDraggeDom = function (value, el) {
-      console.log(value)
-      console.log(el)
-      draggeDomWeak.set(el, value)
-    }
-    let getDraggeDom = function (value, el) {
-      let v = draggeDomWeak.get(el)
-      console.log(v)
-    }
+    // let chooseAcItem = ref({})
+    // let getChooseItemOption = function (value) {
+    //   console.log(chooseAcItem.value === value)
+    //   console.log(value)
+    //   if (chooseAcItem.value === value) {
+    //     return
+    //   }
+    //   let { style, chart, data } = value.defineConfig
+    //   chooseAcItem.value = value
+    //   useUserStoreConst.updateCopyItem({style,chart,data})
+    // }
+ 
     let list = reactive([])
-
     let setOpKeyVal = function ({ v: value, key: nextKey, type, item }) {
       console.log(value, nextKey, type)
       console.log(item)
-
-      console.log(chartWeak.get(item))
+      console.log(useUserStoreConst.chartWeak.get(item))
       if (type === 'style') {
         if (
           [
@@ -139,23 +101,22 @@ export default defineComponent({
             'border.style',
           ].includes(nextKey)
         ) {
-          // _.set(chooseAcItem.value[type], `${nextKey}`, checkValType({ value, key: nextKey }))
           setMarginPaddingRadius(value, nextKey, type)
         } else {
           _.set(
-            chooseAcItem.value[type],
+            useUserStoreConst.chooseAcItem[type],
             `${nextKey}`,
             checkValType({ value, key: nextKey })
           )
         }
-        if (chartWeak.get(item)) {
+        if (useUserStoreConst.chartWeak.get(item)) {
           setTimeout(() => {
-            chartWeak.get(item).resizeChart()
+            useUserStoreConst.chartWeak.get(item).resizeChart()
           }, 1000)
         }
       } else {
         _.set(
-          chooseAcItem.value[type],
+          useUserStoreConst.chooseAcItem[type],
           `${nextKey}`,
           checkValType({ value, key: nextKey })
         )
@@ -173,10 +134,10 @@ export default defineComponent({
           }
         }
         checkObjVal(obj)
-        chartWeak.get(item).setEchartOption(obj)
-        console.log(obj);
-        console.log(chartWeak.get(item).setEchartOption);
-        
+        useUserStoreConst.chartWeak.get(useUserStoreConst.copyItem.chart).setEchartOption(obj)
+        console.log(obj)
+        console.log(useUserStoreConst.chartWeak.get(useUserStoreConst.copyItem.chart))
+        // console.log(chartWeak.get(item).setEchartOption);
       }
     }
     let setMarginPaddingRadius = (value, key, type) => {
@@ -184,13 +145,13 @@ export default defineComponent({
       let typeLists = ['[object Array]']
       if (typeLists.includes(Object.prototype.toString.call(value))) {
         _.set(
-          chooseAcItem.value[type],
+          useUserStoreConst.chooseAcItem[type],
           `${firstKey}`,
           value.map((val) => val + 'px').join(' ')
         )
       } else {
         _.set(
-          chooseAcItem.value[type],
+          useUserStoreConst.chooseAcItem[type],
           `${firstKey}`,
           checkValType({ value, key: firstKey.split('-').pop() })
         )
@@ -198,7 +159,6 @@ export default defineComponent({
     }
 
     provide('setOpKeyVal', setOpKeyVal)
-    provide('draggeDomWeak', draggeDomWeak)
     provide('enabled', enabled.value)
 
     let filterList = function (indexStr) {
@@ -218,23 +178,26 @@ export default defineComponent({
     let getOptoins = function (indexStr) {
       console.log(list)
     }
-    let drawer = ref(true)
+    let drawer = ref(false)
+
+    setTimeout(() => {
+      drawer.value = true
+    }, 4000)
+
+    let copyItem = computed(()=>{
+      return useUserStoreConst.copyItem
+    })
     return {
       drawer,
       list,
       copyItem,
-      getChooseItemOption,
+      // getChooseItemOption,
       domeEchartWrap,
-      setWeakChart,
       enabled,
       changeEnabled,
       filterList,
-      setDraggeDom,
-      getDraggeDom,
       hide,
       dataLists,
-      chooseAcItem,
-      draggeDomWeak,
       changeDisable,
       getOptoins,
       ...DragMenthod,
@@ -247,7 +210,7 @@ export default defineComponent({
     DomeEchartWrap,
     SquareVue,
     ComListsDrag,
-    seriesData
+    seriesData,
   },
 })
 </script>

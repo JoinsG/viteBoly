@@ -15,16 +15,6 @@
         ></el-color-picker>
       </template>
     </el-input>
-    <!-- <SquareVue
-      v-else-if="['padding', 'margin', 'radius'].includes(item.key)"
-      :item="item"
-      :t="getI(item)"
-      :dataLists="item.value"
-    ></SquareVue> -->
-     <!-- :dataLists="item.value"
-      :styleType="item.key"
-      :pkey="getValueKey([pkey, valItem.key])"
-      :type="type" -->
     <el-select
       v-model="item.value"
       placeholder="请选择"
@@ -63,20 +53,19 @@ export default defineComponent({
   name: '',
   props: {
     item: {
-        default: () =>{}
+      default: () => {},
     },
   },
   setup: (props, ctx) => {
     let changHandler = function (v) {
       ctx.emit('changHandlerOption', v)
     }
-    let getI = function (v){
-        console.log(v);
-        
+    let getI = function (v) {
+      console.log(v)
     }
-    return { changHandler,getI }
+    return { changHandler, getI }
   },
-  components: {SquareVue},
+  components: { SquareVue },
 })
 </script>
 

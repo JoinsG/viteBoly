@@ -6,10 +6,11 @@ import Store from './store/index.js'
 import App from './App.vue'
 import fetch from './service/index.js'
 
+import StorePinia from './store-pinia/index.js'
 
 // import VueDragResize from 'vue-drag-resize'
  const app = createApp(App)
- app.use(Router).use(Store).mount('#app')
+ app.use(Router).use(Store).use(StorePinia).mount('#app')
 // console.log(VueDragResize);
 
 app.config.globalProperties.$http = fetch
