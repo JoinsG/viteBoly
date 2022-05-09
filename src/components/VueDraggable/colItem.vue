@@ -1,6 +1,6 @@
 <template>
   <div v-for="(child, childIndex) in data">
-    <el-collapse-item :title="child.name" name="2" v-if="child.children">
+    <el-collapse-item :title="child.name" :name="child" v-if="child.children">
       <ColItem
         :data="child.children"
         :pkey="getValueKey(child, childIndex)"
@@ -23,7 +23,8 @@
                 child: child,
                 childIndex,
               })
-            }"
+            }
+          "
         >
           <template
             #default
@@ -95,24 +96,11 @@ export default defineComponent({
       let arr = [props.pkey]
       if (child.s === 'yAxis') {
         arr[0] = `${props.pkey}[${childIndex}]`
-        arr.push(`${child.key}`)
-      } else {
-        arr.push(`${child.key ?? ''}`)
       }
+      arr.push(`${child.key ?? ''}`)
       let path = ''
-      //        arr.unshift(props.pkey)
       let filterArr = arr.filter(Boolean)
       path = filterArr.join('.')
-      //   let path = ''
-      //   filterArr.forEach((val) => {
-      //     console.log(val, !!val)
-      //     if (/^[\d+]$/.test(val)) {
-      //       path += val
-      //     } else {
-      //       path += path ? `.${val}` : `${val}`
-      //     }
-      //     console.log(path)
-      //   })
       return path
     }
     return {

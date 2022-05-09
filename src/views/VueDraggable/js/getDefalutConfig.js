@@ -1,11 +1,13 @@
 import AllDom from '../DomLists/index.js'
 import ChartList from '../chartOption/index.js'
 import _ from 'lodash'
-
+import {
+    handlerLineBar
+} from './addAdditionalConfiguration'
 let zhanwei = {
     name: '占位',
     type: 'zw',
-    class:['no-drag'],
+    class: ['no-drag'],
     style: {
         width: '100px',
         border: '1px solid red',
@@ -17,23 +19,24 @@ function getDomOptions(element) {
     console.log(AllDom[element.name].style);
     return {
         ..._.cloneDeep({
-            type:'wrap',
+            type: 'wrap',
             tasks: [{
                 ...zhanwei
             }],
             style: AllDom[element.name].style,
-            defineConfig:AllDom[element.name].defineConfig
+            defineConfig: AllDom[element.name].defineConfig
         })
     }
 }
+
 function getTextOptions(element) {
     console.log(AllDom[element.name].style);
     return {
         ..._.cloneDeep({
-            type:'text',
+            type: 'text',
             style: AllDom[element.name].style,
-            defineConfig:AllDom[element.name].defineConfig,
-            data:AllDom[element.name].data,
+            defineConfig: AllDom[element.name].defineConfig,
+            data: AllDom[element.name].data,
         })
     }
 }
@@ -48,10 +51,20 @@ function getChartOptions(element) {
                 height: '500px',
             },
             chart: ChartList[element.name].chart,
-            defineConfig: ChartList[element.name].defineConfig
+            defineConfig: addAdditionalConfigurationHandler(ChartList[element.name].defineConfig, element.name)
         })
     }
 }
+
+
+function addAdditionalConfigurationHandler(options, name) {
+    switch (name) {
+        case 'line':
+        case 'bar':
+            return handlerLineBar(options)
+    }
+}
+
 
 export {
     getDomOptions,

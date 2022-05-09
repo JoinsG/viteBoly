@@ -67,26 +67,21 @@ export default defineComponent({
   name: 'Draggable',
   setup: () => {
     const useUserStoreConst = useUserStore()
-    console.log(useUserStoreConst.name);
+    console.log(useUserStoreConst.name)
     let enabled = ref(true)
     let changeEnabled = function (value) {
       enabled.value = value
     }
     let domeEchartWrap = ref(null)
-    // let chooseAcItem = ref({})
-    // let getChooseItemOption = function (value) {
-    //   console.log(chooseAcItem.value === value)
-    //   console.log(value)
-    //   if (chooseAcItem.value === value) {
-    //     return
-    //   }
-    //   let { style, chart, data } = value.defineConfig
-    //   chooseAcItem.value = value
-    //   useUserStoreConst.updateCopyItem({style,chart,data})
-    // }
- 
+
     let list = reactive([])
-    let setOpKeyVal = function ({ v: value, key: nextKey, type, item }) {
+    let setOpKeyVal = function ({
+      v: value,
+      key: nextKey,
+      type,
+      item,
+      options = [],
+    }) {
       console.log(value, nextKey, type)
       console.log(item)
       console.log(useUserStoreConst.chartWeak.get(item))
@@ -134,9 +129,18 @@ export default defineComponent({
           }
         }
         checkObjVal(obj)
-        useUserStoreConst.chartWeak.get(useUserStoreConst.copyItem.chart).setEchartOption(obj)
+        options.forEach((item) => {
+          _.set(obj, `${item.key}`, item.data)
+        })
+        setTimeout(() => {
+          useUserStoreConst.chartWeak
+            .get(useUserStoreConst.copyItem.chart)
+            .setEchartOption(obj)
+        }, 100)
         console.log(obj)
-        console.log(useUserStoreConst.chartWeak.get(useUserStoreConst.copyItem.chart))
+        console.log(
+          useUserStoreConst.chartWeak.get(useUserStoreConst.copyItem.chart)
+        )
         // console.log(chartWeak.get(item).setEchartOption);
       }
     }
@@ -171,20 +175,21 @@ export default defineComponent({
       // val.tasks = val.tasks.filter((item) => item.name !== '占位')
     }
     let hide = ref(false)
+    let drawer = ref(false)
     let dataLists = ref([0, 0, 0, 0])
     let changeDisable = function (indexStr) {
-      list[0].defineConfig.draggableOptions.disabled = true
+      // list[0].defineConfig.draggableOptions.disabled = true
+      drawer.value = true
     }
     let getOptoins = function (indexStr) {
       console.log(list)
     }
-    let drawer = ref(false)
 
-    setTimeout(() => {
-      drawer.value = true
-    }, 4000)
+    // setTimeout(() => {
+    //   drawer.value = true
+    // }, 4000)
 
-    let copyItem = computed(()=>{
+    let copyItem = computed(() => {
       return useUserStoreConst.copyItem
     })
     return {

@@ -1,15 +1,19 @@
 <template>
   <div class="demo-collapse">
     <el-button type="primary" size="small">增加</el-button>
-    <el-collapse v-model="activeNames" @change="handleChange" v-for="(item,index) in seriesLists">
-      <el-collapse-item title="Consistency" name="1">
+    <el-collapse
+      v-model="activeNames"
+      @change="handleChange"
+      v-for="(item, index) in seriesLists"
+    >
+      <el-collapse-item title="Consistency" :name="item">
         <template #title>
           <el-select
             size="small"
-            v-model="value"
+            v-model="item.type"
             class="m-2"
             placeholder="Select"
-            @change="changHandler"
+            @change="(val) => typeChangeHandler(val, index)"
           >
             <el-option
               v-for="item in options"
@@ -19,7 +23,11 @@
             />
           </el-select>
         </template>
-        <ColItem :data="getDefaultLine()" type="chart" :pkey="`series[${index}]`"></ColItem>
+        <ColItem
+          :data="getDefaultLine[index]"
+          type="chart"
+          :pkey="`series[${index}]`"
+        ></ColItem>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -27,8 +35,18 @@
 
 <script lang='ts'>
 import { useUserStore } from '../../store-pinia/draggable'
-
-import { defineComponent, ref, inject, computed } from 'vue'
+import _ from 'lodash'
+import {
+  defineComponent,
+  ref,
+  inject,
+  computed,
+  reactive,
+  onMounted,
+  onMounted,
+  watchEffect,
+  watch,
+} from 'vue'
 import ColItem from '@/components/VueDraggable/colItem.vue'
 export default defineComponent({
   name: '',
@@ -67,6 +85,18 @@ export default defineComponent({
         key: 'stack',
         value: '',
         type: 'input',
+      },
+      {
+        name: '平滑程度',
+        key: 'smooth',
+        value: 0,
+        type: 'silder',
+        bind: {
+          min: 0,
+          max: 1,
+          step: 0.1,
+          showInput: true,
+        },
       },
       {
         name: '是否梯线',
@@ -137,17 +167,58 @@ export default defineComponent({
         type: 'next',
       },
     ])
-    let getDefaultLine = function () {
+    let getDefaultLineHandler = function () {
       return ref(JSON.parse(JSON.stringify(defaultLine.value))).value
     }
-    let changHandler = function (v) {
+    let getDefaultLine = reactive([])
+
+    let typeChangeHandler = function (v, index) {
       setValHandler({
         v,
-        key: 'series[0].type',
+        key: `series[${index}].type`,
         type: 'chart',
+        options: [
+          {
+            key: `series[${index}]`,
+            data: useUserStoreConst.getChartSeries[index],
+          },
+        ],
       })
     }
+    let setItemopValHandler = function (itemOp, index, key = null) {
+      let reKey = key ? `${key}.` : ''
+      for (let i = 0; i < itemOp.length; i++) {
+        let item = itemOp[i]
+        if (item.children) {
+          setItemopValHandler(item.children, index, reKey + item.key)
+          continue
+        }
+        console.log(
+          _.get(useUserStoreConst.getChartSeries[index], `${reKey}${item.key}`),
+          reKey
+        )
+
+        item.value =
+          _.get(
+            useUserStoreConst.getChartSeries[index],
+            `${reKey}${item.key}`
+          ) ?? item.value
+      }
+    }
     let seriesLists = useUserStoreConst.getChartSeries
+    watch(
+      seriesLists,
+      (val) => {
+        console.log(val.length)
+
+        val.forEach((item, index) => {
+          let itemOp = getDefaultLineHandler()
+          setItemopValHandler(itemOp, index)
+          getDefaultLine.push(itemOp)
+        })
+      },
+      { immediate: true }
+    )
     return {
       getDefaultLine,
       seriesLists,
@@ -155,7 +226,7 @@ export default defineComponent({
       handleChange,
       options,
       defaultLine,
-      changHandler,
+      typeChangeHandler,
     }
   },
   components: { ColItem },

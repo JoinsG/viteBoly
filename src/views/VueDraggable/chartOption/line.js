@@ -25,17 +25,36 @@ export let chart = {
     }
   ],
   series: [{
-    color: 'red',
-    data: [150, 230, 224, 218, 135, 147, 260],
-    type: 'line',
-    step: false,
-  },
-  {
-    color: 'red',
-    data: [50, 130, 124, 118, 35, 47, 160],
-    type: 'line',
-    step: false,
-  }],
+      yAxisIndex: 0,
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line',
+      step: false,
+      label: {
+        fontSize: 12,
+        color: '#000'
+      },
+      lineStyle: {
+        color: 'red',
+        type: 'solid',
+        width: '2'
+      }
+    },
+    {
+      yAxisIndex: 0,
+      data: [50, 130, 124, 118, 35, 47, 160],
+      type: 'line',
+      step: false,
+      label: {
+        fontSize: 12,
+        color: '#000'
+      },
+      lineStyle: {
+        color: 'red',
+        type: 'solid',
+        width: '2'
+      }
+    }
+  ],
 }
 
 export let defineConfig = {
@@ -89,19 +108,37 @@ export let defineConfig = {
       name: 'Y轴',
       key: 'yAxis',
       children: [{
-          name: 'y1',
-          value: true,
-          type: 'switch',
-          key: 'show',
-          type: 'switch',
+          name: 'Y左',
+          children: [{
+              name: 'y1',
+              value: true,
+              type: 'switch',
+              key: 'show',
+            },
+            {
+              name: '单位',
+              value: '',
+              type: 'input',
+              key: 'name',
+            }
+          ],
           s: 'yAxis'
         },
         {
-          name: 'y2',
-          value: true,
-          type: 'switch',
-          key: 'show',
-          type: 'switch',
+          name: 'Y右',
+          children: [{
+              name: 'y2',
+              value: true,
+              type: 'switch',
+              key: 'show',
+            },
+            {
+              name: '单位',
+              value: '',
+              type: 'input',
+              key: 'name',
+            }
+          ],
           s: 'yAxis'
         }
       ],
@@ -111,17 +148,23 @@ export let defineConfig = {
       name: 'X轴',
       key: 'xAxis',
       children: [{
-          name: 'x1',
-          value: true,
-          type: 'switch',
-          key: 'show',
+          name: 'X下',
+          children: [{
+            name: 'x1',
+            value: true,
+            type: 'switch',
+            key: 'show',
+          }, ],
           s: 'axis'
         },
         {
-          name: 'x2',
-          value: true,
-          type: 'switch',
-          key: 'show',
+          name: 'X上',
+          children: [{
+            name: 'x2',
+            value: true,
+            type: 'switch',
+            key: 'show',
+          }],
           s: 'yAxis'
         }
       ],
