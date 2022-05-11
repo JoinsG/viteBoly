@@ -1,4 +1,5 @@
 import axis from '../chartOption/default/axis.js'
+import legend from '../chartOption/default/legend.js'
 import _ from 'lodash'
 
 
@@ -12,5 +13,12 @@ export function handlerLineBar(option) {
             })
         }
     })
+    
+    return option
+}
+
+
+export function handlerLegend(option) {
+    option.chart.push(..._.cloneDeep(legend))
     return option
 }

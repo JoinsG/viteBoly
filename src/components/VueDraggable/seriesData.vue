@@ -48,8 +48,14 @@ import {
   watch,
 } from 'vue'
 import ColItem from '@/components/VueDraggable/colItem.vue'
+import line from '@/views/VueDraggable/chartOption/series/line.js'
+import bar from '@/views/VueDraggable/chartOption/series/bar.js'
+import pie from '@/views/VueDraggable/chartOption/series/pie.js'
 export default defineComponent({
   name: '',
+  props: {
+    drawer: {},
+  },
   setup: (props, ctx) => {
     const useUserStoreConst = useUserStore()
     let setValHandler = inject('setOpKeyVal')
@@ -167,8 +173,15 @@ export default defineComponent({
         type: 'next',
       },
     ])
-    let getDefaultLineHandler = function () {
-      return ref(JSON.parse(JSON.stringify(defaultLine.value))).value
+    let getDefaultLineHandler = function (val) {
+      switch (val.mode) {
+        case 'lineSingle':
+          return ref(JSON.parse(JSON.stringify(line))).value
+        case 'barSingle':
+          return ref(JSON.parse(JSON.stringify(bar))).value
+        case 'pieSingle':
+          return ref(JSON.parse(JSON.stringify(pie))).value
+      }
     }
     let getDefaultLine = reactive([])
 
@@ -206,19 +219,19 @@ export default defineComponent({
       }
     }
     let seriesLists = useUserStoreConst.getChartSeries
-    watch(
-      seriesLists,
-      (val) => {
-        console.log(val.length)
-
-        val.forEach((item, index) => {
-          let itemOp = getDefaultLineHandler()
-          setItemopValHandler(itemOp, index)
-          getDefaultLine.push(itemOp)
-        })
-      },
-      { immediate: true }
-    )
+    let chooseAcItem = useUserStoreConst.getChooseChartItem
+    console.log(seriesLists)
+    console.log(props.drawer)
+    onMounted(() => {
+      getInitSeriesHandler()
+    })
+    let getInitSeriesHandler = function () {
+      seriesLists.forEach((item, index) => {
+        let itemOp = getDefaultLineHandler(chooseAcItem)
+        setItemopValHandler(itemOp, index)
+        getDefaultLine.push(itemOp)
+      })
+    }
     return {
       getDefaultLine,
       seriesLists,

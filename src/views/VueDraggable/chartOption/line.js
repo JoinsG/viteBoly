@@ -9,19 +9,31 @@ export let chart = {
   xAxis: [{
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      axisLine:{
+        onZero: false,
+      }
     },
     {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      axisLine:{
+        onZero: false,
+      }
     }
   ],
   yAxis: [{
       type: 'value',
       show: true,
+      axisLine:{
+        onZero: false,
+      }
     },
     {
       type: 'value',
       show: true,
+      axisLine:{
+        onZero: false,
+      }
     }
   ],
   series: [{
@@ -154,8 +166,8 @@ export let defineConfig = {
             value: true,
             type: 'switch',
             key: 'show',
-          }, ],
-          s: 'axis'
+          }],
+          s: 'yAxis'
         },
         {
           name: 'X上',

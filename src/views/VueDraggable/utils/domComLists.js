@@ -43,14 +43,54 @@ let opLists = [
     //     }
     // },
     {
-        name: '折线坐标轴',
+        name: '自定义',
         value: [{
             type: 'chart',
             name: 'line',
-        }, {
-            type: 'chart',
-            name: 'line',
+            info: '自定义折柱'
         }]
+    },
+    {
+        name: '折线',
+        value: [{
+                type: 'chart',
+                name: 'lineSingle',
+                info: '折线'
+            },
+            {
+                type: 'chart',
+                name: 'line-area',
+                info: '折线面积'
+            },
+        ]
+    },
+    {
+        name: '柱状',
+        value: [{
+                type: 'chart',
+                name: 'barSingle',
+                info: '折线'
+            },
+            {
+                type: 'chart',
+                name: 'bar-group',
+                info: '折线面积'
+            },
+            {
+                type: 'chart',
+                name: 'bar-stack',
+                info: '折线面积'
+            },
+        ]
+    },
+    {
+        name: '饼状',
+        value: [{
+                type: 'chart',
+                name: 'pieSingle',
+                info: '饼状'
+            },
+        ]
     }
 ]
 let zhanwei = {

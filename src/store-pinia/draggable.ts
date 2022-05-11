@@ -19,6 +19,9 @@ export const useUserStore = defineStore({
     getChartSeries: (state) => {
       return state?.chooseAcItem?.chart?.series ?? [];
     },
+    getChooseChartItem: (state) => {
+      return state?.chooseAcItem;
+    },
   },
   actions: {
     setDraggeDom(value, el) {

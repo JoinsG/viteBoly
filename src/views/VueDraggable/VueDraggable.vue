@@ -35,8 +35,8 @@
   <!-- <el-button @click="hide = !hide">隐藏</el-button> -->
   <el-button @click="changeDisable">隐藏</el-button>
   <el-button @click="getOptoins">获取配置</el-button>
-  <el-drawer v-model="drawer" :with-header="false">
-    <seriesData></seriesData>
+  <el-drawer v-model="drawer" :with-header="false" :destroy-on-close="true">
+    <seriesData :drawer="drawer"></seriesData>
   </el-drawer>
 </template>
 
@@ -49,6 +49,8 @@ import * as DragMenthod from './utils/dragMenthod'
 import { checkValType, checkValNum, checkPrototypeVal } from './utils/utils'
 import ComListsDrag from './comListsDrag.vue'
 import seriesData from '@/components/VueDraggable/seriesData.vue'
+
+import * as specialHandMethod from './utils/attributeSpecialHandling.js'
 import {
   computed,
   defineComponent,
@@ -83,8 +85,8 @@ export default defineComponent({
       options = [],
     }) {
       console.log(value, nextKey, type)
-      console.log(item)
-      console.log(useUserStoreConst.chartWeak.get(item))
+      // console.log(item)
+      // console.log(useUserStoreConst.chartWeak.get(item))
       if (type === 'style') {
         if (
           [
@@ -117,21 +119,19 @@ export default defineComponent({
         )
         let obj = {}
         _.set(obj, `${nextKey}`, value)
-        let checkObjVal = function (valO) {
-          let [key, val] = Object.entries(valO)[0]
-          if (checkPrototypeVal({ val, type: 'Array' })) {
-            for (let index = 0; index < val.length; index++) {
-              console.log(val[index])
-              if (!val[index]) {
-                val[index] = {}
-              }
-            }
-          }
-        }
-        checkObjVal(obj)
-        options.forEach((item) => {
+         options.forEach((item) => {
           _.set(obj, `${item.key}`, item.data)
         })
+        console.log(options);
+        if(/(yAxis|xAxis).+/.test(nextKey)){
+          console.log(121231);
+          specialHandMethod.axisSpecialhandled(obj)
+        }else if(/series\[[0-9]+\].radius\[[0-9]\]/.test(nextKey)){
+          specialHandMethod.radiusSpecialhandled(obj)
+          console.log(23123);
+        }
+        // checkObjVal(obj)
+       
         setTimeout(() => {
           useUserStoreConst.chartWeak
             .get(useUserStoreConst.copyItem.chart)
@@ -171,7 +171,6 @@ export default defineComponent({
         val = val[index]
       })
       console.log(val)
-
       // val.tasks = val.tasks.filter((item) => item.name !== '占位')
     }
     let hide = ref(false)
@@ -185,10 +184,6 @@ export default defineComponent({
       console.log(list)
     }
 
-    // setTimeout(() => {
-    //   drawer.value = true
-    // }, 4000)
-
     let copyItem = computed(() => {
       return useUserStoreConst.copyItem
     })
@@ -196,7 +191,6 @@ export default defineComponent({
       drawer,
       list,
       copyItem,
-      // getChooseItemOption,
       domeEchartWrap,
       enabled,
       changeEnabled,

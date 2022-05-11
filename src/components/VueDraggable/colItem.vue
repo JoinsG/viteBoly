@@ -1,6 +1,54 @@
 <template>
   <div v-for="(child, childIndex) in data">
-    <el-collapse-item :title="child.name" :name="child" v-if="child.children">
+    <template v-if="child.isFn">
+      <div class="col-item">
+        <label>{{ child.name }}</label>
+        <testOp
+          :item="child"
+          :type="type"
+          @changHandlerOption="
+            (v) => {
+              changHandlerOption({
+                v,
+                childKey: child.key,
+                type,
+                child: child,
+                childIndex,
+              })
+            }
+          "
+        >
+          <template
+            #default
+            v-if="['padding', 'margin', 'radius'].includes(child.key)"
+          >
+            <SquareVue
+              :dataLists="child.value"
+              :styleType="child.key"
+              :pkey="getValueKey(child)"
+              :type="type"
+            ></SquareVue>
+          </template>
+        </testOp>
+      </div>
+      <el-collapse-item
+        :title="child.name"
+        :name="child.key"
+        v-show="child.value"
+      >
+        <ColItem
+          :data="child.children"
+          :pkey="getValueKey(child, childIndex)"
+          :type="type"
+          v-bind="{ ...$attrs }"
+        ></ColItem>
+      </el-collapse-item>
+    </template>
+    <el-collapse-item
+      :title="child.name"
+      :name="child.key"
+      v-else-if="child.children"
+    >
       <ColItem
         :data="child.children"
         :pkey="getValueKey(child, childIndex)"
@@ -48,6 +96,7 @@ import { defineComponent, inject } from 'vue'
 import SquareVue from '../../components/VueDraggable/Square.vue'
 
 export default defineComponent({
+  inheritAttrs: false,
   name: 'ColItem',
   props: {
     data: {
@@ -68,7 +117,19 @@ export default defineComponent({
     let onKeyBlur = function ({ v, childKey, type, child, childIndex }) {
       let resultKey = getValueKey(child, childIndex)
       console.log(resultKey)
-      setValHandler({ v, key: resultKey, type, item: ctx.attrs.current })
+      let value = v
+      if (child?.icon?.e) {
+        value += child?.icon?.e ?? ''
+      }
+      value = isNaN(+value) ? value : +value
+      setValHandler({
+        v: value,
+        key: resultKey,
+        type,
+        item: ctx.attrs.current,
+        child,
+        options: child.options,
+      })
     }
     let changHandlerOption = function ({
       v,
@@ -97,7 +158,12 @@ export default defineComponent({
       if (child.s === 'yAxis') {
         arr[0] = `${props.pkey}[${childIndex}]`
       }
-      arr.push(`${child.key ?? ''}`)
+      if (/\[[0-9]+\]/.test(child.key)) {
+        let strPop = arr.pop()
+        arr.push(strPop + child.key)
+      } else {
+        arr.push(`${child.key ?? ''}`)
+      }
       let path = ''
       let filterArr = arr.filter(Boolean)
       path = filterArr.join('.')

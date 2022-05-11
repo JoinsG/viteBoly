@@ -26,12 +26,6 @@ let defaultLine = [{
         name: '分割段数',
         key: 'splitNumber',
         value: 5,
-        type: 'input'
-    },
-    {
-        name: '分割段数',
-        key: 'splitNumber',
-        value: 5,
         type: 'input',
         info: '只在数值轴或时间轴中（type: value 或time）有效。'
     },
@@ -77,9 +71,9 @@ let defaultLine = [{
                 value: 12,
             },
             {
-                name: '名字旋转角度',
+                name: '角度',
                 key: 'rotate',
-                type: 'slider',
+                type: 'silder',
                 value: 0,
                 bind: {
                     step: 1,

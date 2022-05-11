@@ -44,7 +44,6 @@
     <el-slider
       v-else-if="item.type === 'silder'"
       v-model="item.value"
-      show-input
       size="small"
       @change="changHandler"
       v-bind="{...item.bind}"

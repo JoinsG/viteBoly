@@ -2,7 +2,7 @@ import AllDom from '../DomLists/index.js'
 import ChartList from '../chartOption/index.js'
 import _ from 'lodash'
 import {
-    handlerLineBar
+    handlerLineBar,handlerLegend
 } from './addAdditionalConfiguration'
 let zhanwei = {
     name: '占位',
@@ -45,6 +45,7 @@ function getTextOptions(element) {
 function getChartOptions(element) {
     return {
         type: 'chart',
+        mode:element.name,
         ..._.cloneDeep({
             style: {
                 width: '500px',
@@ -59,9 +60,13 @@ function getChartOptions(element) {
 
 function addAdditionalConfigurationHandler(options, name) {
     switch (name) {
-        case 'line':
-        case 'bar':
-            return handlerLineBar(options)
+        case 'lineSingle':
+        case 'barSingle':
+            handlerLineBar(options)
+            handlerLegend(options)
+            return options
+        case 'pieSingle':
+            return handlerLegend(options)
     }
 }
 

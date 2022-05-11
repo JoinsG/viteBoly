@@ -41,6 +41,7 @@ export default defineComponent({
       nextTick(() => {
         setTimeout(() => {
           chart.value.setOption(value)
+          // resizeChart()
         }, 100)
       })
       return chart
@@ -66,11 +67,6 @@ export default defineComponent({
       chart.value?.dispose()
       chart.value = false
     })
-    // defineExpose({
-    //     chart,
-    //     setEchartOption,
-    //     resizeChart
-    // })
     return {
       chart,
       registerMap,
