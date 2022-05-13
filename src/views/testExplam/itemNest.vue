@@ -3,11 +3,14 @@
     <div
       v-for="element in list"
       :style="{ ...element.style }"
-      :class="[
-        ...(element?.class ?? []),
-      ]"
+      :class="[...(element?.class ?? [])]"
     >
       <div v-if="element.type === 'text'">{{ element.data.text }}</div>
+      <DomeEchartWrap
+        v-if="element.type === 'chart'"
+        :ref="element.name"
+        :id="getId(element)"
+      ></DomeEchartWrap>
       <itemNest
         :drageIndex="drageIndex + index"
         v-if="element.type === 'wrap'"
@@ -19,7 +22,9 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import DomeEchartWrap from '@/views/VueDraggable/DomeEchartWrap.vue'
+
+import { defineComponent, getCurrentInstance, nextTick } from 'vue'
 export default defineComponent({
   name: 'itemNest',
   props: {
@@ -28,10 +33,23 @@ export default defineComponent({
       type: Array,
     },
   },
-  setup: () => {
-    return {}
+  setup: (props, ctx) => {
+    const CTX = getCurrentInstance()
+
+    let getId = function (element) {
+      console.log(element)
+      console.log(element.name)
+      nextTick(() => {
+        console.log(CTX.refs[element.name][0])
+        setTimeout(() => {
+          CTX.refs[element.name][0].setEchartOption(element.chart)
+        }, 50)
+      })
+      return element.name
+    }
+    return { getId }
   },
-  components: {},
+  components: { DomeEchartWrap },
 })
 </script>
 

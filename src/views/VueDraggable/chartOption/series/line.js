@@ -1,3 +1,6 @@
+import {
+    labelPosition
+} from '../../utils/consts.js'
 let defaultLine = [{
         name: '对应X轴',
         key: 'xAxisIndex',
@@ -72,14 +75,25 @@ let defaultLine = [{
                 value: 12,
                 type: 'input',
             },
+            {
+                key: 'fontSize',
+                name: '字体大小',
+                value: 12,
+                type: 'input',
+            },
+            {
+                key: 'position',
+                name: '位置',
+                type: 'select',
+                select: labelPosition
+            }
         ],
         type: 'next',
     },
     {
         name: '线条样式',
         key: 'lineStyle',
-        children: [
-            {
+        children: [{
                 key: 'width',
                 name: '宽度',
                 value: 2,
@@ -110,17 +124,15 @@ let defaultLine = [{
         type: 'next',
     },
     {
-        name:'面积图',
+        name: '面积图',
         key: 'areaStyle',
-        value:false,
-        children: [
-            {
-                key: 'color',
-                name: '颜色',
-                value: '#000',
-                type: 'color',
-            }
-        ]
+        value: false,
+        children: [{
+            key: 'color',
+            name: '颜色',
+            value: '#000',
+            type: 'color',
+        }]
     }
 ]
 

@@ -94,7 +94,9 @@
 <script lang='ts'>
 import { defineComponent, inject } from 'vue'
 import SquareVue from '../../components/VueDraggable/Square.vue'
-
+import {
+    myIsNaN
+} from '@/views/VueDraggable/utils/consts.js'
 export default defineComponent({
   inheritAttrs: false,
   name: 'ColItem',
@@ -121,7 +123,7 @@ export default defineComponent({
       if (child?.icon?.e) {
         value += child?.icon?.e ?? ''
       }
-      value = isNaN(+value) ? value : +value
+      value = myIsNaN(value) ? +value : value
       setValHandler({
         v: value,
         key: resultKey,

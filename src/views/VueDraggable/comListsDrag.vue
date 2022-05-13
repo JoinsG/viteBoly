@@ -3,6 +3,7 @@
     <el-collapse-item
       class="item"
       v-for="(val, key) in opLists"
+      ghostClass="small-dom"
       :title="val.name"
       :name="val.name"
     >

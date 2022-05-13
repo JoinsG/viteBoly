@@ -18,7 +18,7 @@
   >
     <template #item="{ element, index }">
       <div
-        class="chart-dom"
+        class="chart-dom ac-dom"
         :class="[
           acChooseItem === element ? 'ac-item' : '',
           ...(element?.class ?? []),
@@ -26,23 +26,31 @@
         :style="{ ...element.style }"
         v-if="element.type === 'chart'"
         @click.stop="getClickItem(element)"
+        @mouseover.stop="hoverEnter"
+        @mouseout.stop="hoverLeave"
       >
         <DomeEchartWrap
           :ref="element.name"
           :id="getId(element)"
         ></DomeEchartWrap>
       </div>
-      <div v-else-if="element.type === 'component'" class="component-wrap">
+      <div
+        v-else-if="element.type === 'component'"
+        class="component-wrap ac-dom"
+      >
         <component :is="element.name" v-bind="{ ...element.data }"></component>
       </div>
       <div
         v-else
+        class="ac-dom"
         :style="{ ...element.style }"
         :class="[
           acChooseItem === element ? 'ac-item' : '',
           ...(element?.class ?? []),
         ]"
         @click.stop="getClickItem(element)"
+        @mouseover.stop="hoverEnter"
+        @mouseout.stop="hoverLeave"
       >
         <p v-if="element.type === 'zw'">{{ element.name }}</p>
         <div v-if="element.type === 'text'">{{ element.data.text }}</div>
@@ -116,13 +124,9 @@ export default defineComponent({
       if (['zw', 'component'].includes(element.type)) {
         return
       }
-      let { onGetItem } = ctx.attrs
-      // ctx.emit('getChooseItemOption', element)
       useUserStoreConst.setChooseChart(element)
     }
-    let addHandler = function (element) {
-      console.log(element)
-    }
+    //给图表创建id
     let getId = function (element) {
       console.log(element)
       nextTick(() => {
@@ -168,15 +172,20 @@ export default defineComponent({
         })
       }
     }
-    let acChooseItem = computed(()=>{
+    let acChooseItem = computed(() => {
       return useUserStoreConst.chooseAcItem
     })
 
+    function hoverEnter(ele) {
+      ele.target.classList.add('hover-dom')
+    }
+    function hoverLeave(ele) {
+      ele.target.classList.remove('hover-dom')
+    }
     return {
       acChooseItem,
       tasks,
       getClickItem,
-      addHandler,
       getId,
       dragStart,
       dragMove,
@@ -184,6 +193,8 @@ export default defineComponent({
       dragClone,
       dragAdd,
       draggDom,
+      hoverEnter,
+      hoverLeave,
     }
   },
   components: {
@@ -238,7 +249,7 @@ export default defineComponent({
   border: 1px dashed blue;
   overflow: hidden;
 }
-:deep(*) {
+/* :deep(*) {
   transition: all 0.3s;
-}
+} */
 </style>

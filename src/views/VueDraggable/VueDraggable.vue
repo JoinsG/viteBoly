@@ -10,8 +10,6 @@
         :tasks="list"
         :enabled="enabled"
         drageIndex="0"
-        @changeEnabled="changeEnabled"
-        @filterList="filterList"
       />
     </div>
     <div class="right">
@@ -32,6 +30,19 @@
       ></opItem>
     </div>
   </div>
+  <div class="dustbin">
+    <DraggableA
+      :list="dustbin"
+      :group="{ name: 'g1' }"
+      item-key="name"
+    >
+       <template #item="{ element }">
+          <div class="lists-dom">
+            <p>{{ element.name }}</p>
+          </div>
+        </template>
+    </DraggableA>
+  </div>
   <!-- <el-button @click="hide = !hide">隐藏</el-button> -->
   <el-button @click="changeDisable">隐藏</el-button>
   <el-button @click="getOptoins">获取配置</el-button>
@@ -49,12 +60,15 @@ import * as DragMenthod from './utils/dragMenthod'
 import { checkValType, checkValNum, checkPrototypeVal } from './utils/utils'
 import ComListsDrag from './comListsDrag.vue'
 import seriesData from '@/components/VueDraggable/seriesData.vue'
+import DraggableA from 'vuedraggable'
 
 import * as specialHandMethod from './utils/attributeSpecialHandling.js'
 import {
   computed,
   defineComponent,
   nextTick,
+  onMounted,
+  onMounted,
   onMounted,
   provide,
   reactive,
@@ -85,8 +99,6 @@ export default defineComponent({
       options = [],
     }) {
       console.log(value, nextKey, type)
-      // console.log(item)
-      // console.log(useUserStoreConst.chartWeak.get(item))
       if (type === 'style') {
         if (
           [
@@ -118,24 +130,25 @@ export default defineComponent({
           checkValType({ value, key: nextKey })
         )
         let obj = {}
-        _.set(obj, `${nextKey}`, value)
-         options.forEach((item) => {
+        _.set(obj, `chart.${nextKey}`, value)
+        options.forEach((item) => {
           _.set(obj, `${item.key}`, item.data)
         })
-        console.log(options);
-        if(/(yAxis|xAxis).+/.test(nextKey)){
-          console.log(121231);
-          specialHandMethod.axisSpecialhandled(obj)
-        }else if(/series\[[0-9]+\].radius\[[0-9]\]/.test(nextKey)){
-          specialHandMethod.radiusSpecialhandled(obj)
-          console.log(23123);
-        }
+        console.log(options)
+        // if(/(yAxis|xAxis).+/.test(nextKey)){
+        //   console.log(121231);
+        //   specialHandMethod.axisSpecialhandled(obj)
+        // }else if(/series\[[0-9]+\].radius\[[0-9]\]/.test(nextKey)){
+        //   specialHandMethod.radiusSpecialhandled(obj)
+        //   console.log(23123);
+        // }
+        _.set(obj, 'chart', useUserStoreConst.getChooseChartItem.chart)
         // checkObjVal(obj)
-       
+
         setTimeout(() => {
           useUserStoreConst.chartWeak
             .get(useUserStoreConst.copyItem.chart)
-            .setEchartOption(obj)
+            .setEchartOption(obj.chart)
         }, 100)
         console.log(obj)
         console.log(
@@ -165,14 +178,6 @@ export default defineComponent({
     provide('setOpKeyVal', setOpKeyVal)
     provide('enabled', enabled.value)
 
-    let filterList = function (indexStr) {
-      let val = list
-      indexStr.split('').forEach((index) => {
-        val = val[index]
-      })
-      console.log(val)
-      // val.tasks = val.tasks.filter((item) => item.name !== '占位')
-    }
     let hide = ref(false)
     let drawer = ref(false)
     let dataLists = ref([0, 0, 0, 0])
@@ -187,6 +192,8 @@ export default defineComponent({
     let copyItem = computed(() => {
       return useUserStoreConst.copyItem
     })
+    ////垃圾箱
+    let dustbin = reactive([])
     return {
       drawer,
       list,
@@ -194,11 +201,11 @@ export default defineComponent({
       domeEchartWrap,
       enabled,
       changeEnabled,
-      filterList,
       hide,
       dataLists,
       changeDisable,
       getOptoins,
+      dustbin,
       ...DragMenthod,
     }
   },
@@ -239,6 +246,18 @@ export default defineComponent({
 
 :deep(.content *) {
   box-sizing: border-box;
+  min-height: 10px;
+  min-width: 10px;
+}
+
+:deep(.content .small-dom) {
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px dashed blue;
+  overflow: hidden;
+}
+:deep(.content .hover-dom) {
+  outline: 2px solid rgb(22, 103, 232);
 }
 
 :deep(.flex-wrap .dragArea) {
@@ -262,5 +281,12 @@ export default defineComponent({
 .left {
   width: 200px;
   flex-shrink: 0;
+}
+
+.dustbin{
+  width: 100px;
+  height: 100px;
+  border: 1px solid deeppink;
+  overflow: hidden;
 }
 </style>

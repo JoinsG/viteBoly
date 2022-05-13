@@ -1,3 +1,6 @@
+import {
+    labelPosition
+} from '../../utils/consts.js'
 let defaultLine = [{
         name: '对应X轴',
         key: 'xAxisIndex',
@@ -37,7 +40,7 @@ let defaultLine = [{
     {
         name: '背景样式',
         key: 'backgroundStyle',
-        value: [{
+        children: [{
                 key: 'borderColor',
                 name: '边框颜色',
                 value: '#000',
@@ -67,7 +70,7 @@ let defaultLine = [{
     {
         name: '标签',
         key: 'label',
-        value: [{
+        children: [{
                 key: 'show',
                 name: '是否显示',
                 value: true,
@@ -85,13 +88,19 @@ let defaultLine = [{
                 value: 12,
                 type: 'input'
             },
+            {
+                key: 'position',
+                name: '位置',
+                type: 'select',
+                select: labelPosition
+            }
         ],
         type: 'next'
     },
     {
         name: '线条样式',
         key: 'itemStyle',
-        value: [{
+        children: [{
                 key: 'opacity',
                 name: '透明度',
                 value: 1,

@@ -6,17 +6,20 @@ export let chart = {
     right: "10%",
     top: 60,
   },
+  legend:{
+    show: true,
+  },
   xAxis: [{
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      axisLine:{
+      axisLine: {
         onZero: false,
       }
     },
     {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      axisLine:{
+      axisLine: {
         onZero: false,
       }
     }
@@ -24,19 +27,20 @@ export let chart = {
   yAxis: [{
       type: 'value',
       show: true,
-      axisLine:{
+      axisLine: {
         onZero: false,
       }
     },
     {
       type: 'value',
       show: true,
-      axisLine:{
+      axisLine: {
         onZero: false,
       }
     }
   ],
   series: [{
+      name: '1',
       yAxisIndex: 0,
       data: [150, 230, 224, 218, 135, 147, 260],
       type: 'line',
@@ -52,6 +56,7 @@ export let chart = {
       }
     },
     {
+      name: '2',
       yAxisIndex: 0,
       data: [50, 130, 124, 118, 35, 47, 160],
       type: 'line',

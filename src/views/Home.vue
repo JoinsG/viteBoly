@@ -4,8 +4,6 @@
       <el-menu
         :default-openeds="['1', '3']"
         :collapse="isCollapse"
-        @open="handleOpen"
-        @close="handleClose"
         router
       >
         <el-sub-menu index="1">
