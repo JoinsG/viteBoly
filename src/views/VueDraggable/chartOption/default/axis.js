@@ -77,7 +77,7 @@ let defaultLine = [{
                 value: 0,
                 bind: {
                     step: 1,
-                    max: 360,
+                    max: 180,
                     min: 0,
                 }
             }

@@ -1,11 +1,24 @@
 let defaultLegend = [{
     name: '图例',
     key: 'legend',
-    children: [{
+    children: [
+        {
             name: '是否显示',
             key: 'show',
             value: false,
             type: 'switch',
+        },
+        {
+            name: '图标宽',
+            key: 'itemWidth',
+            value: 25,
+            type: 'input',
+        },
+        {
+            name: '图标高',
+            key: 'itemHeight',
+            value: 14,
+            type: 'input',
         },
         {
             name: '元素间距',
@@ -69,7 +82,7 @@ let defaultLegend = [{
             children: [{
                     name: '大小',
                     key: 'fontSize',
-                    type: 'type',
+                    type: 'input',
                     value: '12',
                 },
                 {

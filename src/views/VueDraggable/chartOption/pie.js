@@ -6,11 +6,6 @@ export let chart = {
         right: "10%",
         top: 60,
     },
-    title: {
-        text: 'Referer of a Website',
-        subtext: 'Fake Data',
-        left: 'center'
-    },
     tooltip: {
         trigger: 'item'
     },
@@ -18,7 +13,8 @@ export let chart = {
     series: [{
         name: 'Access From',
         type: 'pie',
-        radius: ['0%', '50%'],
+        radius: ['0%', '75%'],
+        roseType:'radius',
         data: [{
                 value: 1048,
                 name: 'Search Engine'
@@ -46,6 +42,11 @@ export let chart = {
                 shadowOffsetX: 0,
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
             }
+        },
+        label: {
+            show: true,
+            color: '#000',
+            position: 'outside',
         }
     }]
 }
