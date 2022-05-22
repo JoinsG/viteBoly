@@ -2,9 +2,9 @@ let defaultPie = [{
     name: '半径',
     key: 'radius',
     children: [{
-            name: '外半径',
+            name: '内半径',
             key: '[0]',
-            value: '0%',
+            value: 0,
             type: 'silder',
             bind: {
                 min: 0,
@@ -16,9 +16,9 @@ let defaultPie = [{
             }
         },
         {
-            name: '内半径',
+            name: '外半径',
             key: '[1]',
-            value: '0%',
+            value: 75,
             type: 'silder',
             icon: {
                 e: '%'
@@ -30,7 +30,28 @@ let defaultPie = [{
             }
         }
     ],
-}, {
+},
+{
+    name:'图形类型',
+    key:'roseType',
+    value: 'radius',
+    type:'select',
+    select:[
+        {
+            name:'圆形',
+            value: false
+        },
+        {
+            name: '南丁格尔图-1',
+            value:'radius'
+        },
+        {
+            name:'南丁格尔图-2',
+            value:'area'
+        }
+    ]
+},
+ {
     name: '标签',
     key: 'label',
     children: [{
@@ -63,7 +84,36 @@ let defaultPie = [{
                     value: 'center'
                 }
             ]
-        }
+        },
+        {
+            name: '字体大小',
+            key: 'fontSize',
+            value: 12,
+            type: 'input'
+        },
+        {
+            name: '字体粗细',
+            key: 'fontWeight',
+            value: 'normal',
+            type: 'select',
+            select: [{
+                    name: '正常',
+                    value: 'normal'
+                },
+                {
+                    name: '粗',
+                    value: 'bold'
+                },
+                {
+                    name: '更粗',
+                    value: 'bolder'
+                },
+                {
+                    name: '细',
+                    value: 'lighter'
+                }
+            ]
+        },
     ]
 }]
 

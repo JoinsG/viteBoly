@@ -178,6 +178,8 @@ export default defineComponent({
         case 'lineSingle':
           return ref(JSON.parse(JSON.stringify(line))).value
         case 'barSingle':
+        case 'barGroup':
+        case 'barStack':
           return ref(JSON.parse(JSON.stringify(bar))).value
         case 'pieSingle':
           return ref(JSON.parse(JSON.stringify(pie))).value
@@ -198,25 +200,40 @@ export default defineComponent({
         ],
       })
     }
-    let setItemopValHandler = function (itemOp, index, key = null) {
-      let reKey = key ? `${key}.` : ''
+    let setItemopValHandler = function (itemOp, index, key = '') {
+      let reKey = key
       for (let i = 0; i < itemOp.length; i++) {
+        reKey = key
         let item = itemOp[i]
-        if (item.children) {
-          setItemopValHandler(item.children, index, reKey + item.key)
-          continue
+        if (item.key && !reKey) {
+          reKey = item.key
+        } else if (item.key && reKey) {
+          if (/\[[0-9]+\]/.test(item.key)) {
+            reKey += `${item.key}`
+          } else {
+            reKey += `.${item.key}`
+          }
         }
-        console.log(
-          _.get(useUserStoreConst.getChartSeries[index], `${reKey}${item.key}`),
-          reKey
-        )
-
-        item.value =
-          _.get(
-            useUserStoreConst.getChartSeries[index],
-            `${reKey}${item.key}`
-          ) ?? item.value
+        if (item.children) {
+          setItemopValHandler(item.children, index, reKey)
+          continue
+        } else {
+          console.log(
+            _.get(useUserStoreConst.getChartSeries[index], `${reKey}`),
+            reKey
+          )
+          let value = _.get(useUserStoreConst.getChartSeries[index], `${reKey}`)
+          item.value = checkChartValue({ key: reKey, value: value })
+          console.log(item.value)
+        }
       }
+    }
+    //对部分数据单独处理
+    function checkChartValue({ key, value }) {
+      if (/(radius.+?)/.test(key)) {
+        return +value.replace('%', '')
+      }
+      return value
     }
     let seriesLists = useUserStoreConst.getChartSeries
     let chooseAcItem = useUserStoreConst.getChooseChartItem
@@ -228,6 +245,8 @@ export default defineComponent({
     let getInitSeriesHandler = function () {
       seriesLists.forEach((item, index) => {
         let itemOp = getDefaultLineHandler(chooseAcItem)
+        console.log(itemOp)
+
         setItemopValHandler(itemOp, index)
         getDefaultLine.push(itemOp)
       })
@@ -238,7 +257,6 @@ export default defineComponent({
       activeNames,
       handleChange,
       options,
-      defaultLine,
       typeChangeHandler,
     }
   },

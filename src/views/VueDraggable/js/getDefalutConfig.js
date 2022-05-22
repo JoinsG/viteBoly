@@ -52,7 +52,8 @@ function getChartOptions(element) {
                 height: '500px',
             },
             chart: ChartList[element.name].chart,
-            defineConfig: addAdditionalConfigurationHandler(ChartList[element.name].defineConfig, element.name)
+            // defineConfig: addAdditionalConfigurationHandler(ChartList[element.name].defineConfig, element.name)
+            defineConfig: addAdditionalConfigurationHandler(_.cloneDeep(ChartList[element.name].defineConfig), element.name)
         })
     }
 }
@@ -62,11 +63,14 @@ function addAdditionalConfigurationHandler(options, name) {
     switch (name) {
         case 'lineSingle':
         case 'barSingle':
+        case 'barGroup':
+        case 'barStack':
             handlerLineBar(options)
             handlerLegend(options)
             return options
         case 'pieSingle':
-            return handlerLegend(options)
+             handlerLegend(options)
+             return options
     }
 }
 

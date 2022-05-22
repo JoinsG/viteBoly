@@ -73,12 +73,12 @@ let opLists = [
             },
             {
                 type: 'chart',
-                name: 'bar-group',
+                name: 'barGroup',
                 info: '折线面积'
             },
             {
                 type: 'chart',
-                name: 'bar-stack',
+                name: 'barStack',
                 info: '折线面积'
             },
         ]
