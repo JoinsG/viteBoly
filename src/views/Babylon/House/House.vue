@@ -85,8 +85,11 @@ export default defineComponent({
         new BABYLON.Vector3(0, 1, 0),
         scene
       )
-      var gravityVector = new BABYLON.Vector3(0, -9.8, 0)
-      var physicsPlugin = new BABYLON.AmmoJSPlugin()
+      // var gravityVector = new BABYLON.Vector3(0, -9.8, 0)
+      // var physicsPlugin = new BABYLON.AmmoJSPlugin()
+
+
+
       // scene.enablePhysics(gravityVector, physicsPlugin)
       // scene.enablePhysics(gravityVector, physicsPlugin)
       // camera.setTarget(new BABYLON.Vector3(0, 0, 0))

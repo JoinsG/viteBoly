@@ -9,6 +9,18 @@ let defaultLegend = [{
             type: 'switch',
         },
         {
+            name: '左间距',
+            key: 'left',
+            value: 'auto',
+            type: 'input',
+        },
+        {
+            name: '上间距',
+            key: 'top',
+            value: 'auto',
+            type: 'input',
+        },
+        {
             name: '图标宽',
             key: 'itemWidth',
             value: 25,
