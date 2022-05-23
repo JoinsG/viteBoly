@@ -10,6 +10,8 @@ import { CreateMasterRoom } from './js/MasterBedroom'
 import { CreateSecondaryRecumbent1 } from './js/SecondaryRecumbent1'
 import { CreateYangTai } from './js/YangTai'
 import { CreateBathRoom } from './js/BathRooom'
+import { CreateGuestGuardRoom } from './js/GuestGuardRoom'
+import { CreateSecondaryRecumbent2 } from './js/SecondaryRecumbent2'
 import { localAxes } from '../js/Axis'
 
 export default defineComponent({
@@ -24,7 +26,7 @@ export default defineComponent({
         preserveDrawingBuffer: true,
         stencil: true,
       })
-      createScene()
+      createScene();
       // CreateScene function that creates and return the scene
 
       // run the render loop
@@ -38,12 +40,14 @@ export default defineComponent({
       CreateYangTai({ scene })
       CreateBathRoom({ scene })
       CreateSecondaryRecumbent1({ scene })
+      CreateGuestGuardRoom({scene })
+      CreateSecondaryRecumbent2({scene })
       let worldAxis = localAxes({ size: 6, scene })
       // the canvas/window resize event handler
       window.addEventListener('resize', function () {
         engine.resize()
       })
-      initMouse()
+      // initMouse()
     })
     const createScene = () => {
       scene = new BABYLON.Scene(engine)
@@ -87,8 +91,6 @@ export default defineComponent({
       )
       // var gravityVector = new BABYLON.Vector3(0, -9.8, 0)
       // var physicsPlugin = new BABYLON.AmmoJSPlugin()
-
-
 
       // scene.enablePhysics(gravityVector, physicsPlugin)
       // scene.enablePhysics(gravityVector, physicsPlugin)

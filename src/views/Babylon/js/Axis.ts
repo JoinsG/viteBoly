@@ -54,4 +54,5 @@ function localAxes({ size, scene }: { size: number; scene: BABYLON.Scene }) {
   return local_origin;
 }
 
-export { localAxes };
+
+export { localAxes, initRepeatPosition };

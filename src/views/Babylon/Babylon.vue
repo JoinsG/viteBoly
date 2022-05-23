@@ -6,7 +6,6 @@
 import { defineComponent, onMounted } from 'vue'
 import * as BABYLON from 'babylonjs'
 import { localAxes } from './js/Axis'
-import { Vector3 } from 'babylonjs'
 export default defineComponent({
   name: 'Babylon',
   setup: () => {
