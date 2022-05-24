@@ -12,6 +12,7 @@ import { CreateYangTai } from './js/YangTai'
 import { CreateBathRoom } from './js/BathRooom'
 import { CreateGuestGuardRoom } from './js/GuestGuardRoom'
 import { CreateSecondaryRecumbent2 } from './js/SecondaryRecumbent2'
+import { CreateKitchenRoom } from './js/KitchenRoom'
 import { localAxes } from '../js/Axis'
 
 export default defineComponent({
@@ -26,7 +27,7 @@ export default defineComponent({
         preserveDrawingBuffer: true,
         stencil: true,
       })
-      createScene();
+      createScene()
       // CreateScene function that creates and return the scene
 
       // run the render loop
@@ -36,12 +37,13 @@ export default defineComponent({
 
       SetVectoriesPoint({ scene })
       //   SetVectoriesLines({scene})
-      CreateMasterRoom({ scene })
-      CreateYangTai({ scene })
-      CreateBathRoom({ scene })
-      CreateSecondaryRecumbent1({ scene })
-      CreateGuestGuardRoom({scene })
-      CreateSecondaryRecumbent2({scene })
+      CreateMasterRoom({ scene }) //主卧
+      CreateYangTai({ scene }) //主阳台
+      CreateBathRoom({ scene }) //主卫
+      CreateSecondaryRecumbent1({ scene }) //客卫1
+      CreateGuestGuardRoom({ scene }) //客卫
+      CreateSecondaryRecumbent2({ scene }) //客房2
+      CreateKitchenRoom({ scene }) //厨房
       let worldAxis = localAxes({ size: 6, scene })
       // the canvas/window resize event handler
       window.addEventListener('resize', function () {
@@ -58,9 +60,10 @@ export default defineComponent({
       // )
       camera = new BABYLON.UniversalCamera(
         'camera',
-        new BABYLON.Vector3(0, 1, -10),
+        new BABYLON.Vector3(0, 20, 20),
         scene
       )
+      camera.setTarget(BABYLON.Vector3.Zero())
       // camera = new BABYLON.DeviceOrientationCamera(
       //   'camera',
       //   new BABYLON.Vector3(2, 10, 0),

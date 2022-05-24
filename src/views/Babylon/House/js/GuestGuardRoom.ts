@@ -17,7 +17,7 @@ export function CreateGuestGuardRoom({ scene }: { scene: BABYLON.Scene }) {
     scene
   );
   Rooms.material = new BABYLON.StandardMaterial("roomMaterial", scene);
-  Rooms.position = new BABYLON.Vector3(1, 2, 6.5);
+  Rooms.position = new BABYLON.Vector3(1, 2, 6.55);
   Rooms.material.alpha = 0.1;
 
   //   Rooms.material = new BABYLON.StandardMaterial("roomMaterial", scene);
