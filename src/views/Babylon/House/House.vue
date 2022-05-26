@@ -14,12 +14,14 @@ import { CreateGuestGuardRoom } from './js/GuestGuardRoom'
 import { CreateSecondaryRecumbent2 } from './js/SecondaryRecumbent2'
 import { CreateKitchenRoom } from './js/KitchenRoom'
 import { localAxes } from '../js/Axis'
-
+import { loadAmmoModule } from '../js/util'
+// import * as Ammo from 'https://cdn.babylonjs.com/ammo.js'
+import '@/assets/js/ammo.js'
 export default defineComponent({
   name: '',
   setup: () => {
     let canvas: any, engine: any, scene: BABYLON.Scene, camera: BABYLON.Camera
-    onMounted(async () => {
+    onMounted(() => {
       // Get the canvas DOM element
       canvas = document.getElementById('house')
       // Load the 3D engine
@@ -51,13 +53,15 @@ export default defineComponent({
       })
       // initMouse()
     })
-    const createScene = () => {
+    const createScene = async () => {
       scene = new BABYLON.Scene(engine)
+      // console.log(Ammo);
       // camera = new BABYLON.FlyCamera(
       //   'camera',
       //   new BABYLON.Vector3(0, 20, -10),
       //   scene
       // )
+
       camera = new BABYLON.UniversalCamera(
         'camera',
         new BABYLON.Vector3(0, 20, 20),
@@ -70,6 +74,7 @@ export default defineComponent({
       //   scene
       // )
       camera.attachControl(canvas, true)
+
       // Parameters: name, position, scene
       // camera = new BABYLON.FlyCamera(
       //   'FlyCamera',
@@ -92,66 +97,72 @@ export default defineComponent({
         new BABYLON.Vector3(0, 1, 0),
         scene
       )
-      // var gravityVector = new BABYLON.Vector3(0, -9.8, 0)
-      // var physicsPlugin = new BABYLON.AmmoJSPlugin()
 
-      // scene.enablePhysics(gravityVector, physicsPlugin)
-      // scene.enablePhysics(gravityVector, physicsPlugin)
-      // camera.setTarget(new BABYLON.Vector3(0, 0, 0))
-      // // camera.applyGravity = true
-      // // camera.checkCollisions = true
-      camera.speed = 0.3
-      camera.angularSensibility = 5500
-      // scene.collisionsEnabled = true
-      // var ground = BABYLON.Mesh.CreateGround('ground1', 106, 106, 2, scene)
-      // var sp = BABYLON.MeshBuilder.CreateSphere(
-      //   'sp1',
-      //   {
-      //     diameter: 1,
-      //   },
-      //   scene
-      // )
-      // sp.position = new BABYLON.Vector3(0, 10, 1)
-      // ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-      //   ground,
-      //   BABYLON.PhysicsImpostor.BoxImpostor,
-      //   { mass: 0, friction: 0.5, restitution: 0.7 },
-      //   scene
-      // )
-      // ground.position = new BABYLON.Vector3(0, -.5, 0)
-      // sp.physicsImpostor = new BABYLON.PhysicsImpostor(
-      //   sp,
-      //   BABYLON.PhysicsImpostor.BoxImpostor,
-      //   { mass: 1, friction: 0.5, restitution: 0.7 },
-      //   scene
-      // )
-      // camera.checkCollisions = true
-      // camera.applyGravity = true
-      // camera.ellipsoid = new BABYLON.Vector3(1, 1, 1)
-      // ground.checkCollisions = true
-      // sp.checkCollisions = true
+      loadAmmoModule().then(async() => {
+        console.log(window.Ammo)
+        await window.Ammo()
+        var gravityVector = new BABYLON.Vector3(0, -9.8, 0)
+        // var physicsPlugin = new BABYLON.AmmoJSPlugin()
 
-      // var speedCharacter = 8
-      // var gravity = 0.15
-      // var character = sp
+        scene.enablePhysics(gravityVector, new BABYLON.AmmoJSPlugin())
+        // camera.setTarget(new BABYLON.Vector3(0, 0, 0))
+        // camera.applyGravity = true
+        camera.checkCollisions = true
+        camera.speed = 0.3
+        camera.angularSensibility = 5500
+        scene.collisionsEnabled = true
+        var ground = BABYLON.Mesh.CreateGround('ground1', 106, 106, 2, scene)
+        var sp = BABYLON.MeshBuilder.CreateSphere(
+          'sp1',
+          {
+            diameter: 1,
+          },
+          scene
+        )
+        sp.position = new BABYLON.Vector3(0, 10, 1)
+        ground.physicsImpostor = new BABYLON.PhysicsImpostor(
+          ground,
+          BABYLON.PhysicsImpostor.BoxImpostor,
+          { mass: 0, friction: 0.5, restitution: 0.7 },
+          scene
+        )
+        ground.position = new BABYLON.Vector3(0, -0.5, 0)
+        sp.physicsImpostor = new BABYLON.PhysicsImpostor(
+          sp,
+          BABYLON.PhysicsImpostor.BoxImpostor,
+          { mass: 1, friction: 0.5, restitution: 0.7 },
+          scene
+        )
+        camera.checkCollisions = true
+        // camera.applyGravity = true
+        camera.ellipsoid = new BABYLON.Vector3(.1, 1, .1) //碰撞距离
+        ground.checkCollisions = true
+        sp.checkCollisions = true
+        //  },300)
 
-      // character.ellipsoid = new BABYLON.Vector3(0.5, 1.0, 0.5)
-      // character.ellipsoidOffset = new BABYLON.Vector3(0, 1.0, 0)
+        // var speedCharacter = 8
+        // var gravity = 0.15
+        // var character = sp
 
-      // var forwards = new BABYLON.Vector3(
-      //   parseFloat(Math.sin(character.rotation.y)) / speedCharacter,
-      //   gravity,
-      //   parseFloat(Math.cos(character.rotation.y)) / speedCharacter
-      // )
-      // forwards.negate()
-      // character.moveWithCollisions(forwards)
-      // // or
-      // var backwards = new BABYLON.Vector3(
-      //   parseFloat(Math.sin(character.rotation.y)) / speedCharacter,
-      //   -gravity,
-      //   parseFloat(Math.cos(character.rotation.y)) / speedCharacter
-      // )
-      // character.moveWithCollisions(backwards)
+        // character.ellipsoid = new BABYLON.Vector3(0.5, 1.0, 0.5)
+        // character.ellipsoidOffset = new BABYLON.Vector3(0, 1.0, 0)
+
+        // var forwards = new BABYLON.Vector3(
+        //   parseFloat(Math.sin(character.rotation.y)) / speedCharacter,
+        //   gravity,
+        //   parseFloat(Math.cos(character.rotation.y)) / speedCharacter
+        // )
+        // forwards.negate()
+        // character.moveWithCollisions(forwards)
+        // // or
+        // var backwards = new BABYLON.Vector3(
+        //   parseFloat(Math.sin(character.rotation.y)) / speedCharacter,
+        //   -gravity,
+        //   parseFloat(Math.cos(character.rotation.y)) / speedCharacter
+        // )
+        // character.moveWithCollisions(backwards)
+        ///物理结束
+      })
       return scene
     }
     function initMouse() {
@@ -182,6 +193,7 @@ export default defineComponent({
         false
       )
     }
+
     return {}
   },
   components: {},

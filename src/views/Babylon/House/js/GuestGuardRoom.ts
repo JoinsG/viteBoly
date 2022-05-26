@@ -1,5 +1,5 @@
 import * as BABYLON from "babylonjs";
-import { initRepeatPosition } from "../../js/util.js";
+import { initRepeatPosition } from "../../js/util";
 let Rooms = null;
 
 let BathRoomWrap1 = null;
