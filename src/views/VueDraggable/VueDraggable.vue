@@ -49,6 +49,7 @@
   <el-drawer v-model="drawer" :with-header="false" :destroy-on-close="true">
     <seriesData :drawer="drawer"></seriesData>
   </el-drawer>
+  <testChart></testChart>
 </template>
 
 <script lang='ts'>
@@ -61,7 +62,7 @@ import { checkValType, checkValNum, checkPrototypeVal } from './utils/utils'
 import ComListsDrag from './comListsDrag.vue'
 import seriesData from '@/components/VueDraggable/seriesData.vue'
 import DraggableA from 'vuedraggable'
-
+import testChart from '@/views/testExplam/testChart.vue'
 import * as specialHandMethod from './utils/attributeSpecialHandling.js'
 import {
   computed,
@@ -135,16 +136,7 @@ export default defineComponent({
           _.set(obj, `${item.key}`, item.data)
         })
         console.log(options)
-        // if(/(yAxis|xAxis).+/.test(nextKey)){
-        //   console.log(121231);
-        //   specialHandMethod.axisSpecialhandled(obj)
-        // }else if(/series\[[0-9]+\].radius\[[0-9]\]/.test(nextKey)){
-        //   specialHandMethod.radiusSpecialhandled(obj)
-        //   console.log(23123);
-        // }
         _.set(obj, 'chart', useUserStoreConst.getChooseChartItem.chart)
-        // checkObjVal(obj)
-
         setTimeout(() => {
           useUserStoreConst.chartWeak
             .get(useUserStoreConst.copyItem.chart)
@@ -217,6 +209,7 @@ export default defineComponent({
     SquareVue,
     ComListsDrag,
     seriesData,
+    testChart
   },
 })
 </script>

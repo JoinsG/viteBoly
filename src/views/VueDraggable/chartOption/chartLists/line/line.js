@@ -1,4 +1,5 @@
 export let chart = {
+  animationDurationUpdate: 500,
   grid: {
     containLabel: true,
     bottom: 60,
@@ -53,7 +54,8 @@ export let chart = {
         color: 'red',
         type: 'solid',
         width: '2'
-      }
+      },
+      smooth:0
     },
     {
       name: '2',
@@ -69,7 +71,8 @@ export let chart = {
         color: 'red',
         type: 'solid',
         width: '2'
-      }
+      },
+      smooth:0
     }
   ],
 }

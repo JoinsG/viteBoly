@@ -1,7 +1,14 @@
 import {
     labelPosition
 } from '../../utils/consts.js'
-let defaultLine = [{
+let defaultLine = [
+    {
+        name: '名称',
+        key: 'name',
+        value: '测',
+        type: 'input'
+    },
+    {
         name: '对应X轴',
         key: 'xAxisIndex',
         value: 0,
@@ -98,7 +105,7 @@ let defaultLine = [{
         type: 'next'
     },
     {
-        name: '线条样式',
+        name: '柱状样式',
         key: 'itemStyle',
         children: [{
                 key: 'opacity',

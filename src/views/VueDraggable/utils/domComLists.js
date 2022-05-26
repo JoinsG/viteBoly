@@ -46,7 +46,7 @@ let opLists = [
         name: '自定义',
         value: [{
             type: 'chart',
-            name: 'line',
+            name: 'chartLineBar',
             info: '自定义折柱'
         }]
     },

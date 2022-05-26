@@ -1,5 +1,6 @@
 import AllDom from '../DomLists/index.js'
 import ChartList from '../chartOption/index.js'
+import {colorCol} from "../utils/consts"
 import _ from 'lodash'
 import {
     handlerLineBar,handlerLegend
@@ -14,7 +15,7 @@ let zhanwei = {
         padding: '10px 10px 10px 10px',
     },
 }
-
+//容器
 function getDomOptions(element) {
     console.log(AllDom[element.name].style);
     return {
@@ -28,7 +29,7 @@ function getDomOptions(element) {
         })
     }
 }
-
+//文字
 function getTextOptions(element) {
     console.log(AllDom[element.name].style);
     return {
@@ -41,17 +42,17 @@ function getTextOptions(element) {
     }
 }
 
-
+//图表
 function getChartOptions(element) {
     return {
         type: 'chart',
-        mode:element.name,
+        mode:element.name === 'chartLineBar'?'custom':'',
         ..._.cloneDeep({
             style: {
                 width: '500px',
                 height: '500px',
             },
-            chart: ChartList[element.name].chart,
+            chart:{color:colorCol,..._.cloneDeep(ChartList[element.name].chart)},
             // defineConfig: addAdditionalConfigurationHandler(ChartList[element.name].defineConfig, element.name)
             defineConfig: addAdditionalConfigurationHandler(_.cloneDeep(ChartList[element.name].defineConfig), element.name)
         })
@@ -61,6 +62,7 @@ function getChartOptions(element) {
 
 function addAdditionalConfigurationHandler(options, name) {
     switch (name) {
+        case 'chartLineBar':
         case 'lineSingle':
         case 'barSingle':
         case 'barGroup':

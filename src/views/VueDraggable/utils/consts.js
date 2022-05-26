@@ -52,6 +52,35 @@ const labelPosition = [{
     }
 ]
 
+
+// 图片颜色
+export const colorCol = [
+    '#0060FF',
+    '#1EE4DC',
+    '#FFD71A',
+    '#ff5A18',
+    '#362D78',
+    '#9270CA',
+    '#FF99C3',
+    '#8e7738',
+    '#269A99',
+    '#5B8FF9',
+    '#FF99C3',
+    '#DB6BCF',
+    '#BDD2FD',
+    '#5AD8A6',
+    '#BDEFDB',
+    '#5D7092',
+    '#C2C8D5',
+    '#F6BD16',
+    '#FBE5A2',
+    '#E8684A',
+    '#F6C3B7',
+    '#5B8FF9',
+    '#5AD8A6',
+    '#025DF4'
+  ]
+
 // true:数值型的，false：非数值型
 function myIsNaN(value) {
     var regPos = /^[0-9]+\.?[0-9]*$/; //判断是否是数字。

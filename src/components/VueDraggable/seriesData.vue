@@ -1,12 +1,16 @@
 <template>
   <div class="demo-collapse">
-    <el-button type="primary" size="small">增加</el-button>
+    <el-button type="primary" size="small" @click="addSeriesChart"
+      >增加</el-button
+    >
     <el-collapse
       v-model="activeNames"
       @change="handleChange"
       v-for="(item, index) in seriesLists"
+      
     >
-      <el-collapse-item title="Consistency" :name="item">
+    <div>
+        <el-collapse-item title="Consistency" :name="item.dataKeyId">
         <template #title>
           <el-select
             size="small"
@@ -14,6 +18,7 @@
             class="m-2"
             placeholder="Select"
             @change="(val) => typeChangeHandler(val, index)"
+            v-if="chooseAcItem.mode === 'custom'"
           >
             <el-option
               v-for="item in options"
@@ -22,6 +27,14 @@
               :value="item.value"
             />
           </el-select>
+          <span v-else>{{ item.type }}</span>
+          <el-button
+            class="m-del-btn"
+            type="danger"
+            @click.stop="delSeriesRow(index)"
+            :icon="Delete"
+            circle
+          />
         </template>
         <ColItem
           :data="getDefaultLine[index]"
@@ -29,12 +42,15 @@
           :pkey="`series[${index}]`"
         ></ColItem>
       </el-collapse-item>
+    </div>
     </el-collapse>
   </div>
 </template>
 
 <script lang='ts'>
 import { useUserStore } from '../../store-pinia/draggable'
+import { Delete } from '@element-plus/icons-vue'
+
 import _ from 'lodash'
 import {
   defineComponent,
@@ -174,20 +190,19 @@ export default defineComponent({
       },
     ])
     let getDefaultLineHandler = function (val) {
-      switch (val.mode) {
-        case 'lineSingle':
+      switch (val.type) {
+        case 'line':
           return ref(JSON.parse(JSON.stringify(line))).value
-        case 'barSingle':
-        case 'barGroup':
-        case 'barStack':
+        case 'bar':
           return ref(JSON.parse(JSON.stringify(bar))).value
-        case 'pieSingle':
+        case 'pie':
           return ref(JSON.parse(JSON.stringify(pie))).value
       }
     }
     let getDefaultLine = reactive([])
 
     let typeChangeHandler = function (v, index) {
+      getDefaultLine[index] = getDefaultLineHandler({ type: v })
       setValHandler({
         v,
         key: `series[${index}].type`,
@@ -218,13 +233,13 @@ export default defineComponent({
           setItemopValHandler(item.children, index, reKey)
           continue
         } else {
-          console.log(
-            _.get(useUserStoreConst.getChartSeries[index], `${reKey}`),
-            reKey
-          )
+          // console.log(
+          //   _.get(useUserStoreConst.getChartSeries[index], `${reKey}`),
+          //   reKey
+          // )
           let value = _.get(useUserStoreConst.getChartSeries[index], `${reKey}`)
           item.value = checkChartValue({ key: reKey, value: value })
-          console.log(item.value)
+          // console.log(item.value)
         }
       }
     }
@@ -242,15 +257,34 @@ export default defineComponent({
     onMounted(() => {
       getInitSeriesHandler()
     })
+    //初始化配置数据
     let getInitSeriesHandler = function () {
+      getDefaultLine.splice(0, 99)
       seriesLists.forEach((item, index) => {
-        let itemOp = getDefaultLineHandler(chooseAcItem)
-        console.log(itemOp)
-
+        let itemOp = getDefaultLineHandler(item)
         setItemopValHandler(itemOp, index)
         getDefaultLine.push(itemOp)
       })
     }
+
+    //增加数据
+    let addSeriesChart = function () {
+      let itemOp = _.cloneDeep(seriesLists[0] ?? [])
+      console.log(itemOp)
+      itemOp.dataKeyId = new Date().getTime()
+      useUserStoreConst.addChartSeries(itemOp)
+      let index = seriesLists.length - 1
+      setValHandler({ v: itemOp, type: 'chart', key: `series[${index}]` })
+      getInitSeriesHandler()
+    }
+    // 删除数据
+    let delSeriesRow = function (index) {
+      useUserStoreConst.delChartSeries(index)
+      console.log(seriesLists)
+      setValHandler({ v: seriesLists, type: 'chart', key: `series` })
+      getInitSeriesHandler()
+    }
+   
     return {
       getDefaultLine,
       seriesLists,
@@ -258,10 +292,21 @@ export default defineComponent({
       handleChange,
       options,
       typeChangeHandler,
+      chooseAcItem,
+      addSeriesChart,
+      Delete,
+      delSeriesRow,
     }
   },
   components: { ColItem },
 })
 </script>
 
-<style></style>
+<style scoped>
+.m-del-btn {
+  margin-left: auto;
+}
+:deep(.el-collapse-item__header .el-collapse-item__arrow) {
+  margin-left: 5px;
+}
+</style>

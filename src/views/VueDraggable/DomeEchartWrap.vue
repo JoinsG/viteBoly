@@ -40,7 +40,7 @@ export default defineComponent({
 
       nextTick(() => {
         setTimeout(() => {
-          chart.value.setOption(value)
+          chart.value.setOption(value,'replaceMerge')
           // resizeChart()
         }, 100)
       })

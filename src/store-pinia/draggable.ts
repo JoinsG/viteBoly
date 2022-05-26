@@ -46,7 +46,18 @@ export const useUserStore = defineStore({
       }
       let { style, chart, data } = value.defineConfig;
       this.chooseAcItem = value;
-      this.updateCopyItem({style,chart,data})
+      this.updateCopyItem({ style, chart, data });
+    },
+    //增加数据
+    addChartSeries(value) {
+      this.chooseAcItem?.chart?.series.push(value);
+    },
+    //删除数据
+    delChartSeries(index) {
+      this.chooseAcItem?.chart?.series.splice(index, 1)
+      let a = this.chooseAcItem.chart.series;
+      this.chooseAcItem.chart.series = [];
+      this.chooseAcItem.chart.series = a;
     },
   },
 });

@@ -94,9 +94,7 @@
 <script lang='ts'>
 import { defineComponent, inject } from 'vue'
 import SquareVue from '../../components/VueDraggable/Square.vue'
-import {
-    myIsNaN
-} from '@/views/VueDraggable/utils/consts.js'
+import { myIsNaN } from '@/views/VueDraggable/utils/consts.js'
 export default defineComponent({
   inheritAttrs: false,
   name: 'ColItem',
@@ -171,7 +169,12 @@ export default defineComponent({
       path = filterArr.join('.')
       return path
     }
+
+    let getId = function () {
+      return new Date().getTime()*Math.random()
+    }
     return {
+      getId,
       changHandlerOption,
       checkTypeKey,
       getValueKey,
