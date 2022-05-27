@@ -46,6 +46,7 @@ function getTextOptions(element) {
 function getChartOptions(element) {
     return {
         type: 'chart',
+        chartType:element.name,
         mode:element.name === 'chartLineBar'?'custom':'',
         ..._.cloneDeep({
             style: {

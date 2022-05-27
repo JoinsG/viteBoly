@@ -35,6 +35,8 @@
       :list="dustbin"
       :group="{ name: 'g1' }"
       item-key="name"
+      ghostClass="small-dom"
+      class="dustbin-wrap"
     >
        <template #item="{ element }">
           <div class="lists-dom">
@@ -243,7 +245,7 @@ export default defineComponent({
   min-width: 10px;
 }
 
-:deep(.content .small-dom) {
+:deep(.small-dom) {
   width: 10px !important;
   height: 10px !important;
   border: 1px dashed blue;
@@ -281,5 +283,9 @@ export default defineComponent({
   height: 100px;
   border: 1px solid deeppink;
   overflow: hidden;
+}
+.dustbin-wrap{
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -1,48 +1,51 @@
 <template>
   <div class="demo-collapse">
-    <el-button type="primary" size="small" @click="addSeriesChart"
+    <el-button
+      type="primary"
+      v-if="checkShowChartType()"
+      size="small"
+      @click="addSeriesChart"
       >增加</el-button
     >
     <el-collapse
       v-model="activeNames"
       @change="handleChange"
       v-for="(item, index) in seriesLists"
-      
     >
-    <div>
+      <div>
         <el-collapse-item title="Consistency" :name="item.dataKeyId">
-        <template #title>
-          <el-select
-            size="small"
-            v-model="item.type"
-            class="m-2"
-            placeholder="Select"
-            @change="(val) => typeChangeHandler(val, index)"
-            v-if="chooseAcItem.mode === 'custom'"
-          >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+          <template #title>
+            <el-select
+              size="small"
+              v-model="item.type"
+              class="m-2"
+              placeholder="Select"
+              @change="(val) => typeChangeHandler(val, index)"
+              v-if="chooseAcItem.mode === 'custom'"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+            <span v-else>{{ item.type }}</span>
+            <el-button
+              class="m-del-btn"
+              type="danger"
+              @click.stop="delSeriesRow(index)"
+              :icon="Delete"
+              circle
             />
-          </el-select>
-          <span v-else>{{ item.type }}</span>
-          <el-button
-            class="m-del-btn"
-            type="danger"
-            @click.stop="delSeriesRow(index)"
-            :icon="Delete"
-            circle
-          />
-        </template>
-        <ColItem
-          :data="getDefaultLine[index]"
-          type="chart"
-          :pkey="`series[${index}]`"
-        ></ColItem>
-      </el-collapse-item>
-    </div>
+          </template>
+          <ColItem
+            :data="getDefaultLine[index]"
+            type="chart"
+            :pkey="`series[${index}]`"
+          ></ColItem>
+        </el-collapse-item>
+      </div>
     </el-collapse>
   </div>
 </template>
@@ -58,7 +61,6 @@ import {
   inject,
   computed,
   reactive,
-  onMounted,
   onMounted,
   watchEffect,
   watch,
@@ -284,8 +286,21 @@ export default defineComponent({
       setValHandler({ v: seriesLists, type: 'chart', key: `series` })
       getInitSeriesHandler()
     }
-   
+
+    //检查图表是否支持增加按钮
+    let checkShowChartType = function () {
+      let chartListsType = [
+        'chartLineBar',
+        'lineSingle',
+        'barSingle',
+        'barGroup',
+        'barStack',
+      ]
+      console.log(chooseAcItem?.chartType,11111111)
+      return chartListsType.includes(chooseAcItem?.chartType ?? '')
+    }
     return {
+      checkShowChartType,
       getDefaultLine,
       seriesLists,
       activeNames,
