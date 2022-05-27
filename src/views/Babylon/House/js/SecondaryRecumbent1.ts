@@ -1,4 +1,5 @@
 import * as BABYLON from "babylonjs";
+import { initRepeatPosition } from "../../js/util";
 
 let Rooms = null
 
@@ -50,4 +51,27 @@ export function CreateSecondaryRecumbent1({scene}:{scene:BABYLON.Scene}){
 
     WindowWall.dispose()
     WindowScene.dispose()
+
+
+    let points1 = [
+        [0, 0, 0],
+        [2.9, 0, 0],
+        [2.9, 0, 0.1],
+        [0.1, 0, 0.1],
+        [0.1, 0, 2.9],
+        [0, 0, 2.9],
+        [0, 0, 0],
+      ].map((item) => {
+        let [x, y, z] = item;
+        return new BABYLON.Vector3(x, y, z);
+      });
+      let Wall = BABYLON.MeshBuilder.ExtrudePolygon(
+        "KitchenDesktop",
+        { shape: points1, depth: 4, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
+        scene
+      );
+      Wall.parent = Rooms;
+      initRepeatPosition({ parent: Rooms, child: Wall });
+      // Wall.position = Wall.position.add(new BABYLON.Vector3(9.9, 0, 5.8));
+      Wall.position = Wall.position.add(new BABYLON.Vector3(0, 0, 4.2));
 }

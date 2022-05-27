@@ -72,4 +72,5 @@ export function CreateGuestGuardRoom({ scene }: { scene: BABYLON.Scene }) {
 
   //   WindowWall.dispose();
   //   WindowScene.dispose();
+
 }

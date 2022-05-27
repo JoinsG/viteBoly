@@ -38,8 +38,6 @@ export function CreateSecondaryRecumbent2({ scene }: { scene: BABYLON.Scene }) {
   initRepeatPosition({ parent: Rooms, child: WallRight });
   WallRight.position = WallRight.position.add(new BABYLON.Vector3(2.9, 0, 0));
 
-
-
   WindowWall = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
@@ -73,4 +71,6 @@ export function CreateSecondaryRecumbent2({ scene }: { scene: BABYLON.Scene }) {
 
   WindowWall.dispose();
   WindowScene.dispose();
+
+
 }
