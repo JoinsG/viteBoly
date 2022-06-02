@@ -17,23 +17,23 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   Kitchen = BABYLON.MeshBuilder.CreateBox(
     "Kitchen",
     {
-      width: 1.7,
-      height: 4,
-      depth: 4.35,
+      width: 3.4,
+      height: 8,
+      depth: 8.7,
     },
     scene
   );
   Kitchen.material = new BABYLON.StandardMaterial("roomMaterial", scene);
-  Kitchen.position = new BABYLON.Vector3(0.85, 2, 2.175);
-  Kitchen.position = Kitchen.position.add(new BABYLON.Vector3(3, 0, 6.65));
+  Kitchen.position = new BABYLON.Vector3(1.7, 4, 4.35);
+  Kitchen.position = Kitchen.position.add(new BABYLON.Vector3(6, 0, 13.3));
   Kitchen.material.alpha = 0.2;
 
   WallLeft = BABYLON.MeshBuilder.CreateBox(
     "WallLeft",
     {
-      width: 0.1,
-      height: 4,
-      depth: 4.35,
+      width: 0.2,
+      height: 8,
+      depth: 8.7,
     },
     scene
   );
@@ -53,7 +53,7 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
     scene
   );
   KitchenDoor.parent = Kitchen;
-  KitchenDoor.position = new BABYLON.Vector3(0, 0, -0.5);
+  KitchenDoor.position = new BABYLON.Vector3(0, 0, -1);
   let KitDorSphereCSG = BABYLON.CSG.FromMesh(WallRight);
   let KitDorBoxCSG = BABYLON.CSG.FromMesh(KitchenDoor);
   let KitDoor = KitDorSphereCSG.subtract(KitDorBoxCSG);
@@ -61,7 +61,7 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   KitchenDoorMesh.parent = Kitchen;
   initRepeatPosition({ parent: Kitchen, child: KitchenDoorMesh });
   KitchenDoorMesh.position = KitchenDoorMesh.position.add(
-    new BABYLON.Vector3(1.7, 0, 0)
+    new BABYLON.Vector3(3.4, 0, 0)
   );
   KitchenDoor.dispose();
   WallRight.dispose();
@@ -69,9 +69,9 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   WindowWall = BABYLON.MeshBuilder.CreateBox(
     "WindowWall",
     {
-      width: 1.7,
-      height: 4,
-      depth: 0.1,
+      width: 3.4,
+      height: 8,
+      depth: 0.2,
     },
     scene
   );
@@ -80,9 +80,9 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   WindowScene = BABYLON.MeshBuilder.CreateBox(
     "WindowScene",
     {
-      width: 0.7,
-      height: 0.5,
-      depth: 0.1,
+      width: 1.4,
+      height: 1,
+      depth: 0.2,
     },
     scene
   );
@@ -95,7 +95,7 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   newMesh.parent = Kitchen;
   initRepeatPosition({ parent: Kitchen, child: newMesh });
 
-  newMesh.position = newMesh.position.add(new BABYLON.Vector3(0, 0, 3.3));
+  newMesh.position = newMesh.position.add(new BABYLON.Vector3(0, 0, 6.6));
 
   WindowWall.dispose();
   WindowScene.dispose();
@@ -103,9 +103,9 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   KitchenFrontWall = BABYLON.MeshBuilder.CreateBox(
     "KitchenFrontWall",
     {
-      width: 1.7,
-      height: 4,
-      depth: 0.1,
+      width: 3.4,
+      height: 8,
+      depth: 0.2,
     },
     scene
   );
@@ -115,11 +115,11 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   ///厨房桌面
   let points = [
     [0, 0, 0],
-    [0, 0, 3.2],
-    [1.7, 0, 3.2],
-    [1.7, 0, 2.5],
-    [0.8, 0, 2.5],
-    [0.8, 0, 0],
+    [0, 0, 6.4],
+    [3.4, 0, 6.4],
+    [3.4, 0, 5],
+    [1.6, 0, 5],
+    [1.6, 0, 0],
     [0, 0, 0]
   ].map((item) => {
     let [x, y, z] = item;
@@ -127,7 +127,7 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   });
   KitchenDesktop = BABYLON.MeshBuilder.ExtrudePolygon(
     "KitchenDesktop",
-    { shape: points, depth: 1.4,sideOrientation: BABYLON.Mesh.DOUBLESIDE},
+    { shape: points, depth: 2.8,sideOrientation: BABYLON.Mesh.DOUBLESIDE},
     scene
   );
 //   KitchenDesktop.position = new BABYLON.Vector3(0, 10, 0);

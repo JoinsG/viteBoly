@@ -40,14 +40,7 @@ export default defineComponent({
 
       SetVectoriesPoint({ scene })
       //   SetVectoriesLines({scene})
-      CreateMasterRoom({ scene }) //主卧
-      CreateYangTai({ scene }) //主阳台
-      CreateBathRoom({ scene }) //主卫
-      CreateSecondaryRecumbent1({ scene }) //客卫1
-      CreateGuestGuardRoom({ scene }) //客房1
-      CreateSecondaryRecumbent2({ scene }) //客卫2
-      CreateKitchenRoom({ scene }) //厨房
-      CreateSmallYangTai({ scene }) //厨阳
+
       let worldAxis = localAxes({ size: 6, scene })
       // the canvas/window resize event handler
       window.addEventListener('resize', function () {
@@ -55,6 +48,17 @@ export default defineComponent({
       })
       // initMouse()
     })
+
+    const initHouseMesh = () => {
+      CreateMasterRoom({ scene }) //主卧
+      CreateYangTai({ scene }) //主阳台
+      CreateBathRoom({ scene }) //主卫
+      CreateSecondaryRecumbent1({ scene }) //客房1
+      CreateGuestGuardRoom({ scene }) //客房2
+      CreateSecondaryRecumbent2({ scene }) //客卫2
+      CreateKitchenRoom({ scene }) //厨房
+      CreateSmallYangTai({ scene }) //厨阳
+    }
     const createScene = async () => {
       scene = new BABYLON.Scene(engine)
       // console.log(Ammo);
@@ -100,91 +104,93 @@ export default defineComponent({
         scene
       )
 
-      // loadAmmoModule().then(async() => {
-      //   console.log(window.Ammo)
-      //   await window.Ammo()
-      //   var gravityVector = new BABYLON.Vector3(0, -9.8, 0)
-      //   // var physicsPlugin = new BABYLON.AmmoJSPlugin()
+      loadAmmoModule().then(async () => {
+        console.log(window.Ammo)
+        await window.Ammo()
+        var gravityVector = new BABYLON.Vector3(0, -9.8, 0)
+        // var physicsPlugin = new BABYLON.AmmoJSPlugin()
 
-      //   scene.enablePhysics(gravityVector, new BABYLON.AmmoJSPlugin())
-      //   // camera.setTarget(new BABYLON.Vector3(0, 0, 0))
-      //   // camera.applyGravity = true
-      //   camera.checkCollisions = true
-      camera.speed = 0.3
-      camera.angularSensibility = 5500
-      //   scene.collisionsEnabled = true
-      //   var ground = BABYLON.Mesh.CreateGround('ground1', 106, 106, 2, scene)
-      //   var sp = BABYLON.MeshBuilder.CreateSphere(
-      //     'sp1',
-      //     {
-      //       diameter: 1,
-      //     },
-      //     scene
-      //   )
-      //   sp.position = new BABYLON.Vector3(0, 10, 1)
-      //   ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-      //     ground,
-      //     BABYLON.PhysicsImpostor.BoxImpostor,
-      //     { mass: 0, friction: 0.5, restitution: 0.7 },
-      //     scene
-      //   )
-      //   ground.position = new BABYLON.Vector3(0, -0.5, 0)
-      //   sp.physicsImpostor = new BABYLON.PhysicsImpostor(
-      //     sp,
-      //     BABYLON.PhysicsImpostor.BoxImpostor,
-      //     { mass: 1, friction: 0.5, restitution: 0.7 },
-      //     scene
-      //   )
-      //   camera.checkCollisions = true
-      //   // camera.applyGravity = true
-      //   camera.ellipsoid = new BABYLON.Vector3(.1, 1, .1) //碰撞距离
-      //   ground.checkCollisions = true
-      //   sp.checkCollisions = true
-      //   //  },300)
+        scene.enablePhysics(gravityVector, new BABYLON.AmmoJSPlugin())
+        // camera.setTarget(new BABYLON.Vector3(0, 0, 0))
+        // camera.applyGravity = true
+        camera.checkCollisions = true
+        camera.speed = 0.25
+        camera.angularSensibility = 5500
+        scene.collisionsEnabled = true
+        initHouseMesh()
+        var ground = BABYLON.Mesh.CreateGround('ground1', 106, 106, 2, scene)
+        // var sp = BABYLON.MeshBuilder.CreateSphere(
+        //   'sp1',
+        //   {
+        //     diameter: 1,
+        //   },
+        //   scene
+        // )
+        // sp.position = new BABYLON.Vector3(0, 10, 1)
+        ground.physicsImpostor = new BABYLON.PhysicsImpostor(
+          ground,
+          BABYLON.PhysicsImpostor.BoxImpostor,
+          { mass: 0, friction: 0.5, restitution: 0.7 },
+          scene
+        )
+        ground.position = new BABYLON.Vector3(0, -0.5, 0)
+        // sp.physicsImpostor = new BABYLON.PhysicsImpostor(
+        //   sp,
+        //   BABYLON.PhysicsImpostor.BoxImpostor,
+        //   { mass: 1, friction: 0.5, restitution: 0.7 },
+        //   scene
+        // )
+        camera.checkCollisions = true
+        // camera.applyGravity = true
+        camera.ellipsoid = new BABYLON.Vector3(0.6, 1, 1.2) //碰撞距离
+        ground.checkCollisions = true
+        // sp.checkCollisions = true
+        //  },300)
 
-      //   // var speedCharacter = 8
-      //   // var gravity = 0.15
-      //   // var character = sp
+        // var speedCharacter = 8
+        // var gravity = 0.15
+        // var character = sp
 
-      //   // character.ellipsoid = new BABYLON.Vector3(0.5, 1.0, 0.5)
-      //   // character.ellipsoidOffset = new BABYLON.Vector3(0, 1.0, 0)
+        // character.ellipsoid = new BABYLON.Vector3(0.5, 1.0, 0.5)
+        // character.ellipsoidOffset = new BABYLON.Vector3(0, 1.0, 0)
 
-      //   // var forwards = new BABYLON.Vector3(
-      //   //   parseFloat(Math.sin(character.rotation.y)) / speedCharacter,
-      //   //   gravity,
-      //   //   parseFloat(Math.cos(character.rotation.y)) / speedCharacter
-      //   // )
-      //   // forwards.negate()
-      //   // character.moveWithCollisions(forwards)
-      //   // // or
-      //   // var backwards = new BABYLON.Vector3(
-      //   //   parseFloat(Math.sin(character.rotation.y)) / speedCharacter,
-      //   //   -gravity,
-      //   //   parseFloat(Math.cos(character.rotation.y)) / speedCharacter
-      //   // )
-      //   // character.moveWithCollisions(backwards)
-      //   ///物理结束
-      // })
-      let box = BABYLON.MeshBuilder.CreateBox(
-        'masterRoom',
-        {
-          width: 3,
-          height: 3,
-          depth: 3,
-        },
-        scene
-      )
-      box.material = new BABYLON.StandardMaterial('roomMaterial', scene)
-      box.material.alpha = 0.8
+        // var forwards = new BABYLON.Vector3(
+        //   parseFloat(Math.sin(character.rotation.y)) / speedCharacter,
+        //   gravity,
+        //   parseFloat(Math.cos(character.rotation.y)) / speedCharacter
+        // )
+        // forwards.negate()
+        // character.moveWithCollisions(forwards)
+        // // or
+        // var backwards = new BABYLON.Vector3(
+        //   parseFloat(Math.sin(character.rotation.y)) / speedCharacter,
+        //   -gravity,
+        //   parseFloat(Math.cos(character.rotation.y)) / speedCharacter
+        // )
+        // character.moveWithCollisions(backwards)
+        ///物理结束
+      })
 
-      var ray = new BABYLON.Ray()
-      var rayHelper = new BABYLON.RayHelper(ray)
+      // let box = BABYLON.MeshBuilder.CreateBox(
+      //   'masterRoom',
+      //   {
+      //     width: 3,
+      //     height: 3,
+      //     depth: 3,
+      //   },
+      //   scene
+      // )
+      // box.material = new BABYLON.StandardMaterial('roomMaterial', scene)
+      // box.material.alpha = 0.8
 
-      var localMeshDirection = new BABYLON.Vector3(0, 0, 1)
-      var localMeshOrigin = new BABYLON.Vector3(0, 0, 0.4)
-      var length = 3
-      rayHelper.attachToMesh(box, localMeshDirection, localMeshOrigin, length)
-      rayHelper.show(scene)
+      // var ray = new BABYLON.Ray()
+      // var rayHelper = new BABYLON.RayHelper(ray)
+
+      // var localMeshDirection = new BABYLON.Vector3(0, 0, 1)
+      // var localMeshOrigin = new BABYLON.Vector3(0, 0, 0.4)
+      // var length = 3
+      // rayHelper.attachToMesh(box, localMeshDirection, localMeshOrigin, length)
+      // rayHelper.show(scene)
       scene.registerBeforeRender(function () {
         // box.position = camera.position
         // let hit = ray.intersectsMeshes([box])
@@ -192,6 +198,17 @@ export default defineComponent({
         // if (hits) {
         //   console.log(hits)
         // }
+      })
+
+      //绑定点击事件
+      window.addEventListener('click', function () {
+        // 尝试拾取对象
+        var pickResult = scene.pick(scene.pointerX, scene.pointerY)
+        if (pickResult.hit) {
+          // impact.position.x = pickResult.pickedPoint.x;
+          // impact.position.y = pickResult.pickedPoint.y;
+          console.log(pickResult)
+        }
       })
       return scene
     }

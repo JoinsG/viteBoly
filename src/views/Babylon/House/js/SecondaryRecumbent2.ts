@@ -10,23 +10,23 @@ export function CreateSecondaryRecumbent2({ scene }: { scene: BABYLON.Scene }) {
   Rooms = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
-      width: 3,
-      height: 4,
-      depth: 3.3,
+      width: 6,
+      height: 8,
+      depth: 6.6,
     },
     scene
   );
   Rooms.material = new BABYLON.StandardMaterial("roomMaterial", scene);
-  Rooms.position = new BABYLON.Vector3(1.5, 2, 1.65);
-  Rooms.position = Rooms.position.add(new BABYLON.Vector3(0, 0, 7.6));
+  Rooms.position = new BABYLON.Vector3(3, 4, 3.3);
+  Rooms.position = Rooms.position.add(new BABYLON.Vector3(0, 0, 15.2));
   Rooms.material.alpha = 0.8;
 
   WallLeft = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
-      width: 0.1,
-      height: 4,
-      depth: 3.3,
+      width: 0.2,
+      height: 8,
+      depth: 6.6,
     },
     scene
   );
@@ -36,14 +36,14 @@ export function CreateSecondaryRecumbent2({ scene }: { scene: BABYLON.Scene }) {
   WallRight = WallLeft.clone();
   //   WallRight.position = new BABYLON.Vector3(-1.9, 0, 0.85);
   initRepeatPosition({ parent: Rooms, child: WallRight });
-  WallRight.position = WallRight.position.add(new BABYLON.Vector3(2.9, 0, 0));
+  WallRight.position = WallRight.position.add(new BABYLON.Vector3(5.8, 0, 0));
 
   WindowWall = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
-      width: 3,
-      height: 4,
-      depth: 0.1,
+      width: 6,
+      height: 8,
+      depth: 0.2,
     },
     scene
   );
@@ -52,9 +52,9 @@ export function CreateSecondaryRecumbent2({ scene }: { scene: BABYLON.Scene }) {
   WindowScene = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
-      width: 1.5,
-      height: 1,
-      depth: 0.1,
+      width: 3,
+      height: 2,
+      depth: 0.2,
     },
     scene
   );
@@ -67,7 +67,7 @@ export function CreateSecondaryRecumbent2({ scene }: { scene: BABYLON.Scene }) {
   newMesh.parent = Rooms;
   initRepeatPosition({ parent: Rooms, child: newMesh });
 
-  newMesh.position = newMesh.position.add(new BABYLON.Vector3(0, 0, 3.3));
+  newMesh.position = newMesh.position.add(new BABYLON.Vector3(0, 0, 6.6));
 
   WindowWall.dispose();
   WindowScene.dispose();

@@ -10,14 +10,14 @@ export function CreateGuestGuardRoom({ scene }: { scene: BABYLON.Scene }) {
   Rooms = BABYLON.MeshBuilder.CreateBox(
     "GuestGuardRoom",
     {
-      width: 2,
-      height: 4,
-      depth: 2.1,
+      width: 4,
+      height: 8,
+      depth: 4.2,
     },
     scene
   );
   Rooms.material = new BABYLON.StandardMaterial("roomMaterial", scene);
-  Rooms.position = new BABYLON.Vector3(1, 2, 6.55);
+  Rooms.position = new BABYLON.Vector3(2, 4, 13.1);
   Rooms.material.alpha = 0.1;
 
   //   Rooms.material = new BABYLON.StandardMaterial("roomMaterial", scene);
@@ -27,9 +27,9 @@ export function CreateGuestGuardRoom({ scene }: { scene: BABYLON.Scene }) {
   BathRoomWallLeft = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
-      width: 2,
-      height: 4,
-      depth: 0.1,
+      width: 4,
+      height: 8,
+      depth: 0.2,
     },
     scene
   );
@@ -38,23 +38,23 @@ export function CreateGuestGuardRoom({ scene }: { scene: BABYLON.Scene }) {
   BathRoomWallRight = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
-      width: 2,
-      height: 4,
-      depth: 0.1,
+      width: 4,
+      height: 8,
+      depth: 0.2,
     },
     scene
   );
   BathRoomWallRight.parent = Rooms;
   initRepeatPosition({ parent: Rooms, child: BathRoomWallRight });
   BathRoomWallRight.position = BathRoomWallRight.position.add(
-    new BABYLON.Vector3(0, 0, 2)
+    new BABYLON.Vector3(0, 0, 4)
   );
   BathRoomWallFront = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
-      width: 0.1,
-      height: 4,
-      depth: 2.1,
+      width: 0.2,
+      height: 8,
+      depth: 4.2,
     },
     scene
   );

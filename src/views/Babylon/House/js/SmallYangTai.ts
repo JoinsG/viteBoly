@@ -6,26 +6,26 @@ export function CreateSmallYangTai({ scene }: { scene: BABYLON.Scene }) {
   YangTai = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
-      width: 2.9,
-      height: 4,
-      depth: 1.6,
+      width: 5.8,
+      height: 8,
+      depth: 3.2,
     },
     scene
   );
 
   YangTai.material = new BABYLON.StandardMaterial("roomMaterial", scene);
-  YangTai.position = new BABYLON.Vector3(6.15, 2, 10.2);
+  YangTai.position = new BABYLON.Vector3(12.3, 4, 20.4);
   YangTai.material.alpha = 0.3;
 
   ///厨房桌面
   let points1 = [
     [0, 0, 0],
-    [0, 0, 1.4],
-    [2.9, 0, 1.4],
-    [2.9, 0, 0],
-    [2.8, 0, 1.3],
-    [0.1, 0, 1.3],
-    [0.1, 0, 0],
+    [0, 0, 2.8],
+    [5.8, 0, 2.8],
+    [5.8, 0, 0],
+    [5.6, 0, 2.6],
+    [0.2, 0, 2.6],
+    [0.2, 0, 0],
     [0, 0, 0],
   ].map((item) => {
     let [x, y, z] = item;
@@ -33,7 +33,7 @@ export function CreateSmallYangTai({ scene }: { scene: BABYLON.Scene }) {
   });
   let YangTaiWall = BABYLON.MeshBuilder.ExtrudePolygon(
     "KitchenDesktop",
-    { shape: points1, depth: 1.5, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
+    { shape: points1, depth: 3, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
     scene
   );
   YangTaiWall.parent = YangTai;
@@ -42,35 +42,37 @@ export function CreateSmallYangTai({ scene }: { scene: BABYLON.Scene }) {
   let DoorWall = BABYLON.MeshBuilder.CreateBox(
     "DoorWall",
     {
-      width: 2.9,
-      height: 4,
-      depth: 0.1,
+      width: 5.8,
+      height: 8,
+      depth: 0.2,
     },
     scene
   );
   let DoorWallHole = BABYLON.MeshBuilder.CreateBox(
     "DoorWall",
     {
-      width: 1.5,
-      height: 3.5,
-      depth: 0.1,
+      width: 3,
+      height: 7,
+      depth: 0.2,
     },
     scene
   );
-  DoorWallHole.position = new BABYLON.Vector3(0.3, -0.25, 0);
+  DoorWallHole.position = new BABYLON.Vector3(0.6, -0.5, 0);
   let a = getCSG(DoorWall, DoorWallHole, scene);
   a.parent = YangTai;
   initRepeatPosition({ parent: YangTai, child: a });
+  DoorWall.dispose()
+  DoorWallHole.dispose()
 
   //////////
   let WallPoints = [
     [0, 0, 0],
-    [1, 0, 0],
-    [1, 0, 0.1],
-    [0.9, 0, 0.1],
-    [0.1, 0, 0.1],
-    [0.1, 0, 2.8],
-    [0, 0, 2.8],
+    [2, 0, 0],
+    [2, 0, 0.2],
+    [1.8, 0, 0.2],
+    [0.2, 0, 0.2],
+    [0.1, 0, 5.6],
+    [0, 0, 5.6],
     [0, 0, 0],
   ].map((item) => {
     let [x, y, z] = item;
@@ -79,12 +81,12 @@ export function CreateSmallYangTai({ scene }: { scene: BABYLON.Scene }) {
 
   let Wall = BABYLON.MeshBuilder.ExtrudePolygon(
     "KitchenDesktop",
-    { shape: WallPoints, depth: 4, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
+    { shape: WallPoints, depth: 8, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
     scene
   );
   Wall.parent = YangTai
   initRepeatPosition({ parent: YangTai, child: Wall });
-  Wall.position = Wall.position.add(new BABYLON.Vector3(2.9,0,-1.2))
+  Wall.position = Wall.position.add(new BABYLON.Vector3(5.8,0,-2.4))
 
 }
 
