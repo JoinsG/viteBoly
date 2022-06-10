@@ -4,7 +4,7 @@
       <ComListsDrag></ComListsDrag>
     </div>
     <div class="content">
-      <div  style="width: 1920px; height: 1080px;transform:scale(.1);transform-origin: left top;">
+      <div style="width: 1920px; height: 1080px;transform:scale(1);transform-origin: left top;">
         <nested-draggable
         class="main-page"
         :class="{ 'hide-class': hide }"

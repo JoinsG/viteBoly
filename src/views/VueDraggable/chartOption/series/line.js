@@ -132,6 +132,11 @@ let defaultLine = [{
             name: '颜色',
             value: '#000',
             type: 'color',
+        }, {
+            name: '透明度',
+            value: 0.7,
+            key: 'opacity',
+            type: 'input'
         }]
     }
 ]

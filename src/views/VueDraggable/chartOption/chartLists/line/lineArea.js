@@ -44,7 +44,7 @@ export let chart = {
         name: '1',
         yAxisIndex: 0,
         data: [150, 230, 224, 218, 135, 147, 260],
-        type: 'bar',
+        type: 'line',
         step: false,
         label: {
           fontSize: 12,
@@ -54,7 +54,9 @@ export let chart = {
           color: 'red',
           type: 'solid',
           width: '2'
-        }
+        },
+        smooth:0,
+        areaStyle: {}
       },
       {
         name: '2',
@@ -71,7 +73,8 @@ export let chart = {
           type: 'solid',
           width: '2'
         },
-        smooth:0
+        smooth:0,
+        areaStyle: {}
       }
     ],
   }

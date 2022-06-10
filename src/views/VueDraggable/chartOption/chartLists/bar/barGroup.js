@@ -64,13 +64,13 @@ export let chart = {
       children: [{
           name: '宽',
           key: 'width',
-          value: 0,
+          value: 500,
           type: 'input'
         },
         {
           name: '高',
           key: 'height',
-          value: 0,
+          value: 500,
           type: 'input'
         },
       ],
