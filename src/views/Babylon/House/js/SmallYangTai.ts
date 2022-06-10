@@ -23,9 +23,10 @@ export function CreateSmallYangTai({ scene }: { scene: BABYLON.Scene }) {
     [0, 0, 2.8],
     [5.8, 0, 2.8],
     [5.8, 0, 0],
+    [5.6, 0, 0],
     [5.6, 0, 2.6],
-    [0.2, 0, 2.6],
-    [0.2, 0, 0],
+    [0.4, 0, 2.6],
+    [0.4, 0, 0],
     [0, 0, 0],
   ].map((item) => {
     let [x, y, z] = item;
@@ -71,7 +72,7 @@ export function CreateSmallYangTai({ scene }: { scene: BABYLON.Scene }) {
     [2, 0, 0.2],
     [1.8, 0, 0.2],
     [0.2, 0, 0.2],
-    [0.1, 0, 5.6],
+    [0.2, 0, 5.6],
     [0, 0, 5.6],
     [0, 0, 0],
   ].map((item) => {

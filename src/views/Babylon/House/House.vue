@@ -22,6 +22,8 @@ export default defineComponent({
   name: '',
   setup: () => {
     let canvas: any, engine: any, scene: BABYLON.Scene, camera: BABYLON.Camera
+    let activeModel = null
+    let activeColor = null
     onMounted(() => {
       // Get the canvas DOM element
       canvas = document.getElementById('house')
@@ -200,16 +202,18 @@ export default defineComponent({
         // }
       })
 
-      //绑定点击事件
-      window.addEventListener('click', function () {
-        // 尝试拾取对象
-        var pickResult = scene.pick(scene.pointerX, scene.pointerY)
-        if (pickResult.hit) {
-          // impact.position.x = pickResult.pickedPoint.x;
-          // impact.position.y = pickResult.pickedPoint.y;
-          console.log(pickResult)
-        }
-      })
+      // //绑定点击事件
+      // window.addEventListener('click', function () {
+      //   // 尝试拾取对象
+      //   var pickResult = scene.pick(scene.pointerX, scene.pointerY)
+      //   if (pickResult.hit) {
+      //     // impact.position.x = pickResult.pickedPoint.x;
+      //     // impact.position.y = pickResult.pickedPoint.y;
+      //     console.log(pickResult)
+      //   }
+      // })
+      // scene's actions
+      scene.actionManager = new BABYLON.ActionManager(scene)
       return scene
     }
     function initMouse() {

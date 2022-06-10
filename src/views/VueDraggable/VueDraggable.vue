@@ -4,13 +4,15 @@
       <ComListsDrag></ComListsDrag>
     </div>
     <div class="content">
-      <nested-draggable
+      <div  style="width: 1920px; height: 1080px;transform:scale(.1);transform-origin: left top;">
+        <nested-draggable
         class="main-page"
         :class="{ 'hide-class': hide }"
         :tasks="list"
         :enabled="enabled"
         drageIndex="0"
       />
+      </div>
     </div>
     <div class="right">
       <opItem

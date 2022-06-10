@@ -46,13 +46,14 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   KitchenDoor = BABYLON.MeshBuilder.CreateBox(
     "KitchenDoor",
     {
-      width: 0.1,
-      height: 4,
-      depth: 1.6,
+      width: 0.2,
+      height: 8,
+      depth: 3.2,
     },
     scene
   );
   KitchenDoor.parent = Kitchen;
+  initRepeatPosition({ parent: Kitchen, child: KitchenDoor });
   KitchenDoor.position = new BABYLON.Vector3(0, 0, -1);
   let KitDorSphereCSG = BABYLON.CSG.FromMesh(WallRight);
   let KitDorBoxCSG = BABYLON.CSG.FromMesh(KitchenDoor);

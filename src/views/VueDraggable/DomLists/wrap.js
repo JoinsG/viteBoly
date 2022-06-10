@@ -1,6 +1,5 @@
 let defineConfig = {
-    style: [
-        {
+    style: [{
             name: '宽高',
             children: [{
                     name: '宽',
@@ -72,10 +71,16 @@ let defineConfig = {
                 },
             ],
             type: 'next'
+        },
+        {
+            name: '背景颜色',
+            key: 'backgroundColor',
+            value: '#000',
+            type: 'color'
         }
     ],
-    draggableOptions:{
-        disabled:false
+    draggableOptions: {
+        disabled: false
     }
 }
 
@@ -84,7 +89,8 @@ let style = {
     height: '200px',
     border: '1px solid #fff',
     padding: '10px 10px 10px 10px',
-    margin: '0 0 0 0'
+    margin: '0 0 0 0',
+    backgroundColor: '#000'
 }
 
 export {

@@ -28,31 +28,6 @@ export default defineComponent({
     },
   },
   setup: (props, ctx) => {
-    // let setValHandler = inject('setOpKeyVal')
-    // let onKeyBlur = function ({ v, childKey, type, child, parentIndex }) {
-    //   let resultKey = getValueKey([props.pkey, parentIndex, childKey])
-    //   setValHandler({ v, key: resultKey, type, item: ctx.attrs.current })
-    // }
-    // let getValueKey = function (arr = []) {
-    //   let filterArr = arr.filter(Boolean)
-    //   let path = ''
-    //   filterArr.forEach((val) => {
-    //     console.log(val, !!val)
-    //     if (/^[\d+]$/.test(val)) {
-    //       path += val
-    //     } else {
-    //       path += path ? `.${val}` : `${val}`
-    //     }
-    //     console.log(path)
-    //   })
-    //   return path
-    // }
-    // let checkTypeKey = function (item, childIndex) {
-    //   if (item.type === 'yAxis') {
-    //     return `${item.key}[${childIndex}]`
-    //   }
-    //   return item.key
-    // }
     let changHandlerOption = function ({
       v,
       childKey,

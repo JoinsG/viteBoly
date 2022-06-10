@@ -1,4 +1,4 @@
-import * as BABYLON from 'babylonjs'
+import * as BABYLON from "babylonjs";
 function initRepeatPosition({ parent, child }) {
   let { x: px, y: py, z: pz } = parent.getBoundingInfo().minimum ?? {};
   let { x: cx, y: cy, z: cz } = child.getBoundingInfo().minimum ?? {};
@@ -9,7 +9,7 @@ function initRepeatPosition({ parent, child }) {
   child.position.y = y;
   child.position.z = z;
 }
-
+//开启重力
 export function enablePhysicsImpostor({
   mesh,
   scene,
@@ -22,6 +22,11 @@ export function enablePhysicsImpostor({
     scene
   );
   mesh.checkCollisions = true;
+}
+
+function setMaterialDefault({ mesh, scene }) {
+  mesh.material = new BABYLON.StandardMaterial("roomMaterial", scene);
+  // mesh.material.diffuseColor = new BABYLON.Color3(1, 0, 0)
 }
 
 const loadScriptAsync = (url: string): Promise<void> => {
@@ -45,4 +50,5 @@ const loadAmmoModule = async (): Promise<void> => {
   // if (wasmSupported) loadScriptAsync(`${path}/ammo.wasm.js`, () => doneCallback())
   await loadScriptAsync("./src/assets/js/ammo.js");
 };
-export { initRepeatPosition, loadAmmoModule };
+
+export { initRepeatPosition, loadAmmoModule, setMaterialDefault };
