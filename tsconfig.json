@@ -11,6 +11,7 @@
     "strictNullChecks": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
+    // "isolatedModules":false,
     "types": ["element-plus/global", "babylonjs",
       "anotherAwesomeDependency"]
   },

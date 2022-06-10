@@ -7,6 +7,7 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 const BACKEND = process.env.BACKEND || "172.20.151.100:8888";
 const BACKENDNCPORT = "172.20.151.100:8063";
 const INVENTORYPORT = "172.20.151.163:3007";
+import postCssPxToRem from "postcss-pxtorem";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -20,6 +21,17 @@ export default defineConfig({
   ],
   build: {
     outDir: "build", // 打包后文件包名称
+  },
+  css: {
+    // postcss: {
+    //   plugins: [
+    //     postCssPxToRem({
+    //       rootValue: 192, // 1rem的大小
+    //       propList: ['*'], // 需要转换的属性，这里选择全部都进行转换
+    //       exclude: /node_modules/i
+    //     })
+    //   ]
+    // },
   },
   resolve: {
     alias: {
