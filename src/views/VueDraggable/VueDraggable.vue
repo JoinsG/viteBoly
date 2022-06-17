@@ -4,14 +4,19 @@
       <ComListsDrag></ComListsDrag>
     </div>
     <div class="content">
-      <div style="width: 1920px; height: 1080px;transform:scale(1);transform-origin: left top;">
+      <div
+        style="width: 1920px; height: 1080px; transform-origin: left top;background: rgb(26, 25, 57);"
+        :style="{
+          transform: `scale(${sliderNumber})`,
+        }"
+      >
         <nested-draggable
-        class="main-page"
-        :class="{ 'hide-class': hide }"
-        :tasks="list"
-        :enabled="enabled"
-        drageIndex="0"
-      />
+          class="main-page"
+          :class="{ 'hide-class': hide }"
+          :tasks="list"
+          :enabled="enabled"
+          drageIndex="0"
+        />
       </div>
     </div>
     <div class="right">
@@ -40,20 +45,23 @@
       ghostClass="small-dom"
       class="dustbin-wrap"
     >
-       <template #item="{ element }">
-          <div class="lists-dom">
-            <p>{{ element.name }}</p>
-          </div>
-        </template>
+      <template #item="{ element }">
+        <div class="lists-dom">
+          <p>{{ element.name }}</p>
+        </div>
+      </template>
     </DraggableA>
   </div>
   <!-- <el-button @click="hide = !hide">隐藏</el-button> -->
   <el-button @click="changeDisable">隐藏</el-button>
   <el-button @click="getOptoins">获取配置</el-button>
+  <el-button @click="openTreeDrawer">打开树形</el-button>
   <el-drawer v-model="drawer" :with-header="false" :destroy-on-close="true">
     <seriesData :drawer="drawer"></seriesData>
   </el-drawer>
-  <testChart></testChart>
+  <!-- <testChart></testChart> -->
+  <el-slider v-model="sliderNumber" :min="0" :max="1" :step="0.1"></el-slider>
+  <DraggleTree ref="draggleTree"></DraggleTree>
 </template>
 
 <script lang='ts'>
@@ -68,12 +76,11 @@ import seriesData from '@/components/VueDraggable/seriesData.vue'
 import DraggableA from 'vuedraggable'
 import testChart from '@/views/testExplam/testChart.vue'
 import * as specialHandMethod from './utils/attributeSpecialHandling.js'
+import DraggleTree from './compontents/draggleTree.vue'
 import {
   computed,
   defineComponent,
   nextTick,
-  onMounted,
-  onMounted,
   onMounted,
   provide,
   reactive,
@@ -95,7 +102,7 @@ export default defineComponent({
     }
     let domeEchartWrap = ref(null)
 
-    let list = reactive([])
+    let list = reactive(useUserStoreConst.totalTreeLists)
     let setOpKeyVal = function ({
       v: value,
       key: nextKey,
@@ -190,6 +197,20 @@ export default defineComponent({
     })
     ////垃圾箱
     let dustbin = reactive([])
+
+    ////////////////////////////////
+    let sliderNumber = ref(useUserStoreConst.scaleNumber)
+    // let sliderNumber = ref(1)
+    onMounted(() => {
+      sliderNumber.value = window.innerWidth / 1920
+    })
+    ////////////////////////////////树形数据-抽屉
+    let draggleTree = ref(null)
+    let openTreeDrawer = function () {
+      console.log(draggleTree);
+      
+      draggleTree.value.openTreeDrawer()
+    }
     return {
       drawer,
       list,
@@ -202,6 +223,9 @@ export default defineComponent({
       changeDisable,
       getOptoins,
       dustbin,
+      sliderNumber,
+      draggleTree,
+      openTreeDrawer,
       ...DragMenthod,
     }
   },
@@ -213,7 +237,8 @@ export default defineComponent({
     SquareVue,
     ComListsDrag,
     seriesData,
-    testChart
+    testChart,
+    DraggleTree,
   },
 })
 </script>
@@ -280,13 +305,13 @@ export default defineComponent({
   flex-shrink: 0;
 }
 
-.dustbin{
+.dustbin {
   width: 100px;
   height: 100px;
   border: 1px solid deeppink;
   overflow: hidden;
 }
-.dustbin-wrap{
+.dustbin-wrap {
   width: 100%;
   height: 100%;
 }

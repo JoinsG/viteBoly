@@ -86,11 +86,10 @@ let opLists = [
     {
         name: '饼状',
         value: [{
-                type: 'chart',
-                name: 'pieSingle',
-                info: '饼状'
-            },
-        ]
+            type: 'chart',
+            name: 'pieSingle',
+            info: '饼状'
+        }, ]
     }
 ]
 let zhanwei = {

@@ -5,14 +5,16 @@ export const useUserStore = defineStore({
   state: () => {
     return {
       name: "user",
-      chartWeak: new WeakMap(),
-      draggeDomWeak: new WeakMap(),
+      chartWeak: new WeakMap(),//存放数据图形表格
+      draggeDomWeak: new WeakMap(),//用来存放判断dom
       copyItem: {
         style: [],
         chart: [],
         data: [],
       },
       chooseAcItem: null,
+      scaleNumber:1,
+      totalTreeLists:[]
     };
   },
   getters: {
@@ -22,8 +24,17 @@ export const useUserStore = defineStore({
     getChooseChartItem: (state) => {
       return state?.chooseAcItem;
     },
+    getScaleNumber: (state) => {
+      return state?.scaleNumber;
+    },
+    getTotalTreeLists: (state) => {
+      return state?.totalTreeLists;
+    }
   },
   actions: {
+    setScaleNumber(value){
+      this.scaleNumber = value
+    },
     setDraggeDom(value, el) {
       this.draggeDomWeak.set(el, value);
     },
