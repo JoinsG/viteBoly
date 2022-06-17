@@ -80,6 +80,7 @@ export function CreateSecondaryRecumbent1({ scene }: { scene: BABYLON.Scene }) {
   initRepeatPosition({ parent: Rooms, child: zt });
 
 
+  //客厅房的围墙
   let points1 = [
     [0, 0, 0],
     [5.8, 0, 0],
@@ -94,7 +95,7 @@ export function CreateSecondaryRecumbent1({ scene }: { scene: BABYLON.Scene }) {
   });
   let Wall = BABYLON.MeshBuilder.ExtrudePolygon(
     "KitchenDesktop",
-    { shape: points1, depth: 4, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
+    { shape: points1, depth: 8, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
     scene
   );
   Wall.parent = Rooms;

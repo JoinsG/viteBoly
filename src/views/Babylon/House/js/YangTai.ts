@@ -14,8 +14,8 @@ export function CreateYangTai({ scene }: { scene: BABYLON.Scene }) {
   );
 
   YangTai.material = new BABYLON.StandardMaterial("roomMaterial", scene);
-  YangTai.position = new BABYLON.Vector3(13.8, 4, 1.6);
-  YangTai.material.alpha = 0.01;
+  YangTai.position = new BABYLON.Vector3(13.8, 4, 1.7);
+  YangTai.material.alpha = 0.1;
 
   let ytw = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
@@ -54,7 +54,7 @@ export function CreateYangTai({ scene }: { scene: BABYLON.Scene }) {
     scene
   );
   ytwDoorLeft.parent = YangTai;
-  ytwDoorLeft.position = new BABYLON.Vector3(5.9, -1.5, 0);
+  ytwDoorLeft.position = new BABYLON.Vector3(5.9, -2.5, 0);
 
   let ytwDoorFront1 = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
@@ -76,8 +76,8 @@ export function CreateYangTai({ scene }: { scene: BABYLON.Scene }) {
   );
   ytwDoorFront1.parent = YangTai;
   ytwDoorFront2.parent = YangTai;
-  ytwDoorFront1.position = new BABYLON.Vector3(5.2, -1.5, -1.6);
-  ytwDoorFront2.position = new BABYLON.Vector3(-0.8, -1.5, -1.6);
+  ytwDoorFront1.position = new BABYLON.Vector3(5.2, -2.5, -1.6);
+  ytwDoorFront2.position = new BABYLON.Vector3(-0.8, -2.5, -1.6);
   ytwDoorFront2.material = new BABYLON.StandardMaterial("roomMaterial", scene);
   ytwDoorFront2.material.alpha = 0.7;
 

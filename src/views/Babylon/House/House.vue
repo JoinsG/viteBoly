@@ -48,7 +48,7 @@ export default defineComponent({
       window.addEventListener('resize', function () {
         engine.resize()
       })
-      // initMouse()
+      initMouse()
     })
 
     const initHouseMesh = () => {
@@ -75,6 +75,7 @@ export default defineComponent({
         new BABYLON.Vector3(0, 20, 20),
         scene
       )
+      
       camera.setTarget(BABYLON.Vector3.Zero())
       // camera = new BABYLON.DeviceOrientationCamera(
       //   'camera',
@@ -225,7 +226,7 @@ export default defineComponent({
       // 再次点击页面，取消鼠标锁定处理
       document.addEventListener('click', function () {
         if (document.pointerLockElement == canvas) {
-          document.exitPointerLock()
+          // document.exitPointerLock()
         }
       })
       function moufunction(e) {
