@@ -5,7 +5,7 @@
     </div>
     <div class="content">
       <div
-        style="width: 1920px; height: 1080px; transform-origin: left top;background: rgb(26, 25, 57);"
+        style="width: 19.2rem; height: 10.8rem; transform-origin: left top;background: rgb(26, 25, 57);"
         :style="{
           transform: `scale(${sliderNumber})`,
         }"

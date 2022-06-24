@@ -48,7 +48,8 @@ export default defineComponent({
       window.addEventListener('resize', function () {
         engine.resize()
       })
-      initMouse()
+      // initMouse()
+      sceneClickInit()
     })
 
     const initHouseMesh = () => {
@@ -75,7 +76,7 @@ export default defineComponent({
         new BABYLON.Vector3(0, 20, 20),
         scene
       )
-      
+
       camera.setTarget(BABYLON.Vector3.Zero())
       // camera = new BABYLON.DeviceOrientationCamera(
       //   'camera',
@@ -245,8 +246,6 @@ export default defineComponent({
         false
       )
     }
-
-    return {}
   },
   components: {},
 })

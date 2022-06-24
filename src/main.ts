@@ -12,7 +12,7 @@ import fetch from "./service/index.js";
 
 import StorePinia from "./store-pinia/index.js";
 
-import 'lib-flexible'
+// import 'lib-flexible'
 
 // import VueDragResize from 'vue-drag-resize'
 const app = createApp(App);

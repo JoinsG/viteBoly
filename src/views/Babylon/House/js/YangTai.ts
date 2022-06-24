@@ -80,7 +80,6 @@ export function CreateYangTai({ scene }: { scene: BABYLON.Scene }) {
   ytwDoorFront2.position = new BABYLON.Vector3(-0.8, -2.5, -1.6);
   ytwDoorFront2.material = new BABYLON.StandardMaterial("roomMaterial", scene);
   ytwDoorFront2.material.alpha = 0.7;
-
 }
 
 function getCSG(sceneA, sceneB, scene) {
@@ -89,16 +88,4 @@ function getCSG(sceneA, sceneB, scene) {
   let booleanCSG = sphereCSG.subtract(boxCSG);
   let newMesh = booleanCSG.toMesh("newMesh", null, scene);
   return newMesh;
-}
-
-
-function initRepeatPosition({ parent, child }) {
-  let { x: px, y: py, z: pz } = parent.getBoundingInfo().minimum ?? {};
-  let { x: cx, y: cy, z: cz } = child.getBoundingInfo().minimum ?? {};
-  let { x, y, z } = { x: px - cx, y: py - cy, z: pz - cz };
-  console.log(x, y, z);
-
-  child.position.x = x;
-  child.position.y = y;
-  child.position.z = z;
 }

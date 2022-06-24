@@ -52,7 +52,7 @@
         @mouseover.stop="hoverEnter"
         @mouseout.stop="hoverLeave"
       >
-        <p v-if="element.type === 'zw'">{{ element.name }}</p>
+        <p v-if="element.type === 'zw'" class="zw" style="fontSize:.1rem">{{ element.name }}</p>
         <div v-if="element.type === 'text'">{{ element.data.text }}</div>
         <nested-draggable
           :drageIndex="drageIndex + index"
