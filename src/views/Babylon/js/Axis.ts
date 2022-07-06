@@ -1,4 +1,4 @@
-import * as BABYLON from "babylonjs";
+// import * as BABYLON from "babylonjs";
 //Local Axes
 function localAxes({ size, scene }: { size: number; scene: BABYLON.Scene }) {
   var pilot_local_axisX = BABYLON.Mesh.CreateLines(

@@ -9,7 +9,6 @@
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.24.0",
-    "babylonjs": "^4.2.1",
     "earcut": "^2.2.3",
     "echarts": "^5.3.2",
     "element-plus": "^2.0.5",

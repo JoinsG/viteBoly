@@ -1,4 +1,4 @@
-import * as BABYLON from "babylonjs";
+// import * as BABYLON from "babylonjs";
 function initRepeatPosition({ parent, child }) {
   let { x: px, y: py, z: pz } = parent.getBoundingInfo().minimum ?? {};
   let { x: cx, y: cy, z: cz } = child.getBoundingInfo().minimum ?? {};
@@ -49,6 +49,34 @@ const loadAmmoModule = async (): Promise<void> => {
   // console.log(wasmSupported ? 'WebAssembly is supported' : 'WebAssembly is not supported')
   // if (wasmSupported) loadScriptAsync(`${path}/ammo.wasm.js`, () => doneCallback())
   await loadScriptAsync("./src/assets/js/ammo.js");
+  // await loadScriptAsync("./src/assets/js/gui.js");
 };
 
-export { initRepeatPosition, loadAmmoModule, setMaterialDefault };
+function TestGUI(text,scene) {
+  console.log(1)
+  // GUI
+  var plane = BABYLON.MeshBuilder.CreateTiledPlane("plane",{
+    size:2,
+    tileSize:2
+  },scene);
+
+  plane.position.y = 4;
+
+  plane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+
+  var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
+
+  var button1 = BABYLON.GUI.Button.CreateSimpleButton('butt1', `${text}`);
+  button1.width = 1;
+  button1.height = 0.4;
+  button1.color = "white";
+  button1.fontSize = 150;
+  button1.background = "green";
+  button1.onPointerUpObservable.add(function () {
+    alert("you did it!");
+  });
+  advancedTexture.addControl(button1);
+  return plane;
+}
+
+export { initRepeatPosition, loadAmmoModule, setMaterialDefault,TestGUI };

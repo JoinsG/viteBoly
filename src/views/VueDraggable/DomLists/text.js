@@ -85,6 +85,11 @@ let defineConfig = {
                 key: 'fontWeight',
                 value: '400',
                 type: 'input'
+            }, {
+                name: '字体大小',
+                key: 'fontSize',
+                value: 14,
+                type: 'input'
             }]
         }
     ],
@@ -106,6 +111,7 @@ let style = {
     border: '0px solid #fff',
     padding: '10px 10px 10px 10px',
     margin: '0 0 0 0',
+    fontSize: '14px',
     color: '#fff',
 }
 

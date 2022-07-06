@@ -1,4 +1,4 @@
-import * as BABYLON from "babylonjs";
+// import * as BABYLON from "babylonjs";
 let veries = [
   // [0,0,0],
   [7.8, 0, 0],

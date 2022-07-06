@@ -1,5 +1,9 @@
-import * as BABYLON from "babylonjs";
-import { enablePhysicsImpostor, setMaterialDefault } from "../../js/util";
+// import * as BABYLON from "babylonjs";
+import {
+  enablePhysicsImpostor,
+  setMaterialDefault,
+  TestGUI,
+} from "../../js/util";
 import { initActionManager } from "../../js/ActionManager";
 
 let Rooms = null;
@@ -23,6 +27,9 @@ export function CreateMasterRoom({ scene }: { scene: BABYLON.Scene }) {
   Rooms.material.alpha = 0.1;
 
   Rooms.isPickable = false;
+  let RoomsPlane = TestGUI('主卧',scene)
+  RoomsPlane.parent = Rooms
+  /////////////
 
   WallLeft = BABYLON.MeshBuilder.CreateBox(
     "masterRoom-WallLeft",
@@ -111,4 +118,6 @@ export function CreateMasterRoom({ scene }: { scene: BABYLON.Scene }) {
   enablePhysicsImpostor({ mesh: WallLeft, scene });
   enablePhysicsImpostor({ mesh: WallRight, scene });
   enablePhysicsImpostor({ mesh: newMesh, scene });
+
+   
 }

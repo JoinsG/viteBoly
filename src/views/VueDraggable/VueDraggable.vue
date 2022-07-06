@@ -266,6 +266,9 @@ export default defineComponent({
   padding: 10px;
 }
 
+:deep(.zw){
+  font-size: 14px;
+}
 :deep(.content *) {
   box-sizing: border-box;
   min-height: 10px;

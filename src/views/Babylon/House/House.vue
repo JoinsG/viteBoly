@@ -4,7 +4,7 @@
 
 <script lang='ts'>
 import { defineComponent, onMounted } from 'vue'
-import * as BABYLON from 'babylonjs'
+// import * as BABYLON from 'babylonjs'
 import { SetVectoriesPoint, SetVectoriesLines } from './js/Points'
 import { CreateMasterRoom } from './js/MasterBedroom'
 import { CreateSecondaryRecumbent1 } from './js/SecondaryRecumbent1'
@@ -17,7 +17,7 @@ import { CreateKitchenRoom } from './js/KitchenRoom'
 import { localAxes } from '../js/Axis'
 import { loadAmmoModule } from '../js/util'
 // import * as Ammo from 'https://cdn.babylonjs.com/ammo.js'
-import '@/assets/js/ammo.js'
+// import '@/assets/js/ammo.js'
 export default defineComponent({
   name: '',
   setup: () => {
@@ -31,6 +31,7 @@ export default defineComponent({
       engine = new BABYLON.Engine(canvas, true, {
         preserveDrawingBuffer: true,
         stencil: true,
+        disableWebGL2Support: false
       })
       createScene()
       // CreateScene function that creates and return the scene
@@ -49,7 +50,6 @@ export default defineComponent({
         engine.resize()
       })
       // initMouse()
-      sceneClickInit()
     })
 
     const initHouseMesh = () => {
@@ -109,7 +109,6 @@ export default defineComponent({
       )
 
       loadAmmoModule().then(async () => {
-        console.log(window.Ammo)
         await window.Ammo()
         var gravityVector = new BABYLON.Vector3(0, -9.8, 0)
         // var physicsPlugin = new BABYLON.AmmoJSPlugin()

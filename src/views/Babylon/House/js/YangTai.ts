@@ -1,5 +1,10 @@
-import * as BABYLON from "babylonjs";
+// import * as BABYLON from "babylonjs";
 import { pointsScene } from "./Points";
+import {
+  enablePhysicsImpostor,
+  setMaterialDefault,
+  TestGUI,
+} from "../../js/util";
 let YangTai = null;
 
 export function CreateYangTai({ scene }: { scene: BABYLON.Scene }) {
@@ -16,7 +21,9 @@ export function CreateYangTai({ scene }: { scene: BABYLON.Scene }) {
   YangTai.material = new BABYLON.StandardMaterial("roomMaterial", scene);
   YangTai.position = new BABYLON.Vector3(13.8, 4, 1.7);
   YangTai.material.alpha = 0.1;
-
+  let RoomsPlane = TestGUI('阳台',scene)
+  RoomsPlane.parent = YangTai
+  /////////////
   let ytw = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {

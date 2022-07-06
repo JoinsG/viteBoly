@@ -1,5 +1,5 @@
-import * as BABYLON from "babylonjs";
-import { enablePhysicsImpostor } from "../../js/util";
+// import * as BABYLON from "babylonjs";
+import { enablePhysicsImpostor,TestGUI } from "../../js/util";
 
 let BathRoomWrap1 = null;
 
@@ -21,6 +21,9 @@ export function CreateBathRoom({ scene }: { scene: BABYLON.Scene }) {
   BathRoomWrap1.position = new BABYLON.Vector3(3, 4, 9.3);
   BathRoomWrap1.material.alpha = 0.1;
   BathRoomWrap1.isPickable = false;
+  let RoomsPlane = TestGUI('主卫',scene)
+  RoomsPlane.parent = BathRoomWrap1
+  //////////
   BathRoomWallLeft = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {

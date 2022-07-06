@@ -14,7 +14,11 @@ export const useUserStore = defineStore({
       },
       chooseAcItem: null,
       scaleNumber:1,
-      totalTreeLists:[]
+      totalTreeLists:[],
+      hoverDomeLists:[],//存放hover样式
+      nowHoverDome:null,
+      toElement:null,
+      fromElement:null,
     };
   },
   getters: {
@@ -29,6 +33,12 @@ export const useUserStore = defineStore({
     },
     getTotalTreeLists: (state) => {
       return state?.totalTreeLists;
+    },
+    getToFromElement: (state) => {
+      return {
+        toElement:state.toElement,
+        fromElement:state.fromElement,
+      }
     }
   },
   actions: {

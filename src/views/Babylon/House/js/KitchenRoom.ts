@@ -1,4 +1,4 @@
-import * as BABYLON from "babylonjs";
+// import * as BABYLON from "babylonjs";
 import { initRepeatPosition } from "../../js/util.js";
 import * as earcut from "earcut";
 (window as any).earcut = earcut;

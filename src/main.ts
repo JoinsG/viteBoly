@@ -9,7 +9,6 @@ import Store from "./store/index.js";
 // const Store = require('./store/index.js')
 import App from "./App.vue";
 import fetch from "./service/index.js";
-
 import StorePinia from "./store-pinia/index.js";
 
 // import 'lib-flexible'

@@ -4,7 +4,7 @@
 
 <script lang='ts'>
 import { defineComponent, onMounted } from 'vue'
-import * as BABYLON from 'babylonjs'
+// import * as BABYLON from 'babylonjs'
 import { localAxes } from './js/Axis'
 export default defineComponent({
   name: 'Babylon',

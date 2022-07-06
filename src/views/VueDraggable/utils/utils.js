@@ -3,10 +3,11 @@ export function checkValType({
     key
 }) {
     let v = parseFloat(value)
-    let whiteList = ['width', 'height','left', 'right', 'top', 'bottom']
+    let whiteList = ['width', 'height','left', 'right', 'top', 'bottom','fontSize']
     if (whiteList.includes(key)) {
         
         if (value === 'auto') {
+            debugger
             return value
         }
         if (isNaN(v)) {

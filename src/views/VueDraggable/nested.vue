@@ -37,6 +37,8 @@
       <div
         v-else-if="element.type === 'component'"
         class="component-wrap ac-dom"
+        @mouseover.stop="hoverEnter"
+        @mouseout.stop="hoverLeave"
       >
         <component :is="element.name" v-bind="{ ...element.data }"></component>
       </div>
@@ -52,7 +54,9 @@
         @mouseover.stop="hoverEnter"
         @mouseout.stop="hoverLeave"
       >
-        <p v-if="element.type === 'zw'" class="zw" style="fontSize:.1rem">{{ element.name }}</p>
+        <p v-if="element.type === 'zw'" class="zw" style="fontsize: 0.1rem">
+          {{ element.name }}
+        </p>
         <div v-if="element.type === 'text'">{{ element.data.text }}</div>
         <nested-draggable
           :drageIndex="drageIndex + index"
@@ -83,6 +87,7 @@ import DraggableA from 'vuedraggable'
 import DomeEchartWrap from './DomeEchartWrap.vue'
 import { dragStart, dragMove, dragEnd, dragClone } from './utils/dragMenthod'
 import { useUserStore } from '../../store-pinia/draggable'
+import console from 'console'
 
 export default defineComponent({
   // inheritAttrs:false,
@@ -115,12 +120,12 @@ export default defineComponent({
   setup: (props, ctx) => {
     const useUserStoreConst = useUserStore()
     let draggDom = ref(null)
-    console.log(draggDom.value)
+    // console.log(draggDom.value)
     const CTX = getCurrentInstance()
     let tasks = reactive(props.tasks)
     let getClickItem = function (element) {
-      console.log(ctx)
-      console.log(element === ctx.attrs.chooseAcItem)
+      // console.log(ctx)
+      // console.log(element === ctx.attrs.chooseAcItem)
       if (['zw', 'component'].includes(element.type)) {
         return
       }
@@ -128,9 +133,9 @@ export default defineComponent({
     }
     //给图表创建id
     let getId = function (element) {
-      console.log(element)
+      // console.log(element)
       nextTick(() => {
-        console.log(CTX)
+        // console.log(CTX)
         setTimeout(() => {
           CTX.refs[element.name].setEchartOption(element.chart)
           useUserStoreConst.setWeakChart(element, CTX.refs[element.name])
@@ -139,11 +144,11 @@ export default defineComponent({
       return element.name
     }
     let dragAdd = function (element) {
-      console.log(element)
-      console.log(props.tasks)
+      // console.log(element)
+      // console.log(props.tasks)
       if (props.tasks.length > 1) {
         let index = props.tasks.findIndex((v) => v.name === '占位')
-        console.log(index)
+        // console.log(index)
         if (index != -1) {
           props.tasks.splice(index, 1)
         }
@@ -177,10 +182,29 @@ export default defineComponent({
     })
 
     function hoverEnter(ele) {
-      ele.target.classList.add('hover-dom')
+      if (ele.toElement.classList.contains('ac-dom')) {
+        if (useUserStoreConst.fromElement) {
+          useUserStoreConst.fromElement.classList.remove('hover-dom')
+        }
+        ele.toElement.classList.add('hover-dom')
+        useUserStoreConst.fromElement = ele.target
+      } else {
+      
+      }
     }
     function hoverLeave(ele) {
-      ele.target.classList.remove('hover-dom')
+      if (!useUserStoreConst?.fromElement?.contains(ele.toElement)) {
+        useUserStoreConst.fromElement.classList.remove('hover-dom')
+        let prex = ele?.toElement?.parentElement
+        while (prex && !prex.classList.contains('ac-dom')) {
+          prex = prex.parentElement
+        }
+        if (prex) {
+          useUserStoreConst.fromElement.classList.remove('hover-dom')
+          prex.classList.add('hover-dom')
+          useUserStoreConst.fromElement = prex
+        }
+      }
     }
     return {
       acChooseItem,
