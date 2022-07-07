@@ -22,8 +22,6 @@ export default defineComponent({
   name: '',
   setup: () => {
     let canvas: any, engine: any, scene: BABYLON.Scene, camera: BABYLON.Camera
-    let activeModel = null
-    let activeColor = null
     onMounted(() => {
       // Get the canvas DOM element
       canvas = document.getElementById('house')
@@ -31,7 +29,6 @@ export default defineComponent({
       engine = new BABYLON.Engine(canvas, true, {
         preserveDrawingBuffer: true,
         stencil: true,
-        disableWebGL2Support: false
       })
       createScene()
       // CreateScene function that creates and return the scene
@@ -57,8 +54,8 @@ export default defineComponent({
       CreateYangTai({ scene }) //主阳台
       CreateBathRoom({ scene }) //主卫
       CreateSecondaryRecumbent1({ scene }) //客房1
-      CreateGuestGuardRoom({ scene }) //客房2
-      CreateSecondaryRecumbent2({ scene }) //客卫2
+      CreateGuestGuardRoom({ scene }) //客卫2
+      CreateSecondaryRecumbent2({ scene }) //客房2
       CreateKitchenRoom({ scene }) //厨房
       CreateSmallYangTai({ scene }) //厨阳
     }
@@ -76,6 +73,21 @@ export default defineComponent({
         new BABYLON.Vector3(0, 20, 20),
         scene
       )
+
+      setTimeout(() => {
+        console.log(1)
+        let arccamera = new BABYLON.ArcRotateCamera(
+          'camera',
+          Math.PI / 3,
+          Math.PI / 3,
+          10,
+          camera.position,
+          scene
+        )
+        arccamera.setTarget(BABYLON.Vector3.Zero())
+        scene.activeCamera = arccamera;
+        scene.activeCamera.attachControl(canvas, true);
+      }, 5000)
 
       camera.setTarget(BABYLON.Vector3.Zero())
       // camera = new BABYLON.DeviceOrientationCamera(

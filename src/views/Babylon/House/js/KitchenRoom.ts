@@ -1,5 +1,5 @@
 // import * as BABYLON from "babylonjs";
-import { initRepeatPosition } from "../../js/util.js";
+import { initRepeatPosition, TestGUI } from "../../js/util.js";
 import * as earcut from "earcut";
 (window as any).earcut = earcut;
 let Kitchen = null;
@@ -27,7 +27,9 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
   Kitchen.position = new BABYLON.Vector3(1.7, 4, 4.35);
   Kitchen.position = Kitchen.position.add(new BABYLON.Vector3(6, 0, 13.3));
   Kitchen.material.alpha = 0.2;
-
+  let RoomsPlane = TestGUI("厨房", scene);
+  RoomsPlane.parent = Kitchen;
+  /////////////
   WallLeft = BABYLON.MeshBuilder.CreateBox(
     "WallLeft",
     {
@@ -121,17 +123,17 @@ export function CreateKitchenRoom({ scene }: { scene: BABYLON.Scene }) {
     [3.4, 0, 5],
     [1.6, 0, 5],
     [1.6, 0, 0],
-    [0, 0, 0]
+    [0, 0, 0],
   ].map((item) => {
     let [x, y, z] = item;
     return new BABYLON.Vector3(x, y, z);
   });
   KitchenDesktop = BABYLON.MeshBuilder.ExtrudePolygon(
     "KitchenDesktop",
-    { shape: points, depth: 2.8,sideOrientation: BABYLON.Mesh.DOUBLESIDE},
+    { shape: points, depth: 2.8, sideOrientation: BABYLON.Mesh.DOUBLESIDE },
     scene
   );
-//   KitchenDesktop.position = new BABYLON.Vector3(0, 10, 0);
-    KitchenDesktop.parent = Kitchen;
-    initRepeatPosition({ parent: Kitchen, child: KitchenDesktop });
+  //   KitchenDesktop.position = new BABYLON.Vector3(0, 10, 0);
+  KitchenDesktop.parent = Kitchen;
+  initRepeatPosition({ parent: Kitchen, child: KitchenDesktop });
 }

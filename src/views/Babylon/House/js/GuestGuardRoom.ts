@@ -1,5 +1,5 @@
 // import * as BABYLON from "babylonjs";
-import { initRepeatPosition } from "../../js/util";
+import { initRepeatPosition, TestGUI } from "../../js/util";
 let Rooms = null;
 
 let BathRoomWrap1 = null;
@@ -23,7 +23,9 @@ export function CreateGuestGuardRoom({ scene }: { scene: BABYLON.Scene }) {
   //   Rooms.material = new BABYLON.StandardMaterial("roomMaterial", scene);
   //   Rooms.position = new BABYLON.Vector3(1.3, 2, 4.65);
   //   Rooms.material.alpha = 0.1;
-
+  let RoomsPlane = TestGUI("客卫", scene);
+  RoomsPlane.parent = Rooms;
+  /////////////
   BathRoomWallLeft = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
@@ -72,5 +74,4 @@ export function CreateGuestGuardRoom({ scene }: { scene: BABYLON.Scene }) {
 
   //   WindowWall.dispose();
   //   WindowScene.dispose();
-
 }

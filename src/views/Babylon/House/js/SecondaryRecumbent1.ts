@@ -20,7 +20,7 @@ export function CreateSecondaryRecumbent1({ scene }: { scene: BABYLON.Scene }) {
   Rooms.material = new BABYLON.StandardMaterial("roomMaterial", scene);
   Rooms.position = new BABYLON.Vector3(22.7, 4, 7.3);
   Rooms.material.alpha = 0.1;
-  let RoomsPlane = TestGUI('客卫1',scene)
+  let RoomsPlane = TestGUI('客房1',scene)
   RoomsPlane.parent = Rooms
   /////////////
   WallLeft = BABYLON.MeshBuilder.CreateBox(

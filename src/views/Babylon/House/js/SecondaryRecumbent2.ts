@@ -1,5 +1,5 @@
 // import * as BABYLON from "babylonjs";
-import { initRepeatPosition } from "../../js/util.js";
+import { initRepeatPosition, TestGUI } from "../../js/util.js";
 
 let Rooms = null;
 let WallLeft = null;
@@ -20,7 +20,9 @@ export function CreateSecondaryRecumbent2({ scene }: { scene: BABYLON.Scene }) {
   Rooms.position = new BABYLON.Vector3(3, 4, 3.3);
   Rooms.position = Rooms.position.add(new BABYLON.Vector3(0, 0, 15.2));
   Rooms.material.alpha = 0.8;
-
+  let RoomsPlane = TestGUI('客房2',scene)
+  RoomsPlane.parent = Rooms
+  /////////////
   WallLeft = BABYLON.MeshBuilder.CreateBox(
     "masterRoom",
     {
