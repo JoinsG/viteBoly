@@ -3,7 +3,7 @@ function initRepeatPosition({ parent, child }) {
   let { x: px, y: py, z: pz } = parent.getBoundingInfo().minimum ?? {};
   let { x: cx, y: cy, z: cz } = child.getBoundingInfo().minimum ?? {};
   let { x, y, z } = { x: px - cx, y: py - cy, z: pz - cz };
-  console.log(x, y, z);
+  // console.log(x, y, z);
 
   child.position.x = x;
   child.position.y = y;
@@ -56,8 +56,8 @@ function TestGUI(text,scene) {
   console.log(1)
   // GUI
   var plane = BABYLON.MeshBuilder.CreateTiledPlane("plane",{
-    size:2,
-    tileSize:2
+    size:6,
+    tileSize:6
   },scene);
 
   plane.position.y = 4;
@@ -67,10 +67,10 @@ function TestGUI(text,scene) {
   var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
 
   var button1 = BABYLON.GUI.Button.CreateSimpleButton('butt1', `${text}`);
-  button1.width = 1;
-  button1.height = 0.4;
+  button1.width = 6;
+  button1.height = 6.4;
   button1.color = "white";
-  button1.fontSize = 150;
+  button1.fontSize = 250;
   button1.background = "green";
   button1.onPointerUpObservable.add(function () {
     alert("you did it!");

@@ -44,6 +44,11 @@ const Router = createRouter({
         name: 'house',
         component: () => import('@/views/Babylon/House/House.vue')
     },
+    {
+        path:'/Cooc',
+        name: 'Cooc',
+        component: () => import('@/views/Babylon/Cooc/Cooc.vue')
+    },
      {
         path: '/login',
         name: 'Login',
