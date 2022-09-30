@@ -78,6 +78,21 @@ function addAdditionalConfigurationHandler(options, name) {
 }
 
 
+function addConfigurationAssignment(chart,defineConfig=[]){
+    let a = []
+    let len = defineConfig.length
+    let element;
+    for (let index = 0; index < len; index++) {
+        element = defineConfig[index];
+        let pathName = ''
+
+        if(element.children){
+            a.push([element,index])
+        }
+
+    }
+}
+
 export {
     getDomOptions,
     getChartOptions,

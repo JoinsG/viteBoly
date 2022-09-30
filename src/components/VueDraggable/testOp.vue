@@ -42,7 +42,7 @@
       @change="changHandler"
     ></el-input>
     <el-slider
-      v-else-if="item.type === 'silder'"
+      v-else-if="item.type === 'slider'"
       v-model="item.value"
       size="small"
       @change="changHandler"

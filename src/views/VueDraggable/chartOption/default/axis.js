@@ -73,7 +73,7 @@ let defaultLine = [{
             {
                 name: '角度',
                 key: 'rotate',
-                type: 'silder',
+                type: 'slider',
                 value: 0,
                 bind: {
                     step: 1,

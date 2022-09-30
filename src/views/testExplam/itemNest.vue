@@ -24,7 +24,7 @@
 <script lang='ts'>
 import DomeEchartWrap from '@/views/VueDraggable/DomeEchartWrap.vue'
 
-import { defineComponent, getCurrentInstance, nextTick } from 'vue'
+import { defineComponent, getCurrentInstance, nextTick,watch } from 'vue'
 export default defineComponent({
   name: 'itemNest',
   props: {
@@ -32,6 +32,7 @@ export default defineComponent({
       default: () => [],
       type: Array,
     },
+    testList:{}
   },
   setup: (props, ctx) => {
     const CTX = getCurrentInstance()
@@ -47,6 +48,9 @@ export default defineComponent({
       })
       return element.name
     }
+    watch(props.testList, (newV) => {
+      console.log(newV)
+    },{deep:true})
     return { getId }
   },
   components: { DomeEchartWrap },

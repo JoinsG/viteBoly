@@ -50,10 +50,10 @@ export let chart = {
           fontSize: 12,
           color: '#000'
         },
-        lineStyle: {
-          color: 'red',
-          type: 'solid',
-          width: '2'
+        itemStyle: {
+          color: '#fff',
+          borderType: 'solid',
+          opacity: 1
         }
       },
       {

@@ -5,7 +5,7 @@ let defaultPie = [{
             name: '内半径',
             key: '[0]',
             value: 0,
-            type: 'silder',
+            type: 'slider',
             bind: {
                 min: 0,
                 max: 100,
@@ -19,7 +19,7 @@ let defaultPie = [{
             name: '外半径',
             key: '[1]',
             value: 75,
-            type: 'silder',
+            type: 'slider',
             icon: {
                 e: '%'
             },

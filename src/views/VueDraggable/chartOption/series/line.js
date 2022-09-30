@@ -23,7 +23,7 @@ let defaultLine = [{
         name: '平滑程度',
         key: 'smooth',
         value: 0,
-        type: 'silder',
+        type: 'slider',
         bind: {
             min: 0,
             max: 1,
