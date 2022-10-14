@@ -83,30 +83,30 @@ export default defineComponent({
       )
       arccamera.setTarget(BABYLON.Vector3.Zero())
 
-      setTimeout(() => {
-        console.log(1)
-        let targetLocation = BABYLON.MeshBuilder.CreateSphere(
-          'targetLoc',
-          { diameter: 0.75, segments: 32 },
-          scene
-        )
-        targetLocation.position = BABYLON.Vector3.Zero()
-        let targetMat = new BABYLON.StandardMaterial('targetMat', scene)
-        targetMat.diffuseColor = BABYLON.Color3.Red()
-        targetMat.alpha = 0.75
-        arccamera.setPosition(camera.position.clone())
-        scene.activeCamera = arccamera
-        scene.activeCamera.attachControl(canvas, true)
-        let relPos = targetLocation.getPositionInCameraSpace(arccamera)
-        let alpha = arccamera.alpha
-        let beta = arccamera.beta
-        arccamera.target = targetLocation.position.clone()
-        arccamera.targetScreenOffset.x = relPos.x
-        arccamera.targetScreenOffset.y = relPos.y
-        arccamera.radius = relPos.z
-        arccamera.alpha = alpha
-        arccamera.beta = beta
-      }, 5000)
+      // setTimeout(() => {
+      //   console.log(1)
+      //   let targetLocation = BABYLON.MeshBuilder.CreateSphere(
+      //     'targetLoc',
+      //     { diameter: 0.75, segments: 32 },
+      //     scene
+      //   )
+      //   targetLocation.position = BABYLON.Vector3.Zero()
+      //   let targetMat = new BABYLON.StandardMaterial('targetMat', scene)
+      //   targetMat.diffuseColor = BABYLON.Color3.Red()
+      //   targetMat.alpha = 0.75
+      //   arccamera.setPosition(camera.position.clone())
+      //   scene.activeCamera = arccamera
+      //   scene.activeCamera.attachControl(canvas, true)
+      //   let relPos = targetLocation.getPositionInCameraSpace(arccamera)
+      //   let alpha = arccamera.alpha
+      //   let beta = arccamera.beta
+      //   arccamera.target = targetLocation.position.clone()
+      //   arccamera.targetScreenOffset.x = relPos.x
+      //   arccamera.targetScreenOffset.y = relPos.y
+      //   arccamera.radius = relPos.z
+      //   arccamera.alpha = alpha
+      //   arccamera.beta = beta
+      // }, 5000)
 
       camera.setTarget(BABYLON.Vector3.Zero())
       // camera = new BABYLON.DeviceOrientationCamera(
