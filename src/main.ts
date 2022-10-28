@@ -13,6 +13,10 @@ import StorePinia from "./store-pinia/index.js";
 
 // import 'lib-flexible'
 
+
+import "@/assets/js/babylon.js"
+import "@/assets/js/babylon.gui.min.js"
+
 // import VueDragResize from 'vue-drag-resize'
 const app = createApp(App);
 app.use(Router).use(Store).use(StorePinia).mount("#app");
